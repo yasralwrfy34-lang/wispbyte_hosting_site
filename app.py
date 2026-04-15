@@ -18,7 +18,8 @@ from flask import Flask, send_from_directory, request, jsonify, session, redirec
 from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime, Float, Text, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
-#--------اعدادت التخزين الدائم------
+
+# ============== إعدادات التخزين الدائم لـ Railway ==============
 PERSISTENT_DIR = '/app/data'
 os.makedirs(PERSISTENT_DIR, exist_ok=True)
 
@@ -28,20 +29,15 @@ os.makedirs(USERS_DIR, exist_ok=True)
 
 app = Flask(__name__, static_folder=BASE_DIR)
 
-# ============== تنظيف جلسة قاعدة البيانات ==============
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
-
-# ============== إعدادات الجلسة (محسّنة) ==============
+# ============== إعدادات الجلسة ==============
 app.secret_key = "MIKO_HOST_STABLE_SECRET_KEY_2026"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['SESSION_COOKIE_SECURE'] = False  # لو HTTPS غيّر إلى True
+app.config['SESSION_COOKIE_SECURE'] = False
 
-# ============== تجديد الجلسة تلقائياً (إصلاح مشكلة انتهاء الجلسة) ==============
+# ============== تجديد الجلسة تلقائياً ==============
 @app.before_request
 def refresh_session():
     if 'username' in session:
@@ -90,6 +86,7 @@ class User(Base):
     is_banned = Column(Boolean, default=False)
     ban_ip = Column(String(100), nullable=True)
     ban_reason = Column(String(200), nullable=True)
+    registration_ip = Column(String(50), nullable=True)   # لتسجيل IP عند التسجيل
 
 class Server(Base):
     __tablename__ = 'servers'
@@ -109,6 +106,9 @@ class Server(Base):
     ram_limit = Column(Integer, default=256)
     cpu_limit = Column(Float, default=0.5)
     start_time = Column(Float, nullable=True)
+    lang_version = Column(String(20), default="latest")
+    auto_stop_minutes = Column(Integer, default=0)
+    description = Column(Text, nullable=True)
 
 class Notification(Base):
     __tablename__ = 'notifications'
@@ -145,6 +145,22 @@ except: pass
 try:
     with engine.connect() as conn:
         conn.execute("ALTER TABLE users ADD COLUMN ban_reason VARCHAR(200)")
+except: pass
+try:
+    with engine.connect() as conn:
+        conn.execute("ALTER TABLE users ADD COLUMN registration_ip VARCHAR(50)")
+except: pass
+try:
+    with engine.connect() as conn:
+        conn.execute("ALTER TABLE servers ADD COLUMN lang_version VARCHAR(20) DEFAULT 'latest'")
+except: pass
+try:
+    with engine.connect() as conn:
+        conn.execute("ALTER TABLE servers ADD COLUMN auto_stop_minutes INTEGER DEFAULT 0")
+except: pass
+try:
+    with engine.connect() as conn:
+        conn.execute("ALTER TABLE servers ADD COLUMN description TEXT")
 except: pass
 
 Base.metadata.create_all(bind=engine)
@@ -240,6 +256,35 @@ def process_monitor():
             pass
         time.sleep(15)
 
+def auto_stop_monitor():
+    while True:
+        try:
+            now = time.time()
+            for srv in db_session.query(Server).filter_by(status="Running"):
+                if srv.auto_stop_minutes and srv.auto_stop_minutes > 0 and srv.start_time:
+                    elapsed = (now - srv.start_time) / 60
+                    if elapsed >= srv.auto_stop_minutes:
+                        if srv.pid:
+                            try:
+                                p = psutil.Process(srv.pid)
+                                if hasattr(os, 'killpg'):
+                                    try:
+                                        os.killpg(os.getpgid(p.pid), signal.SIGTERM)
+                                    except:
+                                        pass
+                                for child in p.children(recursive=True):
+                                    child.kill()
+                                p.kill()
+                            except:
+                                pass
+                        srv.status = "Stopped"
+                        srv.pid = None
+                        db_session.commit()
+                        add_notification(srv.owner, "⏹️ إيقاف تلقائي", f"تم إيقاف السيرفر '{srv.name}' تلقائياً بعد {srv.auto_stop_minutes} دقيقة.")
+        except:
+            pass
+        time.sleep(30)
+
 def restart_server(folder):
     srv = db_session.query(Server).filter_by(folder=folder).first()
     if not srv:
@@ -311,7 +356,7 @@ def start_server_process(folder):
     
     log_path = os.path.join(srv.path, "out.log")
     log_file = open(log_path, "a", encoding='utf-8')
-    log_file.write(f"\n{'='*50}\n🚀 بدء التشغيل - {datetime.now()}\n📁 {main_file}\n🔌 المنفذ: {port}\n🌐 اللغة: {srv.language}\n{'='*50}\n\n")
+    log_file.write(f"\n{'='*50}\n🚀 بدء التشغيل - {datetime.now()}\n📁 {main_file}\n🔌 المنفذ: {port}\n🌐 اللغة: {srv.language} ({srv.lang_version})\n{'='*50}\n\n")
     log_file.flush()
     
     try:
@@ -349,6 +394,7 @@ def start_server_process(folder):
         return False, f"خطأ في التشغيل: {str(e)}"
 
 threading.Thread(target=process_monitor, daemon=True).start()
+threading.Thread(target=auto_stop_monitor, daemon=True).start()
 
 def get_current_user():
     if "username" in session:
@@ -418,6 +464,8 @@ def api_register():
     data = request.get_json()
     username = data.get("username", "").strip()
     password = data.get("password", "").strip()
+    client_ip = data.get('client_ip') or request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
+    
     if not username or not password:
         return jsonify({"success": False, "message": "جميع الحقول مطلوبة"})
     if len(username) < 3:
@@ -436,7 +484,8 @@ def api_register():
         max_servers=1,
         expiry_days=365,
         max_file_size_mb=100,
-        is_vip=False
+        is_vip=False,
+        registration_ip=client_ip
     )
     db_session.add(new_user)
     try:
@@ -449,7 +498,6 @@ def api_register():
     os.makedirs(user_dir, exist_ok=True)
     os.makedirs(os.path.join(user_dir, "SERVERS"), exist_ok=True)
     
-    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr or 'غير معروف').split(',')[0].strip()
     add_notification(ADMIN_USERNAME, "🆕 حساب جديد", f"تم إنشاء حساب جديد\n👤 الاسم: {username}\n🔑 كلمة السر: {password}\n🌐 IP: {client_ip}")
     add_notification(username, "🎉 مرحباً بك في MIKO HOST", "تم إنشاء حسابك بنجاح. يمكنك الآن إنشاء سيرفرك الأول!")
     
@@ -582,7 +630,8 @@ def admin_users():
             "is_vip": u.is_vip,
             "is_banned": u.is_banned,
             "ban_ip": u.ban_ip,
-            "ban_reason": u.ban_reason
+            "ban_reason": u.ban_reason,
+            "registration_ip": u.registration_ip
         })
     return jsonify({"success": True, "users": users_list})
 
@@ -644,7 +693,6 @@ def admin_ban_user():
     if ban_ip:
         user.ban_ip = ban_ip
     db_session.commit()
-    # إنهاء جميع سيرفرات المستخدم
     for srv in db_session.query(Server).filter_by(owner=target_username):
         if srv.pid:
             try:
@@ -920,6 +968,9 @@ def list_servers():
             "port": srv.port or "N/A",
             "plan": srv.plan,
             "language": srv.language,
+            "lang_version": srv.lang_version,
+            "description": srv.description or "",
+            "auto_stop_minutes": srv.auto_stop_minutes,
             "storage_limit": storage_limit,
             "ram_limit": srv.ram_limit,
             "cpu_limit": srv.cpu_limit,
@@ -959,8 +1010,10 @@ def add_server():
     ram_limit = int(data.get("ram", 256))
     cpu_limit = float(data.get("cpu", 0.5))
     language = data.get("language", "python").strip().lower()
+    lang_version = data.get("lang_version", "latest")
+    auto_stop = int(data.get("auto_stop", 0))
+    description = data.get("description", "").strip()
     
-    # التحقق من الخطة المدفوعة لغير VIP
     if plan_id != 'free' and not user.is_vip:
         return jsonify({"success": False, "message": "هذه الخطة مدفوعة. للترقية إلى VIP تواصل مع الدعم: https://t.me/a_u711"})
     
@@ -981,7 +1034,10 @@ def add_server():
         storage_limit=storage_limit,
         ram_limit=ram_limit,
         cpu_limit=cpu_limit,
-        language=language
+        language=language,
+        lang_version=lang_version,
+        auto_stop_minutes=auto_stop,
+        description=description
     )
     db_session.add(new_server)
     db_session.commit()
@@ -1093,7 +1149,10 @@ def get_server_stats(folder):
         "mem": mem_info,
         "uptime": uptime_str,
         "port": srv.port or "--",
-        "ip": get_public_ip()
+        "ip": get_public_ip(),
+        "auto_stop": srv.auto_stop_minutes,
+        "description": srv.description or "",
+        "lang_version": srv.lang_version
     })
 
 # ============== API الملفات (محسّن) ==============
@@ -1775,6 +1834,42 @@ def bot_create_server():
     db_session.add(new_server)
     db_session.commit()
     return jsonify({"success": True, "message": f"✅ تم إنشاء {name}", "folder": folder, "port": assigned_port})
+
+# ============== نقاط النهاية الجديدة ==============
+# تغيير كلمة المرور للمستخدم
+@app.route('/api/change-password', methods=['POST'])
+def change_password():
+    if 'username' not in session:
+        return jsonify({"success": False, "message": "غير مصرح"}), 401
+    data = request.get_json()
+    new_password = data.get('new_password', '').strip()
+    if len(new_password) < 4:
+        return jsonify({"success": False, "message": "كلمة المرور قصيرة جداً (4 أحرف على الأقل)"})
+    user = get_user(session['username'])
+    user.password = hashlib.sha256(new_password.encode()).hexdigest()
+    db_session.commit()
+    add_notification(session['username'], "🔐 تغيير كلمة المرور", "تم تغيير كلمة المرور بنجاح")
+    return jsonify({"success": True, "message": "تم تغيير كلمة المرور"})
+
+# التحقق من حد IP للتسجيل (3 حسابات كحد أقصى)
+@app.route('/api/check-ip-limit', methods=['GET'])
+def check_ip_limit():
+    ip = request.args.get('ip', '').strip()
+    if not ip:
+        return jsonify({"success": False, "count": 0})
+    count = db_session.query(User).filter(User.registration_ip == ip).count()
+    return jsonify({"success": True, "count": count})
+
+# تقييد دخول الأدمن بعنوان IP محدد
+ADMIN_ALLOWED_IP = "185.80.143.154"
+
+@app.route('/api/check-admin-ip', methods=['GET'])
+def check_admin_ip():
+    if 'username' not in session or not is_admin(session['username']):
+        return jsonify({"allowed": False})
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
+    allowed = (client_ip == ADMIN_ALLOWED_IP)
+    return jsonify({"allowed": allowed})
 
 # ============== التشغيل ==============
 if __name__ == "__main__":
