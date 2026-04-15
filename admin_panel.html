@@ -12,6 +12,7 @@
         :root{--gold:#FFD700;--glow:rgba(255,215,0,.28);--red:#FF3D5A;--bg:#08090f;--sw:260px}
         body{font-family:'Tajawal',sans-serif;background:var(--bg);color:#eef2ff;overflow-x:hidden}
         .bg-a{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(255,215,0,.07),transparent 60%),radial-gradient(ellipse at 80% 70%,rgba(255,61,90,.05),transparent 60%);z-index:-1;pointer-events:none}
+        /* NAVBAR */
         .navbar{position:fixed;top:0;left:0;right:0;height:60px;background:rgba(8,9,20,.97);border-bottom:1px solid var(--gold);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:300}
         .logo{display:flex;align-items:center;gap:10px}
         .logo-i{width:34px;height:34px;background:linear-gradient(145deg,#0f172a,#0a0f1c);border:1px solid var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:15px}
@@ -29,7 +30,9 @@
         .badm{background:rgba(255,215,0,.12);color:var(--gold);padding:3px 11px;border-radius:30px;font-size:.7rem;border:1px solid rgba(255,215,0,.25)}
         .logout-btn{background:rgba(255,61,90,.1);border:1px solid var(--red);color:var(--red);padding:5px 14px;border-radius:40px;cursor:pointer;font-size:.78rem;font-family:'Tajawal',sans-serif;transition:.2s}
         .logout-btn:hover{background:rgba(255,61,90,.22)}
+        /* LAYOUT */
         .layout{display:flex;margin-top:60px;min-height:calc(100vh - 60px)}
+        /* SIDEBAR */
         .sidebar{width:var(--sw);background:rgba(5,8,20,.99);border-left:1px solid rgba(255,215,0,.18);position:fixed;top:60px;right:0;bottom:0;display:flex;flex-direction:column;z-index:200;overflow-y:auto;transition:transform .3s ease}
         .slogo{padding:18px 18px 14px;border-bottom:1px solid rgba(255,215,0,.07);display:flex;align-items:center;gap:10px;color:var(--gold);font-weight:800;font-size:.95rem}
         .nsec{padding:10px 8px;flex:1}
@@ -39,15 +42,19 @@
         .ni2:hover{background:rgba(255,215,0,.07);color:#d4b800}
         .ni2.active{background:rgba(255,215,0,.13);color:var(--gold);border-color:rgba(255,215,0,.26);box-shadow:0 0 8px var(--glow)}
         .sfooter{padding:12px 18px;border-top:1px solid rgba(255,215,0,.06);font-size:.62rem;color:#3d4560}
+        /* MAIN */
         .main{margin-right:var(--sw);flex:1;padding:22px;min-width:0}
         .tab-page{display:none}
         .tab-page.active{display:block;animation:fadeIn .22s ease}
         @keyframes fadeIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+        /* MOBILE */
         .mbar{display:none;align-items:center;justify-content:space-between;background:rgba(8,9,20,.7);border:1px solid rgba(255,215,0,.3);border-radius:28px;padding:10px 16px;margin-bottom:20px}
         .hbg{background:rgba(255,215,0,.1);border:none;color:var(--gold);font-size:1.3rem;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
         .sovlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);z-index:190}
         .sovlay.show{display:block}
+        /* PAGE */
         .ptitle{font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,var(--gold),#FFA500);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:20px}
+        /* STATS */
         .sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
         .s2{grid-template-columns:repeat(2,1fr)}
         .s3{grid-template-columns:repeat(3,1fr)}
@@ -57,14 +64,17 @@
         .sv{font-size:1.7rem;font-weight:800;color:var(--gold)}
         .sb{height:4px;background:rgba(255,255,255,.05);border-radius:10px;margin-top:9px;overflow:hidden}
         .sbf{height:100%;background:linear-gradient(90deg,var(--gold),#FFA500);border-radius:10px;transition:width .5s}
+        /* CARD */
         .card{background:rgba(12,18,34,.75);border:1px solid rgba(255,215,0,.16);border-radius:18px;padding:20px;margin-bottom:18px}
         .ctitle{font-size:.95rem;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:9px;margin-bottom:16px}
+        /* FORM */
         .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
         .fg{display:flex;flex-direction:column;gap:5px}
         .fg label{font-size:.73rem;color:#9ca3cf}
         .fg input,.fg select,.fg textarea{background:rgba(0,0,0,.4);border:1px solid rgba(255,215,0,.25);border-radius:40px;padding:9px 14px;color:white;font-family:'Tajawal',sans-serif;font-size:.85rem;transition:.2s}
         .fg textarea{border-radius:12px;resize:vertical}
         .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 7px var(--glow)}
+        /* BUTTONS */
         .btn{border:none;border-radius:40px;padding:9px 20px;font-family:'Tajawal',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:7px}
         .bg{background:linear-gradient(135deg,var(--gold),#FFA500);color:#0a0808}
         .bg:hover{transform:translateY(-2px);box-shadow:0 4px 12px var(--glow)}
@@ -77,6 +87,7 @@
         .byellow:hover{background:rgba(255,215,0,.22)}
         .borange{background:rgba(255,165,0,.12);border:1px solid rgba(255,165,0,.3);color:#FFA500}
         .borange:hover{background:rgba(255,165,0,.22)}
+        /* TABLE */
         .tw{overflow-x:auto}
         table{width:100%;border-collapse:collapse}
         th,td{padding:9px 12px;border-bottom:1px solid rgba(255,215,0,.05);text-align:right;font-size:.82rem}
@@ -101,14 +112,19 @@
         .sin{background:rgba(0,0,0,.4);border:1px solid rgba(255,215,0,.22);border-radius:40px;padding:7px 16px;color:white;font-family:'Tajawal',sans-serif;width:100%;max-width:280px;margin-bottom:14px;font-size:.83rem}
         .sin:focus{outline:none;border-color:var(--gold)}
         .ilin{background:rgba(0,0,0,.4);border:1px solid rgba(255,215,0,.18);border-radius:20px;padding:3px 8px;color:white;font-size:.78rem;text-align:center}
+        /* MODAL */
         .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:500;align-items:center;justify-content:center}
         .modal.show{display:flex}
         .mbox{background:#0a0c18;border:1px solid var(--gold);border-radius:24px;padding:24px;width:90%;max-width:480px;box-shadow:0 0 28px var(--glow);max-height:85vh;overflow-y:auto}
         .mtitle{color:var(--gold);font-size:.98rem;font-weight:700;margin-bottom:16px}
+        /* TOAST */
         .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1e293b;border:1px solid var(--gold);border-radius:50px;padding:8px 20px;z-index:600;display:none;font-size:.8rem;backdrop-filter:blur(8px);white-space:nowrap}
+        /* CHART */
         .cw{position:relative;height:220px}
+        /* RESPONSIVE */
         @media(max-width:900px){.sidebar{transform:translateX(100%)}.sidebar.open{transform:translateX(0)}.main{margin-right:0}.mbar{display:flex}.sgrid{grid-template-columns:repeat(2,1fr)}.s3{grid-template-columns:repeat(2,1fr)}.frow{grid-template-columns:1fr}}
         @media(max-width:480px){.sgrid{grid-template-columns:1fr 1fr;gap:10px}.main{padding:14px}}
+        /* special */
         .vip-star{color:#FFD700;animation:vipPulse 2s infinite}
         @keyframes vipPulse{0%,100%{opacity:1}50%{opacity:.5}}
         .action-bar{display:flex;gap:8px;flex-wrap:wrap}
@@ -441,6 +457,8 @@
                 </td>
             </tr>`).join('');
         document.getElementById('userSearch').oninput=function(){const q=this.value.toLowerCase();tb.querySelectorAll('tr').forEach(r=>r.style.display=r.textContent.toLowerCase().includes(q)?'':'none');};
+        // also populate VIP/ban user selects
+        const selects=['banUsername','restrictUsername','vipUsername'];
         }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--red)">خطأ في التحميل</td></tr>';}
     }
 
@@ -469,12 +487,14 @@
     async function updateLimit(u,v){try{await fetch('/api/admin/update-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,max_servers:parseInt(v)})});toast(`تم تحديث حد ${u}`,'success');}catch(e){}}
     async function updateExpiry(u,v){try{await fetch('/api/admin/update-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,expiry_days:parseInt(v)})});toast(`تم تحديث صلاحية ${u}`,'success');}catch(e){}}
     async function deleteUser(u){showConfirm(`حذف المستخدم "${u}" نهائياً؟`,async()=>{try{const r=await fetch('/api/admin/delete-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u})});const d=await r.json();if(d.success){toast('تم الحذف','success');loadUsers();}else toast(d.message||'فشل','error');}catch(e){toast('خطأ','error');}});}
-    async function quickVip(u,vip){await fetch('/api/admin/set-vip',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,is_vip:vip})});toast(vip?`تم ترقية ${u} إلى VIP ⭐`:`تم إلغاء VIP لـ ${u}`,'success');loadUsers();}
+    async function quickVip(u,vip){await fetch('/api/admin/set-vip',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,vip})});toast(vip?`تم ترقية ${u} إلى VIP ⭐`:`تم إلغاء VIP لـ ${u}`,'success');loadUsers();}
     async function quickBan(u,ban){
         if(ban){const ip=prompt(`أدخل IP جهاز ${u} للحظر:`)||'';await fetch('/api/admin/ban-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,ban_ip:ip,reason:'حظر سريع'})});toast(`تم حظر ${u}`,'success');}
         else{await fetch('/api/admin/unban-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u})});toast(`تم رفع الحظر عن ${u}`,'success');}
         loadUsers();loadBanned();
     }
+
+    // Ban/unban from bans tab
     async function banUser(){
         const u=document.getElementById('banUsername').value.trim(),ip=document.getElementById('banIp').value.trim(),reason=document.getElementById('banReason').value.trim();
         if(!u){toast('أدخل اسم المستخدم','error');return;}
@@ -495,9 +515,11 @@
     }
     async function setVip(vip){
         const u=document.getElementById('vipUsername').value.trim();if(!u){toast('أدخل اسم المستخدم','error');return;}
-        try{const r=await fetch('/api/admin/set-vip',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,is_vip:vip})});const d=await r.json();
+        try{const r=await fetch('/api/admin/set-vip',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,vip})});const d=await r.json();
         if(d.success){toast(vip?`تم ترقية ${u} إلى VIP ⭐`:`تم إلغاء VIP لـ ${u}`,'success');loadUsers();}else toast(d.message||'فشل','error');}catch(e){toast('خطأ','error');}
     }
+
+    // Servers
     async function loadServers(){
         const tb=document.getElementById('serversList');tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:#555">جاري التحميل...</td></tr>';
         try{const data=await fetch('/api/admin/users').then(r=>r.json());let all=[];
@@ -524,10 +546,13 @@
         try{await fetch(`/api/server/action/${folder}/${action}`,{method:'POST'});toast(`${action==='start'?'تم تشغيل':'تم إيقاف'} السيرفر`,'success');setTimeout(loadServers,1500);}catch(e){toast('خطأ','error');}
     }
     async function adminDelServer(folder){showConfirm('حذف هذا السيرفر نهائياً؟',async()=>{await fetch(`/api/server/action/${folder}/delete`,{method:'POST'});toast('تم الحذف','success');loadServers();});}
+
+    // User Files
     async function loadUFUsers(){
         try{const d=await fetch('/api/admin/users').then(r=>r.json());
         const sel=document.getElementById('ufUserSelect');
-        sel.innerHTML='<option value="">— اختر مستخدماً —</option>'+(d.users||[]).map(u=>`<option value="${esc(u.username)}">${esc(u.username)}</option>`).join('');
+        sel.innerHTML='<option value="">— اختر مستخدماً —</option>'+
+            (d.users||[]).map(u=>`<option value="${esc(u.username)}">${esc(u.username)}</option>`).join('');
         }catch(e){}
     }
     async function loadUserServers(){
@@ -536,7 +561,7 @@
         ssel.innerHTML='<option value="">— اختر سيرفراً —</option>';
         document.getElementById('ufFilesCard').style.display='none';
         if(!username)return;
-        try{const d=await fetch(`/api/admin/user-servers?username=${encodeURIComponent(username)}`).then(r=>r.json());
+        try{const d=await fetch('/api/admin/user-servers?username='+encodeURIComponent(username)).then(r=>r.json());
         if(d.servers)d.servers.forEach(s=>{const o=document.createElement('option');o.value=s.folder;o.innerText=s.name;ssel.appendChild(o);});
         }catch(e){}
     }
@@ -545,7 +570,7 @@
         const card=document.getElementById('ufFilesCard');const tb=document.getElementById('ufFilesList');
         if(!folder){card.style.display='none';return;}
         card.style.display='block';tb.innerHTML='<tr><td colspan="4" style="text-align:center;padding:16px;color:#555"><i class="fas fa-spinner fa-spin"></i></td></tr>';
-        try{const d=await fetch(`/api/admin/server-files?folder=${encodeURIComponent(folder)}`).then(r=>r.json());
+        try{const d=await fetch('/api/admin/server-files?folder='+encodeURIComponent(folder)).then(r=>r.json());
         if(!d.success||!d.files.length){tb.innerHTML='<tr><td colspan="4" style="text-align:center;padding:16px;color:#555">المجلد فارغ</td></tr>';return;}
         tb.innerHTML=d.files.map(f=>`
             <tr>
@@ -557,12 +582,16 @@
         }catch(e){tb.innerHTML='<tr><td colspan="4" style="color:var(--red)">خطأ في التحميل</td></tr>';}
     }
     function formatSize(bytes){if(bytes<1024)return bytes+'B';if(bytes<1048576)return(bytes/1024).toFixed(1)+'KB';return(bytes/1048576).toFixed(1)+'MB';}
+
+    // Broadcast
     async function sendBroadcast(){
         const title=document.getElementById('bTitle').value.trim(),message=document.getElementById('bMsg').value.trim();
         if(!title||!message){toast('أدخل العنوان والرسالة','error');return;}
         try{const r=await fetch('/api/admin/broadcast',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,message})});const d=await r.json();
         if(d.success){toast('✅ تم الإرسال لجميع المستخدمين','success');document.getElementById('bTitle').value='';document.getElementById('bMsg').value='';}else toast(d.message||'فشل','error');}catch(e){toast('خطأ','error');}
     }
+
+    // Monitor
     async function updateMonitor(){
         try{const m=await fetch('/api/system/metrics').then(r=>r.json());
         document.getElementById('mCpu').innerText=m.cpu+'%';document.getElementById('mCpuB').style.width=m.cpu+'%';
@@ -577,7 +606,10 @@
         pChart=new Chart(ctx,{type:'line',data:{labels:Array(20).fill(''),datasets:[{label:'CPU %',data:Array(20).fill(0),borderColor:'#FFD700',backgroundColor:'rgba(255,215,0,.05)',fill:true,tension:.4,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{labels:{color:'#b0b8d4'}}},scales:{x:{ticks:{display:false},grid:{color:'rgba(255,215,0,.03)'}},y:{min:0,max:100,ticks:{color:'#6b7a9f'},grid:{color:'rgba(255,215,0,.03)'}}}}});
         updateMonitor();monInt=setInterval(updateMonitor,5000);
     }
+
     function saveSettings(){toast('تم حفظ الإعدادات','success');}
+
+    // Auth
     async function doLogout(){await fetch('/api/logout',{method:'POST'});window.location.href='/login';}
     async function checkAuth(){
         try{const d=await fetch('/api/current_user').then(r=>r.json());
@@ -585,19 +617,8 @@
         document.getElementById('adminName').innerText=d.username;document.getElementById('adminNameM').innerText=d.username;}
         catch(e){window.location.href='/login';}
     }
-    // ========== إضافة التحقق من IP الخاص بالأدمن ==========
-    (async function checkAdminIP() {
-        try {
-            const res = await fetch('/api/check-admin-ip');
-            const data = await res.json();
-            if (!data.allowed) {
-                document.body.innerHTML = '<div style="text-align:center;padding:100px;color:var(--red);"><i class="fas fa-ban" style="font-size:4rem;"></i><h2>غير مصرح بالدخول</h2><p>هذه اللوحة مقيدة بعنوان IP محدد.</p></div>';
-                return;
-            }
-        } catch(e) {
-            document.body.innerHTML = '<div style="text-align:center;padding:100px;color:var(--red);"><i class="fas fa-ban" style="font-size:4rem;"></i><h2>خطأ في التحقق</h2></div>';
-        }
-    })();
+
+    // Init
     checkAuth();
     loadDashboard();
     loadNotifs();
