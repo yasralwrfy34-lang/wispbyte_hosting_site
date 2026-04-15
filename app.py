@@ -18,6 +18,9 @@ from flask import Flask, send_from_directory, request, jsonify, session, redirec
 from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime, Float, Text, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
+#--------اعدادت التخزين الدائم------
+PERSISTENT_DIR = '/app/data'
+os.makedirs(PERSISTENT_DIR, exist_ok=True)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 USERS_DIR = os.path.join(BASE_DIR, "USERS")
@@ -48,7 +51,7 @@ def refresh_session():
 # ============== قاعدة البيانات ==============
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if not DATABASE_URL:
-    DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite')}"
+    DATABASE_URL = f"sqlite:///{os.path.join(PERSISTENT_DIR, 'data.db')}"
 
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
