@@ -8,307 +8,256 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--gold:#FFD700;--gold2:#FFA500;--red:#FF3D5A;--bg:#030507;--card-bg:rgba(6,10,22,.88)}
+:root{--gold:#FFD700;--gold2:#FFA500;--red:#FF3D5A;--green:#00dc64;--bg:#030507;--card:rgba(6,9,20,.86)}
 html,body{height:100%}
 body{font-family:'Tajawal',sans-serif;min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-
-/* === خلفية الجزيئات === */
-#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-
-/* === شبكة متحركة === */
-.grid-layer{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,215,0,.03)1px,transparent 1px),linear-gradient(90deg,rgba(255,215,0,.03)1px,transparent 1px);
-  background-size:55px 55px;animation:gridDrift 30s linear infinite}
-@keyframes gridDrift{0%{background-position:0 0}100%{background-position:55px 55px}}
-
-/* === توهجات خلفية === */
-.glow-orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;animation:orbDrift 14s ease-in-out infinite}
-.go1{width:600px;height:600px;background:rgba(255,215,0,.07);top:-180px;right:-150px;animation-delay:0s}
-.go2{width:450px;height:450px;background:rgba(255,61,90,.06);bottom:-120px;left:-120px;animation-delay:-5s}
-.go3{width:350px;height:350px;background:rgba(255,140,0,.05);top:40%;left:40%;animation-delay:-10s}
-@keyframes orbDrift{0%,100%{transform:translate(0,0)scale(1)}33%{transform:translate(30px,-40px)scale(1.06)}66%{transform:translate(-20px,28px)scale(.94)}}
-
-/* === البطاقة === */
-.wrapper{position:relative;z-index:10;width:100%;max-width:470px;margin:20px;animation:wrapIn .75s cubic-bezier(.34,1.56,.64,1)}
-@keyframes wrapIn{from{opacity:0;transform:translateY(45px)scale(.94)}to{opacity:1;transform:translateY(0)scale(1)}}
-.card{background:var(--card-bg);backdrop-filter:blur(30px)saturate(1.5);border-radius:32px;border:1px solid rgba(255,215,0,.18);
-  box-shadow:0 0 0 1px rgba(255,215,0,.05),0 35px 70px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.05);
-  padding:46px 38px;transition:border-color .35s,box-shadow .35s}
-.card:hover{border-color:rgba(255,215,0,.32);box-shadow:0 0 50px rgba(255,215,0,.06),0 35px 70px rgba(0,0,0,.65)}
-
-/* === شعار MK نيوني === */
-.logo-area{text-align:center;margin-bottom:34px}
-.mk-badge{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:78px;height:78px;border-radius:22px;margin-bottom:16px;
-  background:linear-gradient(145deg,#06090f,#0c1628);
-  border:2px solid var(--gold);
-  font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;
-  position:relative;overflow:hidden;animation:mkPulse 2.8s ease-in-out infinite;
-  cursor:default;
-}
-.mk-badge .mk-text{
-  position:relative;z-index:2;
-  background:linear-gradient(135deg,#FFD700,#FFA500,#FFD700);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  letter-spacing:2px;
-}
-.mk-badge::before{
-  content:'';position:absolute;inset:-60%;z-index:1;
-  background:conic-gradient(from 0deg,transparent 0%,rgba(255,215,0,.2)30%,transparent 60%);
-  animation:mkSpin 3.5s linear infinite;
-}
-.mk-badge::after{
-  content:'';position:absolute;inset:3px;border-radius:18px;
-  background:linear-gradient(145deg,rgba(255,215,0,.08),transparent);z-index:1;
-}
-@keyframes mkPulse{
-  0%,100%{box-shadow:0 0 16px rgba(255,215,0,.35),0 0 35px rgba(255,215,0,.18),inset 0 0 18px rgba(255,215,0,.06)}
-  50%{box-shadow:0 0 28px rgba(255,215,0,.65),0 0 55px rgba(255,215,0,.32),inset 0 0 30px rgba(255,215,0,.12)}
-}
-@keyframes mkSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.logo-name{font-family:'Orbitron',sans-serif;font-size:1.75rem;font-weight:900;letter-spacing:4px;display:block;
-  background:linear-gradient(135deg,#FFD700,#FFA500,#fff8d0);-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 10px rgba(255,215,0,.45));margin-bottom:6px}
-.logo-tagline{font-size:.78rem;color:#4a5a78;letter-spacing:1.5px;line-height:1.5}
-.logo-tagline span{color:rgba(255,215,0,.55)}
-
-/* === تبويبات === */
-.tabs-bar{display:flex;background:rgba(0,0,0,.38);border-radius:14px;padding:5px;margin-bottom:28px;
-  border:1px solid rgba(255,255,255,.05);gap:4px}
-.tab-btn{flex:1;padding:10px 8px;border-radius:10px;border:none;background:transparent;
-  color:#4b5a7a;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:700;
-  cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:7px}
-.tab-btn i{font-size:.85rem}
-.tab-btn:hover:not(.active){background:rgba(255,255,255,.04);color:#7a8aaa}
-.tab-btn.active{background:linear-gradient(135deg,rgba(255,215,0,.16),rgba(255,140,0,.08));
-  color:var(--gold);border:1px solid rgba(255,215,0,.22);
-  box-shadow:0 0 14px rgba(255,215,0,.09),inset 0 0 10px rgba(255,215,0,.04)}
-
-/* === النماذج === */
-.auth-form{display:none;animation:formFade .22s ease}
-.auth-form.active{display:block}
-@keyframes formFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-/* === حقول الإدخال === */
-.field{margin-bottom:17px}
-.field-lbl{font-size:.72rem;color:#4b5a7a;margin-bottom:5px;display:block;font-weight:600;letter-spacing:.4px}
-.field-wrap{position:relative;display:flex;align-items:center;background:rgba(0,0,0,.42);
-  border:1px solid rgba(255,215,0,.12);border-radius:13px;overflow:hidden;transition:border-color .22s,box-shadow .22s}
-.field-wrap:focus-within{border-color:rgba(255,215,0,.48);box-shadow:0 0 0 3px rgba(255,215,0,.06),0 0 18px rgba(255,215,0,.04)}
-.field-ico{width:44px;display:flex;align-items:center;justify-content:center;color:#34425e;font-size:.85rem;flex-shrink:0}
-.field-inp{flex:1;background:transparent;border:none;outline:none;color:#e8eeff;
-  font-family:'Tajawal',sans-serif;font-size:.9rem;padding:13px 0;direction:ltr;text-align:right}
-.field-inp::placeholder{color:#243048}
-.eye-btn{background:none;border:none;cursor:pointer;color:#34425e;padding:0 13px;font-size:.85rem;transition:color .15s}
-.eye-btn:hover{color:var(--gold)}
-
-/* === زر الإرسال === */
-.sub-btn{width:100%;padding:13px;
-  background:linear-gradient(135deg,#FFD700 0%,#FFA500 60%,#FF8C00 100%);
-  border:none;border-radius:13px;color:#080606;
-  font-family:'Tajawal',sans-serif;font-size:.96rem;font-weight:900;letter-spacing:.4px;
-  cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow:0 5px 22px rgba(255,215,0,.22),0 0 0 1px rgba(255,215,0,.1);margin-top:6px;position:relative;overflow:hidden}
-.sub-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:opacity .2s}
-.sub-btn:hover::after{opacity:1}
-.sub-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,215,0,.32),0 0 0 1px rgba(255,215,0,.2)}
-.sub-btn:active{transform:translateY(0)}
-.sub-btn.loading{opacity:.72;pointer-events:none}
-
-/* === رسائل === */
-.msg-box{padding:10px 14px;border-radius:11px;font-size:.8rem;margin-bottom:14px;display:none;align-items:center;gap:8px}
-.msg-box.err{background:rgba(255,61,90,.1);border:1px solid rgba(255,61,90,.28);color:#ff8fa0;display:flex}
-.msg-box.ok{background:rgba(0,200,100,.09);border:1px solid rgba(0,200,100,.25);color:#6ee7b7;display:flex}
-
-/* === قوة كلمة المرور === */
-.str-bar{height:3px;background:rgba(255,255,255,.05);border-radius:4px;margin-top:5px;overflow:hidden}
-.str-fill{height:100%;border-radius:4px;transition:width .3s,background .3s;width:0}
-
-/* === تذييل === */
-.card-foot{text-align:center;margin-top:22px;font-size:.68rem;color:#243048;
-  border-top:1px solid rgba(255,255,255,.04);padding-top:16px}
-.card-foot a{color:rgba(255,215,0,.42);text-decoration:none;transition:color .2s}
-.card-foot a:hover{color:var(--gold)}
-
-@media(max-width:480px){
-  .card{padding:32px 22px;border-radius:26px}
-  .mk-badge{width:68px;height:68px;font-size:22px}
-  .logo-name{font-size:1.45rem}
-}
+canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,215,0,.025)1px,transparent 1px),linear-gradient(90deg,rgba(255,215,0,.025)1px,transparent 1px);
+  background-size:58px 58px;animation:gsm 28s linear infinite}
+@keyframes gsm{0%{background-position:0 0}100%{background-position:58px 58px}}
+.orb{position:fixed;border-radius:50%;filter:blur(75px);pointer-events:none;z-index:0;animation:oF 13s ease-in-out infinite}
+.o1{width:540px;height:540px;background:rgba(255,215,0,.07);top:-150px;right:-140px;animation-delay:0s}
+.o2{width:420px;height:420px;background:rgba(255,61,90,.06);bottom:-100px;left:-100px;animation-delay:-5s}
+.o3{width:330px;height:330px;background:rgba(0,220,100,.04);top:40%;left:45%;animation-delay:-9s}
+@keyframes oF{0%,100%{transform:translate(0,0)scale(1)}33%{transform:translate(32px,-44px)scale(1.07)}66%{transform:translate(-22px,30px)scale(.94)}}
+.wrap{position:relative;z-index:10;width:100%;max-width:455px;margin:20px;animation:wIn .72s cubic-bezier(.34,1.56,.64,1)}
+@keyframes wIn{from{opacity:0;transform:translateY(42px)scale(.94)}to{opacity:1;transform:translateY(0)scale(1)}}
+.card{background:var(--card);backdrop-filter:blur(26px)saturate(1.5);border-radius:32px;border:1px solid rgba(255,215,0,.17);
+  box-shadow:0 0 0 1px rgba(255,215,0,.04),0 32px 64px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.045);padding:44px 36px;transition:.3s}
+.card:hover{border-color:rgba(255,215,0,.28);box-shadow:0 0 50px rgba(255,215,0,.06),0 32px 64px rgba(0,0,0,.62)}
+/* ── Logo ── */
+.logo-a{text-align:center;margin-bottom:30px}
+.mk-logo{display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;
+  background:linear-gradient(145deg,#080e1e,#060c18);border:2px solid var(--gold);border-radius:20px;
+  font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;position:relative;overflow:hidden;
+  margin-bottom:14px;animation:mkP 2.6s ease-in-out infinite}
+.mk-logo span{position:relative;z-index:2;background:linear-gradient(135deg,#FFD700,#FFA500,#FFD700);
+  -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 8px rgba(255,215,0,.7))}
+.mk-logo::before{content:'';position:absolute;inset:-60%;background:conic-gradient(from 0deg,transparent,rgba(255,215,0,.18),transparent);
+  animation:mkR 3.8s linear infinite;z-index:1}
+@keyframes mkP{0%,100%{box-shadow:0 0 14px rgba(255,215,0,.3),0 0 28px rgba(255,215,0,.15),inset 0 0 16px rgba(255,215,0,.05)}
+  50%{box-shadow:0 0 26px rgba(255,215,0,.62),0 0 52px rgba(255,215,0,.3),inset 0 0 28px rgba(255,215,0,.1)}}
+@keyframes mkR{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.logo-name{font-family:'Orbitron',sans-serif;font-size:1.7rem;font-weight:900;letter-spacing:4px;display:block;margin-bottom:4px;
+  background:linear-gradient(135deg,#FFD700,#FFA500,#fff9d6);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 10px rgba(255,215,0,.4))}
+.logo-sub{font-size:.7rem;color:#2e3d5e;letter-spacing:2.5px;text-transform:uppercase}
+/* ── Tabs ── */
+.tabs{display:flex;background:rgba(0,0,0,.36);border-radius:13px;padding:4px;margin-bottom:24px;border:1px solid rgba(255,255,255,.04);gap:3px}
+.tab{flex:1;padding:9px 6px;border-radius:10px;border:none;background:transparent;color:#44537a;
+  font-family:'Tajawal',sans-serif;font-size:.87rem;font-weight:600;cursor:pointer;transition:all .2s}
+.tab:hover:not(.act){background:rgba(255,255,255,.04);color:#6a7a9f}
+.tab.act{background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,140,0,.07));color:var(--gold);
+  border:1px solid rgba(255,215,0,.2);box-shadow:0 0 12px rgba(255,215,0,.08)}
+/* ── Forms ── */
+.form{display:none;animation:fSlide .22s ease}
+.form.act{display:block}
+@keyframes fSlide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.field{margin-bottom:15px}
+.lbl{font-size:.72rem;color:#44537a;margin-bottom:5px;display:block;font-weight:600}
+.fw{position:relative;display:flex;align-items:center;background:rgba(0,0,0,.42);border:1px solid rgba(255,215,0,.11);
+  border-radius:13px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.fw:focus-within{border-color:rgba(255,215,0,.46);box-shadow:0 0 0 3px rgba(255,215,0,.06)}
+.fic{width:44px;display:flex;align-items:center;justify-content:center;color:#2e3d5e;font-size:.86rem;flex-shrink:0}
+.fi{flex:1;background:transparent;border:none;outline:none;color:#eef2ff;font-family:'Tajawal',sans-serif;font-size:.9rem;padding:12px 0;direction:ltr;text-align:right}
+.fi::placeholder{color:#212e48}
+.ey{background:none;border:none;cursor:pointer;color:#2e3d5e;padding:0 13px;font-size:.86rem;transition:color .14s}
+.ey:hover{color:var(--gold)}
+.sbtn{width:100%;padding:13px;background:linear-gradient(135deg,#FFD700,#FFA500,#FF8C00);border:none;border-radius:13px;
+  color:#0a0606;font-family:'Tajawal',sans-serif;font-size:.97rem;font-weight:800;letter-spacing:.5px;cursor:pointer;
+  transition:all .22s;display:flex;align-items:center;justify-content:center;gap:9px;
+  box-shadow:0 5px 20px rgba(255,215,0,.2);margin-top:5px;position:relative;overflow:hidden}
+.sbtn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s}
+.sbtn:hover::after{opacity:1}
+.sbtn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,215,0,.3)}
+.sbtn:active{transform:translateY(0)}
+.sbtn.ld{opacity:.72;pointer-events:none}
+/* ── Alerts ── */
+.msg{padding:10px 13px;border-radius:11px;font-size:.8rem;margin-bottom:13px;display:none;align-items:center;gap:8px}
+.msg.err{background:rgba(255,61,90,.09);border:1px solid rgba(255,61,90,.26);color:#ff8fa0;display:flex}
+.msg.ok{background:rgba(0,220,100,.09);border:1px solid rgba(0,220,100,.22);color:#6ee7b7;display:flex}
+/* ── Strength bar ── */
+.sbar{height:3px;background:rgba(255,255,255,.05);border-radius:4px;margin-top:4px;overflow:hidden}
+.sbar-f{height:100%;border-radius:4px;transition:width .3s,background .3s;width:0}
+/* ── VIP Card (IP Limiter) ── */
+.vip-card{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);
+  align-items:center;justify-content:center;padding:20px}
+.vip-card.show{display:flex}
+.vip-inner{background:linear-gradient(145deg,#0d1420,#06080f);border:1px solid rgba(255,215,0,.4);border-radius:28px;
+  padding:36px 32px;max-width:420px;width:100%;text-align:center;
+  box-shadow:0 0 60px rgba(255,215,0,.15),0 40px 80px rgba(0,0,0,.7);animation:vIn .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes vIn{from{opacity:0;transform:scale(.88)translateY(30px)}to{opacity:1;transform:scale(1)translateY(0)}}
+.vip-crown{font-size:3rem;color:var(--gold);margin-bottom:14px;text-shadow:0 0 20px rgba(255,215,0,.6);animation:vCP 2s ease-in-out infinite}
+@keyframes vCP{0%,100%{transform:scale(1)rotate(-3deg)}50%{transform:scale(1.12)rotate(3deg)}}
+.vip-title{font-family:'Orbitron',sans-serif;font-size:1.35rem;font-weight:900;letter-spacing:2px;
+  background:linear-gradient(135deg,#FFD700,#FFA500);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:8px}
+.vip-sub{color:#6a7a9f;font-size:.83rem;margin-bottom:20px;line-height:1.6}
+.vip-feats{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.15);border-radius:16px;padding:16px;margin-bottom:20px;text-align:right}
+.vip-feat{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:.82rem;color:#b0bcd0;border-bottom:1px solid rgba(255,255,255,.04)}
+.vip-feat:last-child{border-bottom:none}
+.vip-feat i{color:var(--gold);width:18px;text-align:center}
+.vip-btn{width:100%;padding:13px;background:linear-gradient(135deg,#FFD700,#FFA500);border:none;border-radius:13px;
+  color:#0a0606;font-family:'Tajawal',sans-serif;font-size:.97rem;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 5px 20px rgba(255,215,0,.25);
+  transition:.22s;text-decoration:none}
+.vip-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,215,0,.35)}
+/* ── Footer ── */
+.foot{text-align:center;margin-top:20px;font-size:.67rem;color:#202c42;border-top:1px solid rgba(255,255,255,.04);padding-top:14px}
+.foot a{color:rgba(255,215,0,.42);text-decoration:none;transition:color .2s}
+.foot a:hover{color:var(--gold)}
+@media(max-width:480px){.card{padding:32px 22px;border-radius:26px}.mk-logo{width:62px;height:62px}.logo-name{font-size:1.4rem}}
 </style>
 </head>
 <body>
-<canvas id="particleCanvas"></canvas>
-<div class="grid-layer"></div>
-<div class="glow-orb go1"></div>
-<div class="glow-orb go2"></div>
-<div class="glow-orb go3"></div>
+<canvas id="bg"></canvas>
+<div class="grid-bg"></div>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
 
-<div class="wrapper">
-<div class="card">
-
-  <!-- شعار -->
-  <div class="logo-area">
-    <div class="mk-badge"><span class="mk-text">MK</span></div>
-    <span class="logo-name">MIKO HOST</span>
-    <div class="logo-tagline">مرحباً بك في <span>مستقبل الاستضافة السحابية</span> ✦</div>
-  </div>
-
-  <!-- تبويبات -->
-  <div class="tabs-bar">
-    <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">
-      <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
-    </button>
-    <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">
-      <i class="fas fa-user-plus"></i> إنشاء حساب
-    </button>
-  </div>
-
-  <!-- نموذج الدخول -->
-  <div class="auth-form active" id="loginForm">
-    <div class="msg-box" id="loginMsg"></div>
-    <div class="field">
-      <label class="field-lbl">اسم المستخدم</label>
-      <div class="field-wrap">
-        <div class="field-ico"><i class="fas fa-user"></i></div>
-        <input class="field-inp" id="loginUser" type="text" placeholder="أدخل اسم المستخدم" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
-      </div>
+<!-- بطاقة VIP عند تجاوز الحد -->
+<div class="vip-card" id="vipCard">
+  <div class="vip-inner">
+    <div class="vip-crown">👑</div>
+    <div class="vip-title">VIP MEMBER</div>
+    <div class="vip-sub">وصلت للحد الأقصى (3 حسابات) من هذا الجهاز.<br>قم بالترقية للحصول على حسابات غير محدودة!</div>
+    <div class="vip-feats">
+      <div class="vip-feat"><i class="fas fa-infinity"></i> حسابات وسيرفرات غير محدودة</div>
+      <div class="vip-feat"><i class="fas fa-bolt"></i> أولوية في المعالجة والأداء</div>
+      <div class="vip-feat"><i class="fas fa-hdd"></i> مساحة تخزين مضاعفة 4x</div>
+      <div class="vip-feat"><i class="fas fa-headset"></i> دعم فني مباشر وأولوية</div>
+      <div class="vip-feat"><i class="fas fa-shield-alt"></i> حماية متقدمة للسيرفرات</div>
     </div>
-    <div class="field">
-      <label class="field-lbl">كلمة المرور</label>
-      <div class="field-wrap">
-        <div class="field-ico"><i class="fas fa-lock"></i></div>
-        <input class="field-inp" id="loginPass" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-        <button class="eye-btn" onclick="toggleEye('loginPass',this)"><i class="fas fa-eye"></i></button>
-      </div>
-    </div>
-    <button class="sub-btn" id="loginBtn" onclick="doLogin()">
-      <i class="fas fa-arrow-left"></i> دخول
-    </button>
-  </div>
-
-  <!-- نموذج التسجيل -->
-  <div class="auth-form" id="registerForm">
-    <div class="msg-box" id="registerMsg"></div>
-    <div class="field">
-      <label class="field-lbl">اسم المستخدم</label>
-      <div class="field-wrap">
-        <div class="field-ico"><i class="fas fa-user"></i></div>
-        <input class="field-inp" id="regUser" type="text" placeholder="3 أحرف على الأقل" autocomplete="username">
-      </div>
-    </div>
-    <div class="field">
-      <label class="field-lbl">كلمة المرور</label>
-      <div class="field-wrap">
-        <div class="field-ico"><i class="fas fa-lock"></i></div>
-        <input class="field-inp" id="regPass" type="password" placeholder="4 أحرف على الأقل" autocomplete="new-password" oninput="checkStr(this.value)">
-        <button class="eye-btn" onclick="toggleEye('regPass',this)"><i class="fas fa-eye"></i></button>
-      </div>
-      <div class="str-bar"><div class="str-fill" id="strFill"></div></div>
-    </div>
-    <div class="field">
-      <label class="field-lbl">تأكيد كلمة المرور</label>
-      <div class="field-wrap">
-        <div class="field-ico"><i class="fas fa-lock"></i></div>
-        <input class="field-inp" id="regPassC" type="password" placeholder="أعد كتابة كلمة المرور" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()">
-        <button class="eye-btn" onclick="toggleEye('regPassC',this)"><i class="fas fa-eye"></i></button>
-      </div>
-    </div>
-    <button class="sub-btn" id="registerBtn" onclick="doRegister()">
-      <i class="fas fa-user-plus"></i> إنشاء الحساب
-    </button>
-  </div>
-
-  <div class="card-foot">
-    MIKO HOST &copy; 2025 — <a href="https://t.me/a_u711" target="_blank"><i class="fab fa-telegram"></i> تواصل معنا</a>
+    <a href="https://t.me/a_u711" target="_blank" class="vip-btn">
+      <i class="fab fa-telegram"></i> تواصل للاشتراك في VIP
+    </a>
   </div>
 </div>
+
+<div class="wrap">
+  <div class="card">
+    <div class="logo-a">
+      <div class="mk-logo"><span>MK</span></div>
+      <span class="logo-name">MIKO HOST</span>
+      <div class="logo-sub">Cloud Hosting Platform</div>
+    </div>
+    <div class="tabs">
+      <button class="tab act" id="tabL" onclick="showTab('login')"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
+      <button class="tab" id="tabR" onclick="showTab('register')"><i class="fas fa-user-plus"></i> إنشاء حساب</button>
+    </div>
+    <div class="form act" id="loginForm">
+      <div class="msg" id="loginMsg"></div>
+      <div class="field"><label class="lbl">اسم المستخدم</label>
+        <div class="fw"><div class="fic"><i class="fas fa-user"></i></div>
+          <input class="fi" id="loginUser" type="text" placeholder="أدخل اسم المستخدم" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+      </div>
+      <div class="field"><label class="lbl">كلمة المرور</label>
+        <div class="fw"><div class="fic"><i class="fas fa-lock"></i></div>
+          <input class="fi" id="loginPass" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="ey" onclick="toggleEye('loginPass',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <button class="sbtn" id="loginBtn" onclick="doLogin()"><i class="fas fa-arrow-left"></i> دخول</button>
+    </div>
+    <div class="form" id="registerForm">
+      <div class="msg" id="registerMsg"></div>
+      <div class="field"><label class="lbl">اسم المستخدم</label>
+        <div class="fw"><div class="fic"><i class="fas fa-user"></i></div>
+          <input class="fi" id="regUser" type="text" placeholder="3 أحرف على الأقل" autocomplete="username">
+        </div>
+      </div>
+      <div class="field"><label class="lbl">كلمة المرور</label>
+        <div class="fw"><div class="fic"><i class="fas fa-lock"></i></div>
+          <input class="fi" id="regPass" type="password" placeholder="4 أحرف على الأقل" autocomplete="new-password" oninput="checkStr(this.value)">
+          <button class="ey" onclick="toggleEye('regPass',this)"><i class="fas fa-eye"></i></button>
+        </div>
+        <div class="sbar"><div class="sbar-f" id="sBarF"></div></div>
+      </div>
+      <div class="field"><label class="lbl">تأكيد كلمة المرور</label>
+        <div class="fw"><div class="fic"><i class="fas fa-lock"></i></div>
+          <input class="fi" id="regPassC" type="password" placeholder="أعد كتابة كلمة المرور" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()">
+          <button class="ey" onclick="toggleEye('regPassC',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <button class="sbtn" id="registerBtn" onclick="doRegister()"><i class="fas fa-user-plus"></i> إنشاء الحساب</button>
+    </div>
+    <div class="foot">MIKO HOST &copy; 2025 — <a href="https://t.me/a_u711" target="_blank"><i class="fab fa-telegram"></i> تواصل معنا</a></div>
+  </div>
 </div>
 
 <script>
-/* ═══ جزيئات الخلفية ═══ */
+/* ── Particles canvas ── */
 (function(){
-  const cv=document.getElementById('particleCanvas');
-  const ctx=cv.getContext('2d');
+  const cv=document.getElementById('bg'),ctx=cv.getContext('2d');
   let W,H,pts=[];
-  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+  const resize=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight};
   resize();addEventListener('resize',resize);
-  const COLORS=['#FFD700','#FFA500','#FF8C00','#FFEC6E'];
-  function mkPt(){
-    return{x:Math.random()*W,y:H+10,vx:(Math.random()-.5)*.55,vy:-(Math.random()*1.6+.4),
-      r:Math.random()*2.2+.5,life:0,max:Math.random()*280+140,
-      op:0,mop:Math.random()*.55+.2,c:COLORS[Math.floor(Math.random()*COLORS.length)]};
-  }
-  for(let i=0;i<65;i++){const p=mkPt();p.y=Math.random()*H;p.life=Math.random()*p.max;pts.push(p)}
+  const C=['#FFD700','#FFA500','#FF8C00','#FFE55C'];
+  function mkP(){return{x:Math.random()*W,y:H+5,vx:(Math.random()-.5)*.5,vy:-(Math.random()*1.4+.4),
+    r:Math.random()*2+.4,life:0,max:Math.random()*260+130,op:0,mop:Math.random()*.55+.18,c:C[~~(Math.random()*C.length)]}}
+  for(let i=0;i<55;i++){const p=mkP();p.y=Math.random()*H;p.life=Math.random()*p.max;pts.push(p)}
   function draw(){
     ctx.clearRect(0,0,W,H);
-    pts.forEach((p,i)=>{
-      p.life++;p.x+=p.vx;p.y+=p.vy;
-      const t=p.life/p.max;
-      p.op=t<.12?(t/.12)*p.mop:t>.78?((1-t)/.22)*p.mop:p.mop;
-      ctx.save();ctx.globalAlpha=p.op;ctx.fillStyle=p.c;
-      ctx.shadowColor=p.c;ctx.shadowBlur=7;
+    pts.forEach((p,i)=>{p.life++;p.x+=p.vx;p.y+=p.vy;
+      const t=p.life/p.max;p.op=t<.12?(t/.12)*p.mop:t>.78?((1-t)/.22)*p.mop:p.mop;
+      ctx.save();ctx.globalAlpha=p.op;ctx.fillStyle=p.c;ctx.shadowColor=p.c;ctx.shadowBlur=6;
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();ctx.restore();
-      if(p.life>=p.max||p.y<-10)pts[i]=mkPt();
-    });
+      if(p.life>=p.max||p.y<-8)pts[i]=mkP();});
     requestAnimationFrame(draw);
   }
   draw();
 })();
 
-function switchTab(t){
+/* ── IP Limiter (Client-side pre-check via localStorage) ── */
+const IP_LIMIT=3;
+function getIpAccounts(){try{return JSON.parse(localStorage.getItem('mk_reg_count')||'0')}catch{return 0}}
+function incIpAccounts(){localStorage.setItem('mk_reg_count',String(getIpAccounts()+1))}
+function checkIpLimit(){if(getIpAccounts()>=IP_LIMIT){document.getElementById('vipCard').classList.add('show');return true;}return false;}
+
+function showTab(t){
   ['login','register'].forEach(x=>{
-    document.getElementById(x+'Form').classList.toggle('active',x===t);
-    document.getElementById('tab'+x[0].toUpperCase()+x.slice(1)).classList.toggle('active',x===t);
+    document.getElementById(x+'Form').classList.toggle('act',x===t);
+    document.getElementById('tab'+x[0].toUpperCase()).classList.toggle('act',x===t);
   });
   clearMsgs();
+  if(t==='register'&&getIpAccounts()>=IP_LIMIT){document.getElementById('vipCard').classList.add('show');}
 }
-function clearMsgs(){
-  ['loginMsg','registerMsg'].forEach(id=>{
-    const e=document.getElementById(id);e.className='msg-box';e.innerHTML='';
-  });
-}
-function showMsg(id,txt,type){
-  const e=document.getElementById(id);e.className='msg-box '+(type==='ok'?'ok':'err');
-  e.innerHTML=`<i class="fas ${type==='ok'?'fa-check-circle':'fa-exclamation-circle'}"></i> ${txt}`;
-}
-function toggleEye(id,btn){
-  const i=document.getElementById(id);const s=i.type==='password';
-  i.type=s?'text':'password';btn.innerHTML=`<i class="fas fa-eye${s?'-slash':''}"></i>`;
-}
-function checkStr(v){
-  const f=document.getElementById('strFill');let s=0;
-  if(v.length>=6)s++;if(v.length>=10)s++;if(/[A-Z0-9]/.test(v))s++;if(/[^a-zA-Z0-9]/.test(v))s++;
-  const c=['#ff4444','#ff8800','#ffd700','#00dc64'],w=['18%','45%','72%','100%'];
-  f.style.background=c[s-1]||'#ff4444';f.style.width=v.length?(w[s-1]||'8%'):'0';
-}
+function clearMsgs(){['loginMsg','registerMsg'].forEach(id=>{const e=document.getElementById(id);e.className='msg';e.innerHTML='';})}
+function showMsg(id,msg,type){const e=document.getElementById(id);e.className='msg '+(type==='ok'?'ok':'err');e.innerHTML=`<i class="fas ${type==='ok'?'fa-check-circle':'fa-exclamation-circle'}"></i> ${msg}`}
+function toggleEye(id,btn){const i=document.getElementById(id);const s=i.type==='password';i.type=s?'text':'password';btn.innerHTML=`<i class="fas fa-eye${s?'-slash':''}"></i>`}
+function checkStr(v){const f=document.getElementById('sBarF');let s=0;if(v.length>=6)s++;if(v.length>=10)s++;if(/[A-Z0-9]/.test(v))s++;if(/[^a-zA-Z0-9]/.test(v))s++;
+  const c=['#ff4444','#ff8800','#ffd700','#00dc64'],w=['18%','46%','72%','100%'];f.style.background=c[s-1]||'#ff4444';f.style.width=v.length?(w[s-1]||'8%'):'0'}
+
 async function doLogin(){
   const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value.trim();
   if(!u||!p){showMsg('loginMsg','يرجى ملء جميع الحقول','err');return}
-  const btn=document.getElementById('loginBtn');
-  btn.classList.add('loading');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
+  const btn=document.getElementById('loginBtn');btn.classList.add('ld');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
   try{
     const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
     const d=await r.json();
-    if(d.success){showMsg('loginMsg','تم تسجيل الدخول ✅','ok');btn.innerHTML='<i class="fas fa-check"></i> تم!';setTimeout(()=>location.href=d.redirect||'/',700);}
-    else{showMsg('loginMsg',d.message||'بيانات خاطئة','err');btn.classList.remove('loading');btn.innerHTML='<i class="fas fa-arrow-left"></i> دخول';}
-  }catch(e){showMsg('loginMsg','خطأ في الاتصال بالخادم','err');btn.classList.remove('loading');btn.innerHTML='<i class="fas fa-arrow-left"></i> دخول';}
+    if(d.success){showMsg('loginMsg','تم تسجيل الدخول ✅','ok');btn.innerHTML='<i class="fas fa-check"></i> جاري التحويل...';setTimeout(()=>location.href=d.redirect||'/',700)}
+    else{showMsg('loginMsg',d.message||'بيانات خاطئة','err');btn.classList.remove('ld');btn.innerHTML='<i class="fas fa-arrow-left"></i> دخول'}
+  }catch(e){showMsg('loginMsg','خطأ في الاتصال','err');btn.classList.remove('ld');btn.innerHTML='<i class="fas fa-arrow-left"></i> دخول'}
 }
+
 async function doRegister(){
+  if(checkIpLimit())return;
   const u=document.getElementById('regUser').value.trim(),p=document.getElementById('regPass').value.trim(),c=document.getElementById('regPassC').value.trim();
   if(!u||!p){showMsg('registerMsg','يرجى ملء جميع الحقول','err');return}
   if(u.length<3){showMsg('registerMsg','اسم المستخدم 3 أحرف على الأقل','err');return}
   if(p.length<4){showMsg('registerMsg','كلمة المرور 4 أحرف على الأقل','err');return}
   if(p!==c){showMsg('registerMsg','كلمتا المرور غير متطابقتين','err');return}
-  const btn=document.getElementById('registerBtn');
-  btn.classList.add('loading');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
+  const btn=document.getElementById('registerBtn');btn.classList.add('ld');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
   try{
     const r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
     const d=await r.json();
-    if(d.success){showMsg('registerMsg','تم إنشاء الحساب ✅','ok');btn.innerHTML='<i class="fas fa-check"></i> تم!';setTimeout(()=>switchTab('login'),1600);}
-    else{showMsg('registerMsg',d.message||'فشل الإنشاء','err');btn.classList.remove('loading');btn.innerHTML='<i class="fas fa-user-plus"></i> إنشاء الحساب';}
-  }catch(e){showMsg('registerMsg','خطأ في الاتصال بالخادم','err');btn.classList.remove('loading');btn.innerHTML='<i class="fas fa-user-plus"></i> إنشاء الحساب';}
+    if(d.success){incIpAccounts();showMsg('registerMsg','تم إنشاء الحساب ✅','ok');btn.innerHTML='<i class="fas fa-check"></i> تم!';setTimeout(()=>showTab('login'),1500)}
+    else{
+      if(d.message&&d.message.includes('حد')){document.getElementById('vipCard').classList.add('show')}
+      else{showMsg('registerMsg',d.message||'فشل الإنشاء','err')}
+      btn.classList.remove('ld');btn.innerHTML='<i class="fas fa-user-plus"></i> إنشاء الحساب'
+    }
+  }catch(e){showMsg('registerMsg','خطأ في الاتصال','err');btn.classList.remove('ld');btn.innerHTML='<i class="fas fa-user-plus"></i> إنشاء الحساب'}
 }
 fetch('/api/current_user').then(r=>r.json()).then(d=>{if(d.success)location.href='/'}).catch(()=>{});
 </script>
