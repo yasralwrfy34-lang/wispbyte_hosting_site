@@ -1,265 +1,159 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIKO HOST | الدخول</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--gold:#FFD700;--gold2:#FFA500;--red:#FF3D5A;--green:#00dc64;--bg:#030507;--card:rgba(6,9,20,.86)}
-html,body{height:100%}
-body{font-family:'Tajawal',sans-serif;min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
-.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,215,0,.025)1px,transparent 1px),linear-gradient(90deg,rgba(255,215,0,.025)1px,transparent 1px);
-  background-size:58px 58px;animation:gsm 28s linear infinite}
-@keyframes gsm{0%{background-position:0 0}100%{background-position:58px 58px}}
-.orb{position:fixed;border-radius:50%;filter:blur(75px);pointer-events:none;z-index:0;animation:oF 13s ease-in-out infinite}
-.o1{width:540px;height:540px;background:rgba(255,215,0,.07);top:-150px;right:-140px;animation-delay:0s}
-.o2{width:420px;height:420px;background:rgba(255,61,90,.06);bottom:-100px;left:-100px;animation-delay:-5s}
-.o3{width:330px;height:330px;background:rgba(0,220,100,.04);top:40%;left:45%;animation-delay:-9s}
-@keyframes oF{0%,100%{transform:translate(0,0)scale(1)}33%{transform:translate(32px,-44px)scale(1.07)}66%{transform:translate(-22px,30px)scale(.94)}}
-.wrap{position:relative;z-index:10;width:100%;max-width:455px;margin:20px;animation:wIn .72s cubic-bezier(.34,1.56,.64,1)}
-@keyframes wIn{from{opacity:0;transform:translateY(42px)scale(.94)}to{opacity:1;transform:translateY(0)scale(1)}}
-.card{background:var(--card);backdrop-filter:blur(26px)saturate(1.5);border-radius:32px;border:1px solid rgba(255,215,0,.17);
-  box-shadow:0 0 0 1px rgba(255,215,0,.04),0 32px 64px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.045);padding:44px 36px;transition:.3s}
-.card:hover{border-color:rgba(255,215,0,.28);box-shadow:0 0 50px rgba(255,215,0,.06),0 32px 64px rgba(0,0,0,.62)}
-/* ── Logo ── */
-.logo-a{text-align:center;margin-bottom:30px}
-.mk-logo{display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;
-  background:linear-gradient(145deg,#080e1e,#060c18);border:2px solid var(--gold);border-radius:20px;
-  font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;position:relative;overflow:hidden;
-  margin-bottom:14px;animation:mkP 2.6s ease-in-out infinite}
-.mk-logo span{position:relative;z-index:2;background:linear-gradient(135deg,#FFD700,#FFA500,#FFD700);
-  -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 8px rgba(255,215,0,.7))}
-.mk-logo::before{content:'';position:absolute;inset:-60%;background:conic-gradient(from 0deg,transparent,rgba(255,215,0,.18),transparent);
-  animation:mkR 3.8s linear infinite;z-index:1}
-@keyframes mkP{0%,100%{box-shadow:0 0 14px rgba(255,215,0,.3),0 0 28px rgba(255,215,0,.15),inset 0 0 16px rgba(255,215,0,.05)}
-  50%{box-shadow:0 0 26px rgba(255,215,0,.62),0 0 52px rgba(255,215,0,.3),inset 0 0 28px rgba(255,215,0,.1)}}
-@keyframes mkR{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.logo-name{font-family:'Orbitron',sans-serif;font-size:1.7rem;font-weight:900;letter-spacing:4px;display:block;margin-bottom:4px;
-  background:linear-gradient(135deg,#FFD700,#FFA500,#fff9d6);-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 10px rgba(255,215,0,.4))}
-.logo-sub{font-size:.7rem;color:#2e3d5e;letter-spacing:2.5px;text-transform:uppercase}
-/* ── Tabs ── */
-.tabs{display:flex;background:rgba(0,0,0,.36);border-radius:13px;padding:4px;margin-bottom:24px;border:1px solid rgba(255,255,255,.04);gap:3px}
-.tab{flex:1;padding:9px 6px;border-radius:10px;border:none;background:transparent;color:#44537a;
-  font-family:'Tajawal',sans-serif;font-size:.87rem;font-weight:600;cursor:pointer;transition:all .2s}
-.tab:hover:not(.act){background:rgba(255,255,255,.04);color:#6a7a9f}
-.tab.act{background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,140,0,.07));color:var(--gold);
-  border:1px solid rgba(255,215,0,.2);box-shadow:0 0 12px rgba(255,215,0,.08)}
-/* ── Forms ── */
-.form{display:none;animation:fSlide .22s ease}
-.form.act{display:block}
-@keyframes fSlide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.field{margin-bottom:15px}
-.lbl{font-size:.72rem;color:#44537a;margin-bottom:5px;display:block;font-weight:600}
-.fw{position:relative;display:flex;align-items:center;background:rgba(0,0,0,.42);border:1px solid rgba(255,215,0,.11);
-  border-radius:13px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
-.fw:focus-within{border-color:rgba(255,215,0,.46);box-shadow:0 0 0 3px rgba(255,215,0,.06)}
-.fic{width:44px;display:flex;align-items:center;justify-content:center;color:#2e3d5e;font-size:.86rem;flex-shrink:0}
-.fi{flex:1;background:transparent;border:none;outline:none;color:#eef2ff;font-family:'Tajawal',sans-serif;font-size:.9rem;padding:12px 0;direction:ltr;text-align:right}
-.fi::placeholder{color:#212e48}
-.ey{background:none;border:none;cursor:pointer;color:#2e3d5e;padding:0 13px;font-size:.86rem;transition:color .14s}
-.ey:hover{color:var(--gold)}
-.sbtn{width:100%;padding:13px;background:linear-gradient(135deg,#FFD700,#FFA500,#FF8C00);border:none;border-radius:13px;
-  color:#0a0606;font-family:'Tajawal',sans-serif;font-size:.97rem;font-weight:800;letter-spacing:.5px;cursor:pointer;
-  transition:all .22s;display:flex;align-items:center;justify-content:center;gap:9px;
-  box-shadow:0 5px 20px rgba(255,215,0,.2);margin-top:5px;position:relative;overflow:hidden}
-.sbtn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s}
-.sbtn:hover::after{opacity:1}
-.sbtn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,215,0,.3)}
-.sbtn:active{transform:translateY(0)}
-.sbtn.ld{opacity:.72;pointer-events:none}
-/* ── Alerts ── */
-.msg{padding:10px 13px;border-radius:11px;font-size:.8rem;margin-bottom:13px;display:none;align-items:center;gap:8px}
-.msg.err{background:rgba(255,61,90,.09);border:1px solid rgba(255,61,90,.26);color:#ff8fa0;display:flex}
-.msg.ok{background:rgba(0,220,100,.09);border:1px solid rgba(0,220,100,.22);color:#6ee7b7;display:flex}
-/* ── Strength bar ── */
-.sbar{height:3px;background:rgba(255,255,255,.05);border-radius:4px;margin-top:4px;overflow:hidden}
-.sbar-f{height:100%;border-radius:4px;transition:width .3s,background .3s;width:0}
-/* ── VIP Card (IP Limiter) ── */
-.vip-card{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);
-  align-items:center;justify-content:center;padding:20px}
-.vip-card.show{display:flex}
-.vip-inner{background:linear-gradient(145deg,#0d1420,#06080f);border:1px solid rgba(255,215,0,.4);border-radius:28px;
-  padding:36px 32px;max-width:420px;width:100%;text-align:center;
-  box-shadow:0 0 60px rgba(255,215,0,.15),0 40px 80px rgba(0,0,0,.7);animation:vIn .45s cubic-bezier(.34,1.56,.64,1)}
-@keyframes vIn{from{opacity:0;transform:scale(.88)translateY(30px)}to{opacity:1;transform:scale(1)translateY(0)}}
-.vip-crown{font-size:3rem;color:var(--gold);margin-bottom:14px;text-shadow:0 0 20px rgba(255,215,0,.6);animation:vCP 2s ease-in-out infinite}
-@keyframes vCP{0%,100%{transform:scale(1)rotate(-3deg)}50%{transform:scale(1.12)rotate(3deg)}}
-.vip-title{font-family:'Orbitron',sans-serif;font-size:1.35rem;font-weight:900;letter-spacing:2px;
-  background:linear-gradient(135deg,#FFD700,#FFA500);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:8px}
-.vip-sub{color:#6a7a9f;font-size:.83rem;margin-bottom:20px;line-height:1.6}
-.vip-feats{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.15);border-radius:16px;padding:16px;margin-bottom:20px;text-align:right}
-.vip-feat{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:.82rem;color:#b0bcd0;border-bottom:1px solid rgba(255,255,255,.04)}
-.vip-feat:last-child{border-bottom:none}
-.vip-feat i{color:var(--gold);width:18px;text-align:center}
-.vip-btn{width:100%;padding:13px;background:linear-gradient(135deg,#FFD700,#FFA500);border:none;border-radius:13px;
-  color:#0a0606;font-family:'Tajawal',sans-serif;font-size:.97rem;font-weight:800;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 5px 20px rgba(255,215,0,.25);
-  transition:.22s;text-decoration:none}
-.vip-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,215,0,.35)}
-/* ── Footer ── */
-.foot{text-align:center;margin-top:20px;font-size:.67rem;color:#202c42;border-top:1px solid rgba(255,255,255,.04);padding-top:14px}
-.foot a{color:rgba(255,215,0,.42);text-decoration:none;transition:color .2s}
-.foot a:hover{color:var(--gold)}
-@media(max-width:480px){.card{padding:32px 22px;border-radius:26px}.mk-logo{width:62px;height:62px}.logo-name{font-size:1.4rem}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIKO HOST | الدخول</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--gold:#FFD700;--gold2:#FFA500;--red:#FF3D5A;--bg:#050609}
+        body{font-family:'Tajawal',sans-serif;min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+        .bg-canvas{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 80% at 50% -10%,rgba(255,215,0,.16),transparent),radial-gradient(ellipse 60% 60% at 90% 90%,rgba(255,61,90,.1),transparent),radial-gradient(ellipse 50% 50% at 10% 80%,rgba(255,165,0,.07),transparent)}
+        .orb{position:fixed;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0;animation:orbF 12s infinite ease-in-out}
+        .o1{width:520px;height:520px;background:rgba(255,215,0,.08);top:-120px;right:-120px;animation-delay:0s}
+        .o2{width:420px;height:420px;background:rgba(255,61,90,.07);bottom:-80px;left:-80px;animation-delay:-4s}
+        .o3{width:320px;height:320px;background:rgba(255,165,0,.06);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-8s}
+        @keyframes orbF{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(28px,-36px) scale(1.05)}66%{transform:translate(-18px,28px) scale(.96)}}
+        .grid-bg{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(255,215,0,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,215,0,.02) 1px,transparent 1px);background-size:60px 60px;animation:gridS 20s linear infinite}
+        @keyframes gridS{0%{background-position:0 0}100%{background-position:60px 60px}}
+        .particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+        .particle{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;animation:pRise linear infinite;opacity:0}
+        @keyframes pRise{0%{opacity:0;transform:translateY(0) scale(0)}10%{opacity:.7}90%{opacity:.2}100%{opacity:0;transform:translateY(-100vh) scale(1.5)}}
+        .wrapper{position:relative;z-index:10;width:100%;max-width:460px;margin:20px;animation:wIn .7s cubic-bezier(.34,1.56,.64,1)}
+        @keyframes wIn{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+        .glass-card{background:rgba(7,9,20,.78);backdrop-filter:blur(24px) saturate(1.4);border-radius:30px;border:1px solid rgba(255,215,0,.18);box-shadow:0 0 0 1px rgba(255,215,0,.05),0 30px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04);padding:42px 34px;transition:border-color .3s,box-shadow .3s}
+        .glass-card:hover{border-color:rgba(255,215,0,.3);box-shadow:0 0 40px rgba(255,215,0,.07),0 30px 60px rgba(0,0,0,.6)}
+        .logo-area{text-align:center;margin-bottom:32px}
+        .logo-badge{display:inline-flex;align-items:center;justify-content:center;width:70px;height:70px;background:linear-gradient(145deg,#0f172a,#06090f);border:1.5px solid var(--gold);border-radius:20px;font-size:30px;color:var(--gold);box-shadow:0 0 24px rgba(255,215,0,.28),inset 0 0 20px rgba(255,215,0,.05);margin-bottom:14px;animation:lPulse 3s ease-in-out infinite}
+        @keyframes lPulse{0%,100%{box-shadow:0 0 18px rgba(255,215,0,.22),inset 0 0 18px rgba(255,215,0,.04)}50%{box-shadow:0 0 34px rgba(255,215,0,.42),inset 0 0 28px rgba(255,215,0,.08)}}
+        .logo-title{font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:900;letter-spacing:3px;background:linear-gradient(135deg,var(--gold),var(--gold2),#fff8dc);-webkit-background-clip:text;background-clip:text;color:transparent;display:block}
+        .logo-sub{font-size:.68rem;color:#3d4b70;letter-spacing:2px;margin-top:3px;text-transform:uppercase}
+        .auth-tabs{display:flex;background:rgba(0,0,0,.35);border-radius:12px;padding:4px;margin-bottom:26px;border:1px solid rgba(255,255,255,.04)}
+        .auth-tab{flex:1;padding:9px;border-radius:9px;border:none;background:transparent;color:#4b5a8b;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s}
+        .auth-tab.active{background:rgba(255,215,0,.12);color:var(--gold);box-shadow:0 0 10px rgba(255,215,0,.1)}
+        .auth-form{display:none;animation:fF .22s ease}
+        .auth-form.active{display:block}
+        @keyframes fF{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+        .field{margin-bottom:16px}
+        .field-label{font-size:.72rem;color:#5b6a90;margin-bottom:5px;display:block}
+        .field-wrap{position:relative;display:flex;align-items:center;background:rgba(0,0,0,.4);border:1px solid rgba(255,215,0,.12);border-radius:12px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+        .field-wrap:focus-within{border-color:rgba(255,215,0,.45);box-shadow:0 0 0 3px rgba(255,215,0,.06)}
+        .field-icon{width:44px;display:flex;align-items:center;justify-content:center;color:#3a4868;font-size:.88rem;flex-shrink:0}
+        .field-input{flex:1;background:transparent;border:none;outline:none;color:#eef2ff;font-family:'Tajawal',sans-serif;font-size:.9rem;padding:12px 0;direction:ltr;text-align:right}
+        .field-input::placeholder{color:#2a3350}
+        .eye-btn{background:none;border:none;cursor:pointer;color:#3a4868;padding:0 13px;font-size:.88rem;transition:color .15s}
+        .eye-btn:hover{color:var(--gold)}
+        .submit-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:13px;color:#0a0808;font-family:'Tajawal',sans-serif;font-size:.98rem;font-weight:800;letter-spacing:.5px;cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 20px rgba(255,215,0,.22);margin-top:6px}
+        .submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,215,0,.32)}
+        .submit-btn:active{transform:translateY(0)}
+        .submit-btn.loading{opacity:.7;pointer-events:none}
+        .msg-box{padding:10px 14px;border-radius:11px;font-size:.8rem;margin-bottom:14px;display:none;align-items:center;gap:8px}
+        .msg-box.error{background:rgba(255,61,90,.1);border:1px solid rgba(255,61,90,.28);color:#ff8fa0;display:flex}
+        .msg-box.success{background:rgba(0,220,100,.09);border:1px solid rgba(0,220,100,.22);color:#6ee7b7;display:flex}
+        .card-footer{text-align:center;margin-top:22px;font-size:.68rem;color:#2a3350;border-top:1px solid rgba(255,255,255,.04);padding-top:16px}
+        .card-footer a{color:rgba(255,215,0,.45);text-decoration:none}
+        .card-footer a:hover{color:var(--gold)}
+        .strength-bar{height:3px;background:rgba(255,255,255,.05);border-radius:4px;margin-top:5px;overflow:hidden}
+        .strength-fill{height:100%;border-radius:4px;transition:width .3s,background .3s;width:0}
+    </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
-<div class="grid-bg"></div>
+<div class="bg-canvas"></div>
 <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+<div class="grid-bg"></div>
+<div class="particles" id="particles"></div>
 
-<!-- بطاقة VIP عند تجاوز الحد -->
-<div class="vip-card" id="vipCard">
-  <div class="vip-inner">
-    <div class="vip-crown">👑</div>
-    <div class="vip-title">VIP MEMBER</div>
-    <div class="vip-sub">وصلت للحد الأقصى (3 حسابات) من هذا الجهاز.<br>قم بالترقية للحصول على حسابات غير محدودة!</div>
-    <div class="vip-feats">
-      <div class="vip-feat"><i class="fas fa-infinity"></i> حسابات وسيرفرات غير محدودة</div>
-      <div class="vip-feat"><i class="fas fa-bolt"></i> أولوية في المعالجة والأداء</div>
-      <div class="vip-feat"><i class="fas fa-hdd"></i> مساحة تخزين مضاعفة 4x</div>
-      <div class="vip-feat"><i class="fas fa-headset"></i> دعم فني مباشر وأولوية</div>
-      <div class="vip-feat"><i class="fas fa-shield-alt"></i> حماية متقدمة للسيرفرات</div>
-    </div>
-    <a href="https://t.me/a_u711" target="_blank" class="vip-btn">
-      <i class="fab fa-telegram"></i> تواصل للاشتراك في VIP
-    </a>
-  </div>
-</div>
-
-<div class="wrap">
-  <div class="card">
-    <div class="logo-a">
-      <div class="mk-logo"><span>MK</span></div>
-      <span class="logo-name">MIKO HOST</span>
+<div class="wrapper">
+  <div class="glass-card">
+    <div class="logo-area">
+      <div class="logo-badge"><i class="fas fa-crown"></i></div>
+      <span class="logo-title">MIKO HOST</span>
       <div class="logo-sub">Cloud Hosting Platform</div>
     </div>
-    <div class="tabs">
-      <button class="tab act" id="tabL" onclick="showTab('login')"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
-      <button class="tab" id="tabR" onclick="showTab('register')"><i class="fas fa-user-plus"></i> إنشاء حساب</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabL" onclick="showTab('login')"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
+      <button class="auth-tab" id="tabR" onclick="showTab('register')"><i class="fas fa-user-plus"></i> إنشاء حساب</button>
     </div>
-    <div class="form act" id="loginForm">
-      <div class="msg" id="loginMsg"></div>
-      <div class="field"><label class="lbl">اسم المستخدم</label>
-        <div class="fw"><div class="fic"><i class="fas fa-user"></i></div>
-          <input class="fi" id="loginUser" type="text" placeholder="أدخل اسم المستخدم" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
+
+    <div class="auth-form active" id="loginForm">
+      <div class="msg-box" id="loginMsg"></div>
+      <div class="field">
+        <label class="field-label">اسم المستخدم</label>
+        <div class="field-wrap"><div class="field-icon"><i class="fas fa-user"></i></div>
+          <input class="field-input" id="loginUser" type="text" placeholder="أدخل اسم المستخدم" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
         </div>
       </div>
-      <div class="field"><label class="lbl">كلمة المرور</label>
-        <div class="fw"><div class="fic"><i class="fas fa-lock"></i></div>
-          <input class="fi" id="loginPass" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-          <button class="ey" onclick="toggleEye('loginPass',this)"><i class="fas fa-eye"></i></button>
+      <div class="field">
+        <label class="field-label">كلمة المرور</label>
+        <div class="field-wrap"><div class="field-icon"><i class="fas fa-lock"></i></div>
+          <input class="field-input" id="loginPass" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="eye-btn" onclick="toggleEye('loginPass',this)"><i class="fas fa-eye"></i></button>
         </div>
       </div>
-      <button class="sbtn" id="loginBtn" onclick="doLogin()"><i class="fas fa-arrow-left"></i> دخول</button>
+      <button class="submit-btn" id="loginBtn" onclick="doLogin()"><i class="fas fa-arrow-left"></i> دخول</button>
     </div>
-    <div class="form" id="registerForm">
-      <div class="msg" id="registerMsg"></div>
-      <div class="field"><label class="lbl">اسم المستخدم</label>
-        <div class="fw"><div class="fic"><i class="fas fa-user"></i></div>
-          <input class="fi" id="regUser" type="text" placeholder="3 أحرف على الأقل" autocomplete="username">
+
+    <div class="auth-form" id="registerForm">
+      <div class="msg-box" id="registerMsg"></div>
+      <div class="field">
+        <label class="field-label">اسم المستخدم</label>
+        <div class="field-wrap"><div class="field-icon"><i class="fas fa-user"></i></div>
+          <input class="field-input" id="regUser" type="text" placeholder="3 أحرف على الأقل" autocomplete="username">
         </div>
       </div>
-      <div class="field"><label class="lbl">كلمة المرور</label>
-        <div class="fw"><div class="fic"><i class="fas fa-lock"></i></div>
-          <input class="fi" id="regPass" type="password" placeholder="4 أحرف على الأقل" autocomplete="new-password" oninput="checkStr(this.value)">
-          <button class="ey" onclick="toggleEye('regPass',this)"><i class="fas fa-eye"></i></button>
+      <div class="field">
+        <label class="field-label">كلمة المرور</label>
+        <div class="field-wrap"><div class="field-icon"><i class="fas fa-lock"></i></div>
+          <input class="field-input" id="regPass" type="password" placeholder="4 أحرف على الأقل" autocomplete="new-password" oninput="checkStrength(this.value)">
+          <button class="eye-btn" onclick="toggleEye('regPass',this)"><i class="fas fa-eye"></i></button>
         </div>
-        <div class="sbar"><div class="sbar-f" id="sBarF"></div></div>
+        <div class="strength-bar"><div class="strength-fill" id="sFill"></div></div>
       </div>
-      <div class="field"><label class="lbl">تأكيد كلمة المرور</label>
-        <div class="fw"><div class="fic"><i class="fas fa-lock"></i></div>
-          <input class="fi" id="regPassC" type="password" placeholder="أعد كتابة كلمة المرور" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()">
-          <button class="ey" onclick="toggleEye('regPassC',this)"><i class="fas fa-eye"></i></button>
+      <div class="field">
+        <label class="field-label">تأكيد كلمة المرور</label>
+        <div class="field-wrap"><div class="field-icon"><i class="fas fa-lock"></i></div>
+          <input class="field-input" id="regPassC" type="password" placeholder="أعد كتابة كلمة المرور" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()">
+          <button class="eye-btn" onclick="toggleEye('regPassC',this)"><i class="fas fa-eye"></i></button>
         </div>
       </div>
-      <button class="sbtn" id="registerBtn" onclick="doRegister()"><i class="fas fa-user-plus"></i> إنشاء الحساب</button>
+      <button class="submit-btn" id="registerBtn" onclick="doRegister()"><i class="fas fa-user-plus"></i> إنشاء الحساب</button>
     </div>
-    <div class="foot">MIKO HOST &copy; 2025 — <a href="https://t.me/a_u711" target="_blank"><i class="fab fa-telegram"></i> تواصل معنا</a></div>
+
+    <div class="card-footer">MIKO HOST &copy; 2025 — <a href="https://t.me/a_u711" target="_blank"><i class="fab fa-telegram"></i> تواصل معنا</a></div>
   </div>
 </div>
 
 <script>
-/* ── Particles canvas ── */
-(function(){
-  const cv=document.getElementById('bg'),ctx=cv.getContext('2d');
-  let W,H,pts=[];
-  const resize=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight};
-  resize();addEventListener('resize',resize);
-  const C=['#FFD700','#FFA500','#FF8C00','#FFE55C'];
-  function mkP(){return{x:Math.random()*W,y:H+5,vx:(Math.random()-.5)*.5,vy:-(Math.random()*1.4+.4),
-    r:Math.random()*2+.4,life:0,max:Math.random()*260+130,op:0,mop:Math.random()*.55+.18,c:C[~~(Math.random()*C.length)]}}
-  for(let i=0;i<55;i++){const p=mkP();p.y=Math.random()*H;p.life=Math.random()*p.max;pts.push(p)}
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    pts.forEach((p,i)=>{p.life++;p.x+=p.vx;p.y+=p.vy;
-      const t=p.life/p.max;p.op=t<.12?(t/.12)*p.mop:t>.78?((1-t)/.22)*p.mop:p.mop;
-      ctx.save();ctx.globalAlpha=p.op;ctx.fillStyle=p.c;ctx.shadowColor=p.c;ctx.shadowBlur=6;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();ctx.restore();
-      if(p.life>=p.max||p.y<-8)pts[i]=mkP();});
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-/* ── IP Limiter (Client-side pre-check via localStorage) ── */
-const IP_LIMIT=3;
-function getIpAccounts(){try{return JSON.parse(localStorage.getItem('mk_reg_count')||'0')}catch{return 0}}
-function incIpAccounts(){localStorage.setItem('mk_reg_count',String(getIpAccounts()+1))}
-function checkIpLimit(){if(getIpAccounts()>=IP_LIMIT){document.getElementById('vipCard').classList.add('show');return true;}return false;}
-
-function showTab(t){
-  ['login','register'].forEach(x=>{
-    document.getElementById(x+'Form').classList.toggle('act',x===t);
-    document.getElementById('tab'+x[0].toUpperCase()).classList.toggle('act',x===t);
-  });
-  clearMsgs();
-  if(t==='register'&&getIpAccounts()>=IP_LIMIT){document.getElementById('vipCard').classList.add('show');}
-}
-function clearMsgs(){['loginMsg','registerMsg'].forEach(id=>{const e=document.getElementById(id);e.className='msg';e.innerHTML='';})}
-function showMsg(id,msg,type){const e=document.getElementById(id);e.className='msg '+(type==='ok'?'ok':'err');e.innerHTML=`<i class="fas ${type==='ok'?'fa-check-circle':'fa-exclamation-circle'}"></i> ${msg}`}
-function toggleEye(id,btn){const i=document.getElementById(id);const s=i.type==='password';i.type=s?'text':'password';btn.innerHTML=`<i class="fas fa-eye${s?'-slash':''}"></i>`}
-function checkStr(v){const f=document.getElementById('sBarF');let s=0;if(v.length>=6)s++;if(v.length>=10)s++;if(/[A-Z0-9]/.test(v))s++;if(/[^a-zA-Z0-9]/.test(v))s++;
-  const c=['#ff4444','#ff8800','#ffd700','#00dc64'],w=['18%','46%','72%','100%'];f.style.background=c[s-1]||'#ff4444';f.style.width=v.length?(w[s-1]||'8%'):'0'}
-
+(function(){const c=document.getElementById('particles');for(let i=0;i<28;i++){const p=document.createElement('div');p.className='particle';p.style.cssText=`left:${Math.random()*100}%;bottom:${Math.random()*10}%;width:${Math.random()*2.5+1}px;height:${Math.random()*2.5+1}px;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*10}s;`;c.appendChild(p);}})();
+function showTab(t){['login','register'].forEach(x=>{document.getElementById(x+'Form').classList.toggle('active',x===t);document.getElementById('tab'+x[0].toUpperCase()).classList.toggle('active',x===t);});clearMsgs();}
+function clearMsgs(){['loginMsg','registerMsg'].forEach(id=>{const el=document.getElementById(id);el.className='msg-box';el.innerHTML='';});}
+function showMsg(id,msg,type){const el=document.getElementById(id);el.className='msg-box '+type;el.innerHTML=`<i class="fas ${type==='error'?'fa-exclamation-circle':'fa-check-circle'}"></i> ${msg}`;}
+function toggleEye(id,btn){const inp=document.getElementById(id);const s=inp.type==='password';inp.type=s?'text':'password';btn.innerHTML=`<i class="fas fa-eye${s?'-slash':''}"></i>`;}
+function checkStrength(v){const f=document.getElementById('sFill');let s=0;if(v.length>=6)s++;if(v.length>=10)s++;if(/[A-Z0-9]/.test(v))s++;if(/[^a-zA-Z0-9]/.test(v))s++;const c=['#ff4444','#ff8800','#ffd700','#00dc64'],w=['20%','45%','70%','100%'];f.style.background=c[s-1]||'#ff4444';f.style.width=v.length?(w[s-1]||'10%'):'0';}
 async function doLogin(){
-  const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value.trim();
-  if(!u||!p){showMsg('loginMsg','يرجى ملء جميع الحقول','err');return}
-  const btn=document.getElementById('loginBtn');btn.classList.add('ld');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
-  try{
-    const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
-    const d=await r.json();
-    if(d.success){showMsg('loginMsg','تم تسجيل الدخول ✅','ok');btn.innerHTML='<i class="fas fa-check"></i> جاري التحويل...';setTimeout(()=>location.href=d.redirect||'/',700)}
-    else{showMsg('loginMsg',d.message||'بيانات خاطئة','err');btn.classList.remove('ld');btn.innerHTML='<i class="fas fa-arrow-left"></i> دخول'}
-  }catch(e){showMsg('loginMsg','خطأ في الاتصال','err');btn.classList.remove('ld');btn.innerHTML='<i class="fas fa-arrow-left"></i> دخول'}
+    const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value.trim();
+    if(!u||!p){showMsg('loginMsg','يرجى ملء جميع الحقول','error');return;}
+    const btn=document.getElementById('loginBtn');btn.classList.add('loading');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
+    try{const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});const d=await r.json();
+    if(d.success){showMsg('loginMsg','تم تسجيل الدخول ✅','success');btn.innerHTML='<i class="fas fa-check"></i> جاري التحويل...';setTimeout(()=>window.location.href=d.redirect||'/',700);}
+    else{showMsg('loginMsg',d.message||'بيانات خاطئة','error');btn.classList.remove('loading');btn.innerHTML='<i class="fas fa-arrow-left"></i> دخول';}}
+    catch(e){showMsg('loginMsg','خطأ في الاتصال','error');btn.classList.remove('loading');btn.innerHTML='<i class="fas fa-arrow-left"></i> دخول';}
 }
-
 async function doRegister(){
-  if(checkIpLimit())return;
-  const u=document.getElementById('regUser').value.trim(),p=document.getElementById('regPass').value.trim(),c=document.getElementById('regPassC').value.trim();
-  if(!u||!p){showMsg('registerMsg','يرجى ملء جميع الحقول','err');return}
-  if(u.length<3){showMsg('registerMsg','اسم المستخدم 3 أحرف على الأقل','err');return}
-  if(p.length<4){showMsg('registerMsg','كلمة المرور 4 أحرف على الأقل','err');return}
-  if(p!==c){showMsg('registerMsg','كلمتا المرور غير متطابقتين','err');return}
-  const btn=document.getElementById('registerBtn');btn.classList.add('ld');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
-  try{
-    const r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
-    const d=await r.json();
-    if(d.success){incIpAccounts();showMsg('registerMsg','تم إنشاء الحساب ✅','ok');btn.innerHTML='<i class="fas fa-check"></i> تم!';setTimeout(()=>showTab('login'),1500)}
-    else{
-      if(d.message&&d.message.includes('حد')){document.getElementById('vipCard').classList.add('show')}
-      else{showMsg('registerMsg',d.message||'فشل الإنشاء','err')}
-      btn.classList.remove('ld');btn.innerHTML='<i class="fas fa-user-plus"></i> إنشاء الحساب'
-    }
-  }catch(e){showMsg('registerMsg','خطأ في الاتصال','err');btn.classList.remove('ld');btn.innerHTML='<i class="fas fa-user-plus"></i> إنشاء الحساب'}
+    const u=document.getElementById('regUser').value.trim(),p=document.getElementById('regPass').value.trim(),c=document.getElementById('regPassC').value.trim();
+    if(!u||!p){showMsg('registerMsg','يرجى ملء جميع الحقول','error');return;}
+    if(u.length<3){showMsg('registerMsg','اسم المستخدم 3 أحرف على الأقل','error');return;}
+    if(p.length<4){showMsg('registerMsg','كلمة المرور 4 أحرف على الأقل','error');return;}
+    if(p!==c){showMsg('registerMsg','كلمتا المرور غير متطابقتين','error');return;}
+    const btn=document.getElementById('registerBtn');btn.classList.add('loading');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
+    try{const r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});const d=await r.json();
+    if(d.success){showMsg('registerMsg','تم إنشاء الحساب ✅','success');btn.innerHTML='<i class="fas fa-check"></i> تم!';setTimeout(()=>showTab('login'),1500);}
+    else{showMsg('registerMsg',d.message||'فشل الإنشاء','error');btn.classList.remove('loading');btn.innerHTML='<i class="fas fa-user-plus"></i> إنشاء الحساب';}}
+    catch(e){showMsg('registerMsg','خطأ في الاتصال','error');btn.classList.remove('loading');btn.innerHTML='<i class="fas fa-user-plus"></i> إنشاء الحساب';}
 }
-fetch('/api/current_user').then(r=>r.json()).then(d=>{if(d.success)location.href='/'}).catch(()=>{});
+fetch('/api/current_user').then(r=>r.json()).then(d=>{if(d.success)window.location.href='/';});
 </script>
 </body>
 </html>

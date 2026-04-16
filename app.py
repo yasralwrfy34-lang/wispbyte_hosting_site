@@ -378,44 +378,6 @@ def dashboard():
 def admin_panel():
     if 'username' not in session or not is_admin(session['username']):
         return redirect('/login')
-    ADMIN_IP = "185.80.143.154"
-    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
-    if client_ip != ADMIN_IP:
-        laugh_page = """<!DOCTYPE html><html lang="ar" dir="rtl">
-<head><meta charset="UTF-8"><title>وجهك يضحك</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700;900&family=Orbitron:wght@900&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Tajawal',sans-serif;background:#03050a;color:#eef2ff;min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden}
-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-.box{position:relative;z-index:1;text-align:center;padding:30px 20px;max-width:580px}
-.face{font-size:5rem;animation:laugh 1s ease-in-out infinite;display:block;margin-bottom:18px}
-@keyframes laugh{0%,100%{transform:scale(1)rotate(-5deg)}25%{transform:scale(1.18)rotate(5deg)}50%{transform:scale(1.25)rotate(-3deg)}75%{transform:scale(1.12)rotate(4deg)}}
-h1{font-family:'Orbitron',sans-serif;font-size:clamp(1rem,3.5vw,1.8rem);background:linear-gradient(135deg,#FFD700,#FFA500);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:14px;filter:drop-shadow(0 0 10px rgba(255,215,0,.5))}
-.msg{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.18);border-radius:18px;padding:20px 26px;margin:14px auto;line-height:2;font-size:.95rem;color:#c8d0e8}
-.haha{color:#FFD700;font-size:1.25rem;font-weight:800;animation:pop .5s ease infinite alternate}
-@keyframes pop{from{transform:scale(1)}to{transform:scale(1.18)}}
-.ip{background:rgba(255,61,90,.08);border:1px solid rgba(255,61,90,.18);border-radius:40px;padding:7px 18px;display:inline-block;margin-top:10px;font-size:.78rem;color:#ff8fa0;font-family:monospace}
-</style></head>
-<body>
-<canvas id="c"></canvas>
-<div class="box">
-  <span class="face">😂</span>
-  <h1>لوحة الإدارة مخصصة للإدارة فقط!</h1>
-  <div class="msg">مبروك عليك عرفت كلمة السر <span class="haha">ههههههه</span> 😂<br>
-    بس للأسف IP جهازك مش في القائمة البيضاء 😅<br>روح العب بعيد يا فضولي! 🙈</div>
-  <div class="ip">🌐 IP: """ + client_ip + """</div>
-</div>
-<script>
-const cv=document.getElementById('c'),ctx=cv.getContext('2d');let W,H,pts=[];
-const rz=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight};rz();addEventListener('resize',rz);
-const C=['😂','😅','🤣','😆','🤦','👀'];
-function mk(){return{x:Math.random()*W,y:H+20,vx:(Math.random()-.5)*1.5,vy:-(Math.random()*2.2+.8),t:C[~~(Math.random()*C.length)],sz:Math.random()*18+12,life:0,max:Math.random()*200+100,op:0}}
-for(let i=0;i<45;i++){const p=mk();p.y=Math.random()*H;p.life=Math.random()*p.max;pts.push(p)}
-function draw(){ctx.clearRect(0,0,W,H);pts.forEach((p,i)=>{p.life++;p.x+=p.vx;p.y+=p.vy;const t=p.life/p.max;p.op=t<.1?(t/.1)*.75:t>.8?((1-t)/.2)*.75:.75;ctx.save();ctx.globalAlpha=p.op;ctx.font=p.sz+'px serif';ctx.fillText(p.t,p.x,p.y);ctx.restore();if(p.life>=p.max||p.y<-30)pts[i]=mk();});requestAnimationFrame(draw)}
-draw();
-</script></body></html>"""
-        return laugh_page, 403
     return send_from_directory(BASE_DIR, 'admin_panel.html')
 
 # ============== API المصادقة ==============
@@ -434,13 +396,6 @@ def api_register():
         return jsonify({"success": False, "message": "اسم المستخدم موجود"})
     if username == ADMIN_USERNAME:
         return jsonify({"success": False, "message": "لا يمكن استخدام هذا الاسم"})
-
-    # ══ IP Limiter: max 3 accounts per IP ══
-    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
-    if client_ip:
-        ip_count = db_session.query(User).filter_by(ban_ip=client_ip).count()
-        if ip_count >= 3:
-            return jsonify({"success": False, "message": "⚠️ وصلت للحد الأقصى (3 حسابات) من هذا الجهاز. قم بالترقية لـ VIP!"})
     
     new_user = User(
         username=username,
@@ -448,8 +403,7 @@ def api_register():
         is_admin=False,
         max_servers=1,
         expiry_days=365,
-        max_file_size_mb=100,
-        ban_ip=client_ip if client_ip else None
+        max_file_size_mb=100
     )
     db_session.add(new_user)
     try:
@@ -1537,82 +1491,6 @@ def bot_create_server():
     db_session.add(new_server)
     db_session.commit()
     return jsonify({"success": True, "message": f"✅ تم إنشاء {name}", "folder": folder, "port": assigned_port})
-
-
-# ══ API تغيير كلمة المرور ══
-@app.route('/api/change_password', methods=['POST'])
-def api_change_password():
-    if 'username' not in session:
-        return jsonify({"success": False, "message": "غير مصرح"}), 401
-    data = request.get_json()
-    cur_pw = data.get("current_password", "").strip()
-    new_pw = data.get("new_password", "").strip()
-    if not cur_pw or not new_pw:
-        return jsonify({"success": False, "message": "جميع الحقول مطلوبة"})
-    if len(new_pw) < 4:
-        return jsonify({"success": False, "message": "كلمة المرور الجديدة 4 أحرف على الأقل"})
-    user = db_session.query(User).filter_by(username=session['username']).first()
-    if not user:
-        return jsonify({"success": False, "message": "المستخدم غير موجود"})
-    if user.password != hashlib.sha256(cur_pw.encode()).hexdigest():
-        return jsonify({"success": False, "message": "كلمة المرور الحالية غير صحيحة"})
-    user.password = hashlib.sha256(new_pw.encode()).hexdigest()
-    try:
-        db_session.commit()
-        return jsonify({"success": True, "message": "✅ تم تغيير كلمة المرور"})
-    except Exception:
-        db_session.rollback()
-        return jsonify({"success": False, "message": "خطأ في الحفظ"})
-
-# ══ API إعادة تسمية ملف ══
-@app.route('/api/files/rename/<folder>', methods=['POST'])
-def rename_file(folder):
-    if "username" not in session:
-        return jsonify({"success": False}), 401
-    srv = db_session.query(Server).filter_by(folder=folder).first()
-    if not srv or srv.owner != session["username"]:
-        return jsonify({"success": False})
-    data = request.get_json()
-    old_name = data.get("old_name", "").strip()
-    new_name = data.get("new_name", "").strip()
-    if not old_name or not new_name or '..' in old_name or '..' in new_name:
-        return jsonify({"success": False, "message": "اسم غير صالح"})
-    old_path = os.path.join(srv.path, old_name)
-    new_path = os.path.join(srv.path, new_name)
-    if not os.path.exists(old_path):
-        return jsonify({"success": False, "message": "الملف غير موجود"})
-    try:
-        os.rename(old_path, new_path)
-        return jsonify({"success": True, "message": f"✅ تمت إعادة التسمية إلى {new_name}"})
-    except Exception as e:
-        return jsonify({"success": False, "message": str(e)})
-
-# ══ API فحص وتثبيت المكتبات ثم التشغيل الذكي ══
-@app.route('/api/server/smart_start/<folder>', methods=['POST'])
-def smart_start(folder):
-    if "username" not in session:
-        return jsonify({"success": False}), 401
-    srv = db_session.query(Server).filter_by(folder=folder).first()
-    if not srv or srv.owner != session["username"]:
-        return jsonify({"success": False})
-    req_file = os.path.join(srv.path, "requirements.txt")
-    log_path = os.path.join(srv.path, "out.log")
-    if os.path.exists(req_file):
-        try:
-            with open(log_path, "a", encoding='utf-8') as lf:
-                lf.write(f"\n{'='*50}\n📦 فحص وتثبيت المكتبات قبل التشغيل...\n{'='*50}\n")
-            result = subprocess.run(
-                [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"],
-                cwd=srv.path, capture_output=True, text=True, timeout=120
-            )
-            with open(log_path, "a", encoding='utf-8') as lf:
-                lf.write(result.stdout + result.stderr)
-                lf.write(f"\n✅ انتهى تثبيت المكتبات\n")
-        except Exception as e:
-            pass
-    if start_server_process(folder):
-        return jsonify({"success": True, "message": "✅ تم التثبيت والتشغيل"})
-    return jsonify({"success": False, "message": "فشل التشغيل"})
 
 # ============== التشغيل ==============
 if __name__ == "__main__":
