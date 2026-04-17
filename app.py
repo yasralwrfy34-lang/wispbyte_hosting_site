@@ -374,6 +374,18 @@ def dashboard():
         return redirect('/login')
     return send_from_directory(BASE_DIR, 'index.html')
 
+@app.route('/server')
+def server_control_page():
+    if 'username' not in session:
+        return redirect('/login')
+    return send_from_directory(BASE_DIR, 'server_control.html')
+
+@app.route('/create')
+def create_server_page():
+    if 'username' not in session:
+        return redirect('/login')
+    return send_from_directory(BASE_DIR, 'create_server.html')
+
 @app.route('/admin')
 def admin_panel():
     if 'username' not in session or not is_admin(session['username']):
