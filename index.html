@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>MIKO HOST - لوحة التحكم المتكاملة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== جميع الأنماط من الملفين الأصليين ========== */
+        :root {
+            --bg-deep:      #050810;
+            --bg-card:      rgba(8,14,30,0.92);
+            --gold:         #FFD700;
+            --gold-dim:     rgba(255,215,0,0.1);
+            --cyan:         #00F5FF;
+            --cyan-dim:     rgba(0,245,255,0.1);
+            --lime:         #AAFF00;
+            --red:          #FF2244;
+            --orange:       #FF6A00;
+            --border:       rgba(255,215,0,0.1);
+            --text-dim:     #5a6a8a;
+            --font-ar:      'Tajawal', sans-serif;
+            --font-mono:    'Share Tech Mono', monospace;
+            --font-display: 'Orbitron', sans-serif;
+
+            --glow-gold:    0 0 8px #FFD700, 0 0 24px rgba(255,215,0,0.5), 0 0 48px rgba(255,215,0,0.15);
+            --glow-cyan:    0 0 8px #00F5FF, 0 0 24px rgba(0,245,255,0.5), 0 0 48px rgba(0,245,255,0.15);
+            --glow-lime:    0 0 8px #AAFF00, 0 0 24px rgba(170,255,0,0.5), 0 0 48px rgba(170,255,0,0.15);
+            --glow-run:    0 0 8px #AAFF00, 0 0 24px rgba(170,255,0,0.5), 0 0 48px rgba(170,255,0,0.2);
+            --glow-stop:   0 0 8px #FF2244, 0 0 24px rgba(255,34,68,0.5), 0 0 48px rgba(255,34,68,0.2);
+            --glow-restart:0 0 8px #00F5FF, 0 0 24px rgba(0,245,255,0.5), 0 0 48px rgba(0,245,255,0.2);
+            --glow-delete: 0 0 8px #FF6A00, 0 0 24px rgba(255,106,0,0.5), 0 0 48px rgba(255,106,0,0.2);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: var(--font-ar);
+            background: var(--bg-deep);
+            color: #c8d8f0;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: -3;
+            background-image:
+                linear-gradient(rgba(255,215,0,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,215,0,0.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .aurora {
+            position: fixed; inset: 0; z-index: -2; pointer-events: none;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(255,215,0,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(0,245,255,0.05) 0%, transparent 60%);
+        }
+
+        body::after {
+            content: '';
+            position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: rgba(5,8,16,0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gold);
+            padding: 10px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 1px 30px rgba(255,215,0,0.07);
+        }
+
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-family: var(--font-display);
+            font-size: 15px; font-weight: 900; letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--gold), #FFA500);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255,215,0,0.4));
+        }
+        .logo i { color: var(--gold); font-size: 18px; }
+        .nav-right { display: flex; align-items: center; gap: 14px; }
+        .user-badge { font-size: 0.78rem; color: var(--text-dim); display: flex; align-items: center; gap: 7px; }
+        .user-badge strong { color: var(--gold); }
+        .btn-nav {
+            background: transparent;
+            border: 1px solid rgba(255,34,68,0.4); color: #FF5566;
+            padding: 5px 14px; border-radius: 40px;
+            font-size: 0.72rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .btn-nav:hover { background: rgba(255,34,68,0.12); border-color: var(--red); box-shadow: 0 0 12px rgba(255,34,68,0.3); }
+
+        /* MAIN LAYOUT */
+        .main-container {
+            max-width: 1400px;
+            margin: 24px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        /* قائمة السيرفرات (العمود الأيمن) */
+        .servers-sidebar {
+            flex: 1.2;
+            min-width: 280px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+        .servers-sidebar h3 {
+            font-family: var(--font-display);
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .create-server-btn {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,165,0,0.1));
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .create-server-btn:hover { box-shadow: var(--glow-gold); transform: translateY(-2px); }
+        .servers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .server-item {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 14px;
+            padding: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .server-item:hover { border-color: var(--gold); background: rgba(255,215,0,0.05); transform: translateX(-3px); }
+        .server-item.active { border-color: var(--cyan); background: rgba(0,245,255,0.05); box-shadow: var(--glow-cyan); }
+        .server-item-title {
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .server-status-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 40px;
+        }
+        .status-online { background: rgba(0,255,100,0.2); color: #00FF88; }
+        .status-offline { background: rgba(255,34,68,0.2); color: #FF4466; }
+        .server-item-details {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+            display: flex;
+            gap: 12px;
+        }
+
+        /* لوحة التحكم (العمود الأيسر) */
+        .control-panel {
+            flex: 3;
+            min-width: 500px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+        }
+        .no-server-selected {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-dim);
+        }
+
+        /* ========== أنماط server_control.html ========== */
+        .server-header-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border: 1px solid var(--border);
+        }
+        .server-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .server-icon-big {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--gold);
+        }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .status-pill.online { background: rgba(0,255,100,0.1); border: 1px solid #00FF88; color: #00FF88; }
+        .status-pill.offline { background: rgba(255,34,68,0.1); border: 1px solid #FF4466; color: #FF4466; }
+
+        .control-buttons-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .cp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .cp-btn.run { background: rgba(170,255,0,0.12); border-color: var(--lime); color: var(--lime); }
+        .cp-btn.run:hover { box-shadow: var(--glow-run); transform: translateY(-2px); }
+        .cp-btn.stop { background: rgba(255,34,68,0.12); border-color: var(--red); color: var(--red); }
+        .cp-btn.stop:hover { box-shadow: var(--glow-stop); transform: translateY(-2px); }
+        .cp-btn.restart { background: rgba(0,245,255,0.12); border-color: var(--cyan); color: var(--cyan); }
+        .cp-btn.restart:hover { box-shadow: var(--glow-restart); transform: translateY(-2px); }
+        .cp-btn.delete { background: rgba(255,106,0,0.12); border-color: var(--orange); color: var(--orange); }
+        .cp-btn.delete:hover { box-shadow: var(--glow-delete); transform: translateY(-2px); }
+
+        .nav-tabs-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+        }
+        .nav-tab {
+            background: transparent;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 40px;
+            color: var(--text-dim);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-tab.active {
+            background: var(--gold-dim);
+            color: var(--gold);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Console */
+        .console-wrapper {
+            border: 1px solid rgba(0,245,255,0.15);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .console-title-bar {
+            background: rgba(0,245,255,0.06);
+            border-bottom: 1px solid rgba(0,245,255,0.12);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--cyan);
+        }
+        .console-dots { display: flex; gap: 6px; }
+        .console-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .console-dot:nth-child(1) { background: #FF5F57; }
+        .console-dot:nth-child(2) { background: #FFBD2E; }
+        .console-dot:nth-child(3) { background: #28C840; }
+        .console-box {
+            background: rgba(0,2,8,0.9);
+            padding: 16px;
+            min-height: 380px;
+            max-height: 480px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            line-height: 1.7;
+            color: #7FFF9A;
+        }
+        .console-box div { padding: 1px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
+
+        /* Files */
+        .fm-toolbar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .fm-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            color: #8a9ab8;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .fm-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+        .fm-btn.danger:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+        .fm-search {
+            flex: 1;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 12px;
+            color: #c8d8f0;
+            font-size: 0.8rem;
+            outline: none;
+        }
+        .fm-search:focus { border-color: var(--gold); }
+        .fm-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .fm-crumb {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .fm-crumb:hover { color: var(--gold); }
+        .fm-table-wrap {
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+        }
+        .fm-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .fm-table thead th {
+            background: rgba(255,215,0,0.05);
+            padding: 10px 14px;
+            text-align: right;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #5a6a8a;
+            border-bottom: 1px solid var(--border);
+        }
+        .fm-table tbody td {
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            color: #8a9ab8;
+            border-bottom: 1px solid rgba(255,255,255,0.025);
+        }
+        .fm-file-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .fm-file-name:hover span { color: var(--gold); }
+        .fm-three-dot {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 2px 8px;
+        }
+        .fm-three-dot:hover { color: var(--gold); background: var(--gold-dim); border-radius: 4px; }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+        }
+        .stat-block {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 20px;
+            position: relative;
+        }
+        .stat-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent-color, var(--gold));
+        }
+        .stat-block-label { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 8px; }
+        .stat-block-value { font-size: 1.4rem; font-weight: 800; color: var(--accent-color, var(--gold)); font-family: var(--font-display); }
+        .progress-bar-wrap { margin-top: 10px; background: rgba(255,255,255,0.05); border-radius: 6px; height: 5px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; border-radius: 6px; background: var(--accent-color, var(--gold)); transition: width 0.5s; }
+
+        /* API */
+        .api-key-display {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--cyan);
+            word-break: break-all;
+            margin-bottom: 14px;
+        }
+
+        /* Settings */
+        .settings-group { margin-bottom: 22px; }
+        .settings-group label { display: block; font-size: 0.78rem; color: var(--text-dim); margin-bottom: 8px; }
+        .settings-group select {
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #c8d8f0;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .settings-group select:focus { border-color: var(--gold); }
+
+        /* Modals (من create_server.html) */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal-content {
+            background: rgba(8,14,28,0.98);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            min-width: 300px;
+            max-width: 90vw;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+        }
+        .lang-grid, .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .lang-card, .plan-card {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+        .lang-card.selected, .plan-card.selected {
+            border-color: var(--gold);
+            background: var(--gold-dim);
+            box-shadow: var(--glow-gold);
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+            background: var(--gold-dim);
+            color: var(--gold);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal-btn.cancel {
+            border-color: var(--border);
+            background: transparent;
+            color: var(--text-dim);
+        }
+
+        /* Notifications */
+        #notifBox {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(8,14,28,0.96);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 12px 22px;
+            font-size: 0.85rem;
+            color: #eef2ff;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5), var(--glow-gold);
+        }
+        #notifBox.success { border-color: var(--lime); box-shadow: 0 8px 32px rgba(0,0,0,0.5), var(--glow-lime); }
+        #notifBox.error   { border-color: var(--red); }
+        #notifBox.info    { border-color: var(--cyan); box-shadow: 0 8px 32px rgba(0,0,0,0.5), var(--glow-cyan); }
+
+        @media (max-width: 800px) {
+            .main-container { flex-direction: column; }
+            .servers-sidebar { position: static; }
+            .control-panel { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+<div class="aurora"></div>
+
+<nav class="navbar">
+    <div class="logo"><i class="fas fa-server"></i> MIKO HOST</div>
+    <div class="nav-right">
+        <span class="user-badge"><i class="fas fa-user-circle"></i> مرحباً <strong id="usernameTop">...</strong></span>
+        <button class="btn-nav" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
+    </div>
+</nav>
+
+<div class="main-container">
+    <!-- العمود الأيمن: قائمة السيرفرات -->
+    <div class="servers-sidebar">
+        <h3><i class="fas fa-server"></i> سيرفراتي</h3>
+        <button class="create-server-btn" onclick="openCreateModal()"><i class="fas fa-plus"></i> إنشاء سيرفر جديد</button>
+        <div id="serversList" class="servers-list">جاري التحميل...</div>
+    </div>
+
+    <!-- العمود الأيسر: لوحة التحكم -->
+    <div class="control-panel" id="controlPanel">
+        <div id="noServerMsg" class="no-server-selected">
+            <i class="fas fa-cube" style="font-size: 48px; opacity: 0.3;"></i>
+            <p>اختر سيرفر من القائمة لعرض التفاصيل والتحكم</p>
+        </div>
+        <div id="serverControlContent" style="display: none;">
+            <!-- رأس السيرفر -->
+            <div class="server-header-card">
+                <div class="server-header-left">
+                    <div class="server-icon-big"><i class="fas fa-cube" id="ctrlLangIcon"></i></div>
+                    <div>
+                        <h2 id="ctrlServerName">--</h2>
+                        <div class="server-meta">
+                            <span id="ctrlPort">--</span> | <span id="ctrlPlan">--</span> | <span id="ctrlRam">-- MB</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="ctrlStatusPill" class="status-pill offline">
+                    <span id="ctrlStatusText">متوقف</span>
+                </div>
+            </div>
+
+            <!-- أزرار التحكم -->
+            <div class="control-buttons-bar">
+                <button class="cp-btn run" id="ctrlStartBtn">تشغيل <i class="fas fa-play"></i></button>
+                <button class="cp-btn stop" id="ctrlStopBtn">إيقاف <i class="fas fa-stop"></i></button>
+                <button class="cp-btn restart" id="ctrlRestartBtn">إعادة تشغيل <i class="fas fa-sync-alt"></i></button>
+                <button class="cp-btn delete" id="ctrlDeleteBtn">حذف <i class="fas fa-trash"></i></button>
+            </div>
+
+            <!-- تبويبات -->
+            <div class="nav-tabs-bar">
+                <button class="nav-tab active" data-tab="console">الكونسول</button>
+                <button class="nav-tab" data-tab="files">الملفات</button>
+                <button class="nav-tab" data-tab="stats">الإحصائيات</button>
+                <button class="nav-tab" data-tab="api">API</button>
+                <button class="nav-tab" data-tab="settings">الإعدادات</button>
+            </div>
+
+            <!-- محتوى التبويبات -->
+            <div id="consoleTab" class="tab-content active">
+                <div class="console-wrapper">
+                    <div class="console-title-bar">
+                        <div class="console-dots"><div class="console-dot"></div><div class="console-dot"></div><div class="console-dot"></div></div>
+                        <span>SERVER OUTPUT — <span id="consoleFolderLabel">...</span></span>
+                        <span id="consoleUptime">--</span>
+                    </div>
+                    <div class="console-box" id="consoleOut">جاري التحميل...</div>
+                </div>
+            </div>
+
+            <div id="filesTab" class="tab-content">
+                <div class="fm-toolbar">
+                    <button class="fm-btn" onclick="document.getElementById('fileUpload').click()"><i class="fas fa-upload"></i> رفع ملف</button>
+                    <button class="fm-btn" onclick="showCreateFileModal()"><i class="fas fa-plus"></i> ملف جديد</button>
+                    <button class="fm-btn" onclick="showCreateFolderModal()"><i class="fas fa-folder-plus"></i> مجلد جديد</button>
+                    <button class="fm-btn" onclick="installPackages()"><i class="fas fa-box"></i> تثبيت المكتبات</button>
+                    <button class="fm-btn danger" id="deleteSelectedBtn" disabled onclick="deleteSelected()"><i class="fas fa-trash"></i> حذف المحدد</button>
+                    <input type="text" class="fm-search" id="fileSearch" placeholder="🔍 بحث...">
+                    <input type="file" id="fileUpload" multiple style="display:none" onchange="uploadFiles(this.files)">
+                </div>
+                <div class="fm-breadcrumb" id="fmBreadcrumb"></div>
+                <div class="fm-table-wrap">
+                    <table class="fm-table">
+                        <thead>
+                            <tr><th style="width:36px;"><input type="checkbox" id="selectAllFiles" onchange="toggleSelectAll(this)"></th><th>الاسم</th><th>الحجم</th><th style="width:44px;"></th></tr>
+                        </thead>
+                        <tbody id="filesList"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="statsTab" class="tab-content">
+                <div class="stats-grid" id="statsGrid"></div>
+            </div>
+
+            <div id="apiTab" class="tab-content">
+                <div class="api-panel">
+                    <p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:14px;">مفتاح API الخاص بك لربط الخادم بالبوت والخدمات الخارجية.</p>
+                    <div class="api-key-display" id="currentApiKeyDisplay">لا يوجد مفتاح. اضغط إنشاء مفتاح جديد.</div>
+                    <div class="api-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="api-btn" onclick="generateApiKey()"><i class="fas fa-key"></i> إنشاء مفتاح جديد</button>
+                        <button class="api-btn" onclick="copyApiKey()"><i class="fas fa-copy"></i> نسخ</button>
+                        <button class="api-btn danger" onclick="revokeApiKey()"><i class="fas fa-ban"></i> إلغاء المفتاح</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settingsTab" class="tab-content">
+                <div class="settings-group">
+                    <label><i class="fas fa-file-code"></i> ملف التشغيل الرئيسي</label>
+                    <select id="startupFileSelect">
+                        <option value="">-- اختر ملف التشغيل --</option>
+                    </select>
+                </div>
+                <button class="settings-btn" onclick="setStartupFile()" style="background:var(--gold-dim); border:1px solid var(--gold); color:var(--gold); padding:8px 20px; border-radius:10px; cursor:pointer;"><i class="fas fa-save"></i> حفظ ملف التشغيل</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- مودال إنشاء سيرفر (من create_server.html) -->
+<div id="createModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color:var(--gold); margin-bottom:16px;">إنشاء خادم جديد</h2>
+        <div class="name-input-wrap">
+            <input type="text" id="newServerName" placeholder="اسم الخادم" maxlength="40" style="width:100%; background:rgba(0,0,0,0.5); border:1px solid var(--border); border-radius:12px; padding:12px; color:#fff;">
+        </div>
+        <div class="section-title" style="margin-top:20px;">لغة البرمجة</div>
+        <div class="lang-grid" id="createLangGrid">
+            <div class="lang-card" data-lang="python" onclick="selectCreateLang(this)"><span class="lang-emoji">🐍</span><div class="lang-name">Python</div></div>
+            <div class="lang-card" data-lang="nodejs" onclick="selectCreateLang(this)"><span class="lang-emoji">🟩</span><div class="lang-name">Node.js</div></div>
+            <div class="lang-card" data-lang="java" onclick="selectCreateLang(this)"><span class="lang-emoji">☕</span><div class="lang-name">Java</div></div>
+            <div class="lang-card" data-lang="go" onclick="selectCreateLang(this)"><span class="lang-emoji">🔵</span><div class="lang-name">Go</div></div>
+            <div class="lang-card" data-lang="php" onclick="selectCreateLang(this)"><span class="lang-emoji">🐘</span><div class="lang-name">PHP</div></div>
+        </div>
+        <div class="section-title">اختر الخطة</div>
+        <div class="plan-grid" id="createPlanGrid">
+            <div class="plan-card" data-plan="free" data-storage="100" data-ram="256" data-cpu="0.5" onclick="selectCreatePlan(this)"><div class="plan-name">مجاني</div><div>100MB/256MB</div></div>
+            <div class="plan-card" data-plan="basic" data-storage="500" data-ram="512" data-cpu="1" onclick="selectCreatePlan(this)"><div class="plan-name">أساسي</div><div>500MB/512MB</div></div>
+            <div class="plan-card" data-plan="pro" data-storage="2000" data-ram="1024" data-cpu="2" onclick="selectCreatePlan(this)"><div class="plan-name">احترافي</div><div>2GB/1GB</div></div>
+            <div class="plan-card" data-plan="ultra" data-storage="5000" data-ram="2048" data-cpu="4" onclick="selectCreatePlan(this)"><div class="plan-name">ألتيمت</div><div>5GB/2GB</div></div>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn" onclick="createNewServer()">إنشاء</button>
+            <button class="modal-btn cancel" onclick="closeModal('createModal')">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<!-- مودالات أخرى (تحرير ملف، تأكيد، إنشاء ملف/مجلد) -->
+<div id="editorModal" class="modal">
+    <div class="modal-content">
+        <h3 style="color:var(--gold); margin-bottom:14px;" id="editorTitle">تعديل الملف</h3>
+        <textarea id="editorArea" rows="14" style="width:100%; background:rgba(0,0,0,0.5); border:1px solid var(--border); border-radius:12px; padding:12px; color:#fff;"></textarea>
+        <div class="modal-actions">
+            <button class="modal-btn" onclick="saveFile()">حفظ</button>
+            <button class="modal-btn cancel" onclick="closeModal('editorModal')">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <h3 style="color:var(--red); margin-bottom:14px;"><i class="fas fa-exclamation-triangle"></i> تأكيد</h3>
+        <p id="confirmMsg" style="font-size:0.88rem;"></p>
+        <div class="modal-actions">
+            <button class="modal-btn danger" id="confirmYesBtn">تأكيد</button>
+            <button class="modal-btn cancel" onclick="closeConfirm()">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<div id="createFileModal" class="modal">
+    <div class="modal-content">
+        <h3 style="color:var(--gold);"><i class="fas fa-file-plus"></i> إنشاء ملف جديد</h3>
+        <input type="text" id="newFileName" placeholder="script.py" style="width:100%; margin:12px 0; padding:8px; background:#000; border:1px solid var(--border); color:#fff;">
+        <textarea id="newFileContent" rows="5" placeholder="محتوى الملف..." style="width:100%; background:#000; border:1px solid var(--border); color:#fff;"></textarea>
+        <div class="modal-actions">
+            <button class="modal-btn" onclick="createFile()">إنشاء</button>
+            <button class="modal-btn cancel" onclick="closeModal('createFileModal')">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<div id="createFolderModal" class="modal">
+    <div class="modal-content">
+        <h3 style="color:var(--gold);"><i class="fas fa-folder-plus"></i> إنشاء مجلد جديد</h3>
+        <input type="text" id="newFolderName" placeholder="اسم المجلد" style="width:100%; margin:12px 0; padding:8px; background:#000; border:1px solid var(--border); color:#fff;">
+        <div class="modal-actions">
+            <button class="modal-btn" onclick="createFolder()">إنشاء</button>
+            <button class="modal-btn cancel" onclick="closeModal('createFolderModal')">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<div id="notifBox"></div>
+
+<script>
+    // ========== دمج كامل للجافاسكريبت من الملفين ==========
+    let selectedLang = null;
+    let selectedPlan = null;
+    let currentServer = null;
+    let polling = null;
+    let currentPath = '';
+    let ctxFileName = '';
+    let ctxFileIsDir = false;
+    let currentFile = null;
+    let notifTimer;
+
+    // دوال مساعدة عامة
+    function escapeHtml(s) { return String(s).replace(/[&<>]/g, m => m==='&'?'&amp;': m==='<'?'&lt;':'&gt;'); }
+    function showNotif(msg, type='info') {
+        const box = document.getElementById('notifBox');
+        box.innerText = msg; box.className = type; box.style.display='flex';
+        clearTimeout(notifTimer);
+        notifTimer = setTimeout(()=>box.style.display='none', 3000);
+    }
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function closeConfirm() { closeModal('confirmModal'); }
+    function showConfirm(msg, cb) {
+        document.getElementById('confirmMsg').innerText = msg;
+        document.getElementById('confirmYesBtn').onclick = () => { closeConfirm(); cb(); };
+        openModal('confirmModal');
+    }
+
+    // المصادقة
+    async function checkAuth() {
+        try {
+            const r = await fetch('/api/current_user');
+            const d = await r.json();
+            if (!d.success) { window.location.href='/login'; return; }
+            document.getElementById('usernameTop').innerText = d.username;
+        } catch(e) { window.location.href='/login'; }
+    }
+    function logout() { fetch('/api/logout',{method:'POST'}).then(()=>window.location.href='/login'); }
+
+    // جلب قائمة السيرفرات وعرضها
+    async function loadServersList() {
+        try {
+            const res = await fetch('/api/servers');
+            const data = await res.json();
+            if (!data.success) throw new Error();
+            const container = document.getElementById('serversList');
+            if (data.servers.length === 0) {
+                container.innerHTML = '<div style="padding:20px;text-align:center">لا توجد سيرفرات. أنشئ واحداً!</div>';
+                return;
+            }
+            container.innerHTML = data.servers.map(s => `
+                <div class="server-item" data-folder="${s.folder}" onclick="selectServer('${s.folder}')">
+                    <div class="server-item-title">
+                        <span>${escapeHtml(s.title)}</span>
+                        <span class="server-status-badge ${s.status==='Running'?'status-online':'status-offline'}">${s.status==='Running'?'يعمل':'متوقف'}</span>
+                    </div>
+                    <div class="server-item-details"><span>${s.language}</span> | <span>${s.port||'--'}</span> | <span>${s.disk_used}/${s.storage_limit} MB</span></div>
+                </div>
+            `).join('');
+            if (currentServer) {
+                const stillExists = data.servers.find(x => x.folder === currentServer.folder);
+                if (!stillExists) {
+                    currentServer = null;
+                    document.getElementById('serverControlContent').style.display = 'none';
+                    document.getElementById('noServerMsg').style.display = 'block';
+                    if (polling) clearInterval(polling);
+                }
+            }
+        } catch(e) { showNotif('فشل تحميل السيرفرات','error'); }
+    }
+
+    // اختيار سيرفر
+    async function selectServer(folder) {
+        const res = await fetch('/api/servers');
+        const data = await res.json();
+        if (!data.success) return;
+        const srv = data.servers.find(x => x.folder === folder);
+        if (!srv) return;
+        currentServer = srv;
+        document.getElementById('noServerMsg').style.display = 'none';
+        document.getElementById('serverControlContent').style.display = 'block';
+
+        // تحديث واجهة التحكم
+        const langIcon = getLangIcon(srv.language);
+        document.getElementById('ctrlServerName').innerHTML = `${langIcon} ${escapeHtml(srv.title)}`;
+        document.getElementById('ctrlPort').innerText = srv.port || '--';
+        document.getElementById('ctrlPlan').innerText = srv.plan === 'free' ? 'مجاني' : srv.plan;
+        document.getElementById('ctrlRam').innerText = (srv.ram_limit || 256) + ' MB';
+        document.getElementById('consoleFolderLabel').innerText = srv.folder;
+        updateStatusPill(srv.status);
+
+        // تعيين أزرار التحكم
+        document.getElementById('ctrlStartBtn').onclick = () => performAction('start');
+        document.getElementById('ctrlStopBtn').onclick = () => performAction('stop');
+        document.getElementById('ctrlRestartBtn').onclick = () => performAction('restart');
+        document.getElementById('ctrlDeleteBtn').onclick = () => performAction('delete');
+
+        if (polling) clearInterval(polling);
+        fetchStats();
+        polling = setInterval(fetchStats, 4000);
+        loadFiles();
+        loadStartupFiles();
+        loadApiKey();
+    }
+
+    function getLangIcon(lang) {
+        const icons = { python:'🐍', nodejs:'🟩', java:'☕', go:'🔵', php:'🐘' };
+        return icons[lang] || '⚡';
+    }
+    function updateStatusPill(status) {
+        const pill = document.getElementById('ctrlStatusPill');
+        const txt = document.getElementById('ctrlStatusText');
+        if (status === 'Running') {
+            pill.className = 'status-pill online';
+            txt.innerText = 'يعمل';
+        } else {
+            pill.className = 'status-pill offline';
+            txt.innerText = 'متوقف';
+        }
+    }
+
+    // إجراءات السيرفر
+    async function performAction(action) {
+        if (!currentServer) return;
+        if (action === 'delete') {
+            showConfirm('حذف الخادم نهائياً؟ لا يمكن التراجع.', async () => {
+                await fetch(`/api/server/action/${currentServer.folder}/delete`, {method:'POST'});
+                showNotif('🗑️ تم حذف الخادم', 'success');
+                loadServersList();
+                currentServer = null;
+                document.getElementById('serverControlContent').style.display = 'none';
+                document.getElementById('noServerMsg').style.display = 'block';
+                if (polling) clearInterval(polling);
+            });
+            return;
+        }
+        const labels = {start:'تشغيل',stop:'إيقاف',restart:'إعادة تشغيل'};
+        showNotif(`جاري ${labels[action]}...`, 'info');
+        try {
+            const r = await fetch(`/api/server/action/${currentServer.folder}/${action}`, {method:'POST'});
+            const d = await r.json();
+            if (d.success) { showNotif(d.message, 'success'); fetchStats(); loadServersList(); }
+            else showNotif(d.message||'فشل', 'error');
+        } catch(e) { showNotif('خطأ في الاتصال', 'error'); }
+    }
+
+    // إحصائيات وكونسول
+    async function fetchStats() {
+        if (!currentServer) return;
+        try {
+            const r = await fetch(`/api/server/stats/${currentServer.folder}`);
+            const d = await r.json();
+            if (!d.success) return;
+            document.getElementById('consoleOut').innerHTML = (d.logs||'لا توجد مخرجات').split('\n').map(l=>`<div>${escapeHtml(l)}</div>`).join('');
+            const co = document.getElementById('consoleOut');
+            co.scrollTop = co.scrollHeight;
+            updateStatusPill(d.status);
+            document.getElementById('consoleUptime').innerText = d.uptime || '--';
+
+            // تحديث إحصائيات
+            const mem = parseFloat(d.mem) || 0;
+            const ramLimit = currentServer.ram_limit || 256;
+            const ramPct = (mem/ramLimit)*100;
+            const storageUsed = currentServer.disk_used || 0;
+            const storageLimit = currentServer.storage_limit || 100;
+            const storagePct = (storageUsed/storageLimit)*100;
+
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-block" style="--accent-color: #00FF88">
+                    <div class="stat-block-label"><i class="fas fa-memory"></i> استخدام الرام</div>
+                    <div class="stat-block-value">${mem.toFixed(1)} MB</div>
+                    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${Math.min(ramPct,100)}%"></div></div>
+                    <div class="stat-block-sub">من ${ramLimit} MB</div>
+                </div>
+                <div class="stat-block" style="--accent-color: #00F5FF">
+                    <div class="stat-block-label"><i class="fas fa-clock"></i> مدة التشغيل</div>
+                    <div class="stat-block-value" style="font-size:1rem">${d.uptime || '--'}</div>
+                </div>
+                <div class="stat-block" style="--accent-color: #FFD700">
+                    <div class="stat-block-label"><i class="fas fa-plug"></i> المنفذ</div>
+                    <div class="stat-block-value">${d.port || '--'}</div>
+                </div>
+                <div class="stat-block" style="--accent-color: #AAFF00">
+                    <div class="stat-block-label"><i class="fas fa-network-wired"></i> العنوان</div>
+                    <div class="stat-block-value" style="font-size:0.9rem;word-break:break-all">${d.ip || '--'}</div>
+                </div>
+                <div class="stat-block" style="--accent-color: #FF6A00">
+                    <div class="stat-block-label"><i class="fas fa-hdd"></i> التخزين</div>
+                    <div class="stat-block-value">${storageUsed.toFixed(1)} MB</div>
+                    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${Math.min(storagePct,100)}%"></div></div>
+                    <div class="stat-block-sub">من ${storageLimit} MB</div>
+                </div>
+                <div class="stat-block" style="--accent-color: #A78BFA">
+                    <div class="stat-block-label"><i class="fas fa-tag"></i> الخطة</div>
+                    <div class="stat-block-value">${currentServer.plan === 'free' ? 'مجاني' : currentServer.plan}</div>
+                </div>
+            `;
+        } catch(e) {}
+    }
+
+    // إدارة الملفات (كاملة من server_control.html)
+    async function loadFiles(subPath) {
+        if (!currentServer) return;
+        const path = (subPath !== undefined) ? subPath : currentPath;
+        const tbody = document.getElementById('filesList');
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:24px;"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+        const url = path ? `/api/files/list/${currentServer.folder}?path=${encodeURIComponent(path)}` : `/api/files/list/${currentServer.folder}`;
+        try {
+            const r = await fetch(url);
+            const files = await r.json();
+            document.getElementById('selectAllFiles').checked = false;
+            document.getElementById('deleteSelectedBtn').disabled = true;
+            if (!files.length) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;"><i class="fas fa-folder-open"></i> المجلد فارغ</td></tr>';
+                return;
+            }
+            renderBreadcrumb(path);
+            tbody.innerHTML = files.map(f => `
+                <tr class="fm-row" data-name="${escapeHtml(f.name)}" data-isdir="${f.is_dir}">
+                    <td><input type="checkbox" class="file-checkbox" value="${escapeHtml(f.name)}" onchange="updateDeleteBtn()"></td>
+                    <td onclick="${f.is_dir ? `navigateTo('${(currentPath?currentPath+'/':'')+f.name}')` : `editFile('${escapeHtml(f.name)}')`}">
+                        <div class="fm-file-name">
+                            ${getFileIcon(f.name, f.is_dir)}
+                            <span>${escapeHtml(f.name)}</span>
+                        </div>
+                    </td>
+                    <td style="color:#4b5563;">${f.is_dir?'—':(f.size||'—')}</td>
+                    <td><button class="fm-three-dot" onclick="openCtxMenu(event,'${escapeHtml(f.name)}',${f.is_dir})">⋮</button></td>
+                </tr>
+            `).join('');
+            document.getElementById('fileSearch').oninput = function() {
+                const q = this.value.toLowerCase();
+                tbody.querySelectorAll('tr.fm-row').forEach(r => {
+                    r.style.display = r.dataset.name.toLowerCase().includes(q) ? '' : 'none';
+                });
+            };
+        } catch(e) { tbody.innerHTML = '<tr><td colspan="4" style="color:var(--red);">خطأ في التحميل</td></tr>'; }
+    }
+
+    function navigateTo(path) { currentPath = path; renderBreadcrumb(path); loadFiles(path); }
+
+    function renderBreadcrumb(path) {
+        const crumb = document.getElementById('fmBreadcrumb');
+        let parts = path ? path.split('/').filter(Boolean) : [];
+        let html = `<span class="fm-crumb fm-crumb-root" onclick="navigateTo('')"><i class="fas fa-home"></i> الرئيسية</span>`;
+        let built = '';
+        parts.forEach((p, i) => {
+            built += (built?'/':'') + p;
+            const cap = built;
+            html += `<span class="fm-crumb-sep"><i class="fas fa-chevron-left" style="font-size:0.6rem;"></i></span>`;
+            if (i === parts.length-1) html += `<span class="fm-crumb" style="color:#eef2ff;pointer-events:none;">${escapeHtml(p)}</span>`;
+            else html += `<span class="fm-crumb" onclick="navigateTo('${cap}')">${escapeHtml(p)}</span>`;
+        });
+        crumb.innerHTML = html;
+    }
+
+    function toggleSelectAll(cb) {
+        document.querySelectorAll('.file-checkbox').forEach(c => c.checked = cb.checked);
+        updateDeleteBtn();
+    }
+    function updateDeleteBtn() {
+        const any = [...document.querySelectorAll('.file-checkbox')].some(c => c.checked);
+        document.getElementById('deleteSelectedBtn').disabled = !any;
+    }
+    async function deleteSelected() {
+        const names = [...document.querySelectorAll('.file-checkbox:checked')].map(c => c.value);
+        if (!names.length) return;
+        showConfirm(`حذف ${names.length} عنصر؟`, async () => {
+            await fetch(`/api/files/delete/${currentServer.folder}`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({names})});
+            showNotif('تم الحذف', 'success'); loadFiles();
+        });
+    }
+    async function editFile(name) {
+        currentFile = name;
+        const r = await fetch(`/api/files/content/${currentServer.folder}/${name}`);
+        const d = await r.json();
+        document.getElementById('editorTitle').innerText = '📝 ' + name;
+        document.getElementById('editorArea').value = d.content || '';
+        openModal('editorModal');
+    }
+    async function saveFile() {
+        if (!currentFile) return;
+        const content = document.getElementById('editorArea').value;
+        const r = await fetch(`/api/files/save/${currentServer.folder}/${currentFile}`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content})});
+        const d = await r.json();
+        showNotif(d.success ? '✅ تم الحفظ' : '❌ فشل الحفظ', d.success ? 'success' : 'error');
+        if (d.success) { closeModal('editorModal'); currentFile = null; loadFiles(); loadStartupFiles(); }
+    }
+    async function uploadFiles(files) {
+        if (!files.length) return;
+        const fd = new FormData();
+        for (let f of files) fd.append('files[]', f);
+        showNotif('جاري الرفع...', 'info');
+        const r = await fetch(`/api/files/upload/${currentServer.folder}`, {method:'POST',body:fd});
+        const d = await r.json();
+        showNotif(d.message || (d.success?'✅ تم الرفع':'❌ فشل'), d.success?'success':'error');
+        loadFiles();
+    }
+    async function createFile() {
+        const name = document.getElementById('newFileName').value.trim();
+        const content = document.getElementById('newFileContent').value;
+        if (!name) return;
+        const r = await fetch(`/api/files/create/${currentServer.folder}`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:name,content})});
+        const d = await r.json();
+        showNotif(d.message, d.success?'success':'error');
+        if (d.success) { closeModal('createFileModal'); loadFiles(); loadStartupFiles(); }
+    }
+    async function createFolder() {
+        const name = document.getElementById('newFolderName').value.trim();
+        if (!name) return;
+        await fetch(`/api/files/create/${currentServer.folder}`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:name,content:''})});
+        closeModal('createFolderModal'); loadFiles();
+    }
+    async function installPackages() {
+        showNotif('جاري تثبيت المكتبات...', 'info');
+        const r = await fetch(`/api/server/install/${currentServer.folder}`, {method:'POST'});
+        const d = await r.json();
+        showNotif(d.message, d.success?'success':'error');
+    }
+    async function loadStartupFiles() {
+        if (!currentServer) return;
+        const r = await fetch(`/api/files/list/${currentServer.folder}`);
+        const files = await r.json();
+        const select = document.getElementById('startupFileSelect');
+        select.innerHTML = '<option value="">-- اختر ملف التشغيل --</option>' +
+            files.filter(f => !f.is_dir).map(f => `<option value="${f.name}" ${currentServer.startup_file===f.name?'selected':''}>${f.name}</option>`).join('');
+    }
+    async function setStartupFile() {
+        const filename = document.getElementById('startupFileSelect').value;
+        if (!filename) return;
+        const r = await fetch(`/api/server/set-startup/${currentServer.folder}`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename})});
+        const d = await r.json();
+        showNotif(d.message, d.success?'success':'error');
+    }
+    async function loadApiKey() {
+        // يمكن جلب المفتاح من المستخدم الحالي
+        const r = await fetch('/api/current_user');
+        const d = await r.json();
+        if (d.api_key) document.getElementById('currentApiKeyDisplay').innerText = d.api_key;
+        else document.getElementById('currentApiKeyDisplay').innerText = 'لا يوجد مفتاح. اضغط إنشاء مفتاح جديد.';
+    }
+    async function generateApiKey() {
+        const r = await fetch('/api/create_api_key', {method:'POST'});
+        const d = await r.json();
+        if (d.success) { document.getElementById('currentApiKeyDisplay').innerText = d.api_key; showNotif('✅ تم إنشاء مفتاح جديد', 'success'); }
+        else showNotif('❌ فشل إنشاء المفتاح', 'error');
+    }
+    function copyApiKey() {
+        const key = document.getElementById('currentApiKeyDisplay').innerText;
+        if (!key || key.includes('لا يوجد')) { showNotif('لا يوجد مفتاح للنسخ', 'warning'); return; }
+        navigator.clipboard.writeText(key).then(() => showNotif('✅ تم النسخ', 'success'));
+    }
+    function revokeApiKey() { showNotif('⚠️ يمكنك حذف المفتاح يدوياً من قاعدة البيانات', 'warning'); }
+
+    // سياق القائمة (Context Menu)
+    function openCtxMenu(e, name, isDir) {
+        e.stopPropagation();
+        ctxFileName = name;
+        ctxFileIsDir = isDir;
+        const menu = document.getElementById('fmContextMenu');
+        if (!menu) return;
+        document.getElementById('ctxDownloadItem').style.display = isDir ? 'none' : 'flex';
+        menu.style.display = 'block';
+        let x = e.clientX, y = e.clientY;
+        if (x+180 > window.innerWidth) x = window.innerWidth-185;
+        if (y+130 > window.innerHeight) y = window.innerHeight-135;
+        menu.style.left = x+'px'; menu.style.top = y+'px';
+    }
+    document.addEventListener('click', () => { const menu = document.getElementById('fmContextMenu'); if(menu) menu.style.display='none'; });
+    function ctxRename() {
+        const menu = document.getElementById('fmContextMenu'); if(menu) menu.style.display='none';
+        const n = prompt('الاسم الجديد:', ctxFileName);
+        if (!n || n === ctxFileName) return;
+        fetch(`/api/files/rename/${currentServer.folder}`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({old_name:ctxFileName,new_name:n})})
+        .then(() => { showNotif('تمت إعادة التسمية','success'); loadFiles(); })
+        .catch(() => showNotif('خطأ','error'));
+    }
+    function ctxDownload() {
+        const menu = document.getElementById('fmContextMenu'); if(menu) menu.style.display='none';
+        const a = document.createElement('a');
+        a.href = `/api/files/download/${currentServer.folder}/${ctxFileName}`;
+        a.download = ctxFileName; a.click();
+    }
+    function ctxDelete() {
+        const menu = document.getElementById('fmContextMenu'); if(menu) menu.style.display='none';
+        showConfirm(`حذف "${ctxFileName}"؟`, async () => {
+            await fetch(`/api/files/delete/${currentServer.folder}`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({names:[ctxFileName]})});
+            showNotif('تم الحذف','success'); loadFiles();
+        });
+    }
+
+    function getFileIcon(name, isDir) {
+        if (isDir) return '<i class="fas fa-folder" style="color:var(--gold); margin-left:6px;"></i>';
+        const ext = name.split('.').pop().toLowerCase();
+        const icons = {
+            py:'<i class="fab fa-python" style="color:#4FC3F7;"></i>',
+            js:'<i class="fab fa-js" style="color:#FFD54F;"></i>',
+            json:'<i class="fas fa-brackets-curly" style="color:#A5D6A7;"></i>',
+            txt:'<i class="fas fa-file-lines"></i>',
+            zip:'<i class="fas fa-file-zipper" style="color:#CE93D8;"></i>',
+        };
+        return icons[ext] || '<i class="fas fa-file"></i>';
+    }
+
+    // دوال إنشاء سيرفر من create_server.html
+    function selectCreateLang(el) {
+        document.querySelectorAll('#createLangGrid .lang-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedLang = el.dataset.lang;
+    }
+    function selectCreatePlan(el) {
+        document.querySelectorAll('#createPlanGrid .plan-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedPlan = { id: el.dataset.plan, storage: el.dataset.storage, ram: el.dataset.ram, cpu: el.dataset.cpu };
+    }
+    async function createNewServer() {
+        const name = document.getElementById('newServerName').value.trim();
+        if (!name || !selectedLang || !selectedPlan) {
+            showNotif('يرجى ملء جميع الحقول', 'error');
+            return;
+        }
+        const btn = document.querySelector('#createModal .modal-btn');
+        btn.disabled = true;
+        try {
+            const r = await fetch('/api/server/add', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    name,
+                    language: selectedLang,
+                    plan: selectedPlan.id,
+                    storage: selectedPlan.storage,
+                    ram: selectedPlan.ram,
+                    cpu: selectedPlan.cpu
+                })
+            });
+            const d = await r.json();
+            if (d.success) {
+                showNotif('✅ تم إنشاء الخادم', 'success');
+                closeModal('createModal');
+                loadServersList();
+                // إعادة تعيين الاختيارات
+                selectedLang = null; selectedPlan = null;
+                document.getElementById('newServerName').value = '';
+                document.querySelectorAll('#createLangGrid .lang-card, #createPlanGrid .plan-card').forEach(c => c.classList.remove('selected'));
+            } else {
+                showNotif(d.message || 'حدث خطأ', 'error');
+            }
+        } catch(e) {
+            showNotif('تعذر الاتصال بالخادم', 'error');
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function openCreateModal() {
+        selectedLang = null; selectedPlan = null;
+        document.getElementById('newServerName').value = '';
+        document.querySelectorAll('#createLangGrid .lang-card, #createPlanGrid .plan-card').forEach(c => c.classList.remove('selected'));
+        openModal('createModal');
+    }
+
+    function showCreateFileModal() { openModal('createFileModal'); }
+    function showCreateFolderModal() { openModal('createFolderModal'); }
+
+    // إعداد التبويبات
+    function setupTabs() {
+        document.querySelectorAll('.nav-tab').forEach(btn => {
+            btn.onclick = () => {
+                const tab = btn.dataset.tab;
+                document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.getElementById(tab + 'Tab').classList.add('active');
+                if (tab === 'files') loadFiles();
+                if (tab === 'settings') loadStartupFiles();
+                if (tab === 'api') loadApiKey();
+            };
+        });
+    }
+
+    // بدء التشغيل
+    window.addEventListener('DOMContentLoaded', async () => {
+        await checkAuth();
+        await loadServersList();
+        setupTabs();
+        setInterval(loadServersList, 10000);
+    });
+</script>
+
+<!-- قائمة السياق (Context Menu) -->
+<div id="fmContextMenu" class="fm-ctx-menu" style="position:fixed; display:none; background:rgba(8,14,28,0.98); border:1px solid var(--border); border-radius:12px; padding:6px; z-index:9999;">
+    <div class="fm-ctx-item" onclick="ctxRename()"><i class="fas fa-pencil-alt"></i> إعادة تسمية</div>
+    <div class="fm-ctx-item" id="ctxDownloadItem" onclick="ctxDownload()"><i class="fas fa-download"></i> تحميل</div>
+    <div class="fm-ctx-item danger" onclick="ctxDelete()"><i class="fas fa-trash"></i> حذف</div>
+</div>
+
+<style>
+    .fm-ctx-item {
+        display: flex; align-items: center; gap: 10px;
+        padding: 8px 14px; border-radius: 8px; font-size: 0.8rem;
+        cursor: pointer; transition: 0.15s; color: #8a9ab8;
+    }
+    .fm-ctx-item:hover { background: var(--gold-dim); color: var(--gold); }
+    .fm-ctx-item.danger:hover { background: var(--red-dim); color: var(--red); }
+    .api-btn {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 9px 20px; border-radius: 10px;
+        font-size: 0.82rem; font-weight: 700;
+        cursor: pointer; transition: 0.2s;
+        border: 1px solid var(--cyan); background: var(--cyan-dim); color: var(--cyan);
+    }
+    .api-btn.danger { border-color: var(--red); background: var(--red-dim); color: var(--red); }
+    .settings-btn {
+        background: var(--gold-dim); border: 1px solid var(--gold); color: var(--gold);
+        padding: 8px 20px; border-radius: 10px; cursor: pointer;
+    }
+</style>
+</body>
+</html>
