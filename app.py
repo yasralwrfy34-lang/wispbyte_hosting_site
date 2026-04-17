@@ -374,18 +374,6 @@ def dashboard():
         return redirect('/login')
     return send_from_directory(BASE_DIR, 'index.html')
 
-@app.route('/server')
-def server_control_page():
-    if 'username' not in session:
-        return redirect('/login')
-    return send_from_directory(BASE_DIR, 'server_control.html')
-
-@app.route('/create')
-def create_server_page():
-    if 'username' not in session:
-        return redirect('/login')
-    return send_from_directory(BASE_DIR, 'create_server.html')
-
 @app.route('/admin')
 def admin_panel():
     if 'username' not in session or not is_admin(session['username']):
@@ -1096,6 +1084,50 @@ def install_requirements(folder):
         except Exception as e:
             return jsonify({"success": False, "message": str(e)})
     return jsonify({"success": False, "message": "requirements.txt غير موجود"})
+
+# ============== API جديد: تثبيت المكتبات وتشغيل السيرفر (متزامن) ==============
+@app.route('/api/server/install_and_start/<folder>', methods=['POST'])
+def install_and_start(folder):
+    if "username" not in session:
+        return jsonify({"success": False, "message": "غير مصرح"}), 401
+    srv = db_session.query(Server).filter_by(folder=folder).first()
+    if not srv or srv.owner != session["username"]:
+        return jsonify({"success": False, "message": "غير مصرح"})
+    
+    # 1. تثبيت المكتبات إذا وجدت requirements.txt
+    req_file = os.path.join(srv.path, "requirements.txt")
+    if os.path.exists(req_file):
+        try:
+            log_path = os.path.join(srv.path, "out.log")
+            with open(log_path, "a", encoding='utf-8') as log_file:
+                log_file.write(f"\n{'='*50}\n📦 بدء تثبيت المكتبات (متزامن)...\n{'='*50}\n")
+            # تثبيت متزامن
+            result = subprocess.run(
+                [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"],
+                cwd=srv.path,
+                capture_output=True,
+                text=True,
+                timeout=300
+            )
+            with open(log_path, "a", encoding='utf-8') as log_file:
+                log_file.write(result.stdout)
+                if result.stderr:
+                    log_file.write(result.stderr)
+                log_file.write(f"\n✅ اكتمل التثبيت (رمز الخروج: {result.returncode})\n")
+            if result.returncode != 0:
+                return jsonify({"success": False, "message": "فشل تثبيت المكتبات، راجع السجلات"})
+        except subprocess.TimeoutExpired:
+            return jsonify({"success": False, "message": "انتهى وقت التثبيت"})
+        except Exception as e:
+            return jsonify({"success": False, "message": str(e)})
+    
+    # 2. تشغيل السيرفر
+    if srv.status == "Running":
+        return jsonify({"success": False, "message": "الخادم يعمل بالفعل"})
+    if start_server_process(folder):
+        return jsonify({"success": True, "message": "✅ تم تثبيت المكتبات وتشغيل الخادم"})
+    else:
+        return jsonify({"success": False, "message": "فشل التشغيل بعد التثبيت"})
 
 # ============== API للبوت ==============
 @app.route('/api/bot/verify', methods=['POST'])
