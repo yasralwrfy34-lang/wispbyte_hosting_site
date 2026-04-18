@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIKO HOST | تجربة النيون المائي</title>
+<title>MIKO HOST | تسجيل الدخول </title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-/* ── المتغيرات النيون المائية (المطورة) ── */
+/* ── المتغيرات النيون ة (المطورة) ── */
 :root {
-  --aqua-neon: #00f2ff; /* لون السيان النيون المائي الأساسي */
-  --aqua-dim: rgba(0, 242, 255, 0.3); /* لون سيان خافت للحدود والظلال */
-  --deep-ocean: #030a16; /* لون خلفية عميق */
-  --card-glass: rgba(6, 15, 30, 0.9); /* لون بطاقة أكثر زرقة */
-  --fail-red: #FF3D5A; /* لون الفشل النيون */
-  --success-green: #00dc64; /* لون النجاح النيون */
+  --aqua-neon: #00f2ff;
+  --aqua-dim: rgba(0, 242, 255, 0.3);
+  --deep-ocean: #030a16;
+  --card-glass: rgba(6, 15, 30, 0.9);
+  --fail-red: #FF3D5A;
+  --success-green: #00dc64;
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,7 +23,7 @@ html, body { height: 100%; overflow: hidden; }
 body {
   font-family: 'Tajawal', sans-serif;
   min-height: 100vh;
-  background: var(--deep-ocean); /* تغيير الخلفية للون المحيط العميق */
+  background: var(--deep-ocean);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +31,7 @@ body {
   color: #fff;
 }
 
-/* ── الشبكة الهندسية المائية النيون (الحفاظ عليها) ── */
+/* الشبكة الهندسية */
 .grid-bg {
   position: fixed;
   inset: 0;
@@ -45,7 +45,7 @@ body {
 }
 @keyframes gsm { 0% { background-position: 0 0; } 100% { background-position: 58px 58px; } }
 
-/* ── حاوية تأثيرات ملء الشاشة (جديد - للتفاعلات البصرية) ── */
+/* تأثيرات بصريّة */
 #actionOverlay {
   position: fixed;
   inset: 0;
@@ -57,8 +57,6 @@ body {
   opacity: 0;
   transition: opacity 0.3s;
 }
-
-/* ── تأثير "انفجار مائي أحمر" (للفشل) ── */
 .fail-ripple {
   position: absolute;
   width: 2px;
@@ -72,8 +70,6 @@ body {
   0% { transform: scale(1); opacity: 1; border-width: 4px; }
   100% { transform: scale(100); opacity: 0; border-width: 1px; }
 }
-
-/* ── تأثير "تدفق مائي أخضر" (للنجاح) ── */
 .success-flow {
   position: absolute;
   inset: 0;
@@ -87,7 +83,7 @@ body {
   100% { opacity: 0; transform: scale(1.2); }
 }
 
-/* ── الحفاظ على الهيكل العام للبطاقة وتغيير الألوان ── */
+/* البطاقة */
 .wrap {
   position: relative;
   z-index: 10;
@@ -102,25 +98,17 @@ body {
   background: var(--card-glass);
   backdrop-filter: blur(26px) saturate(1.8);
   border-radius: 32px;
-  border: 1px solid var(--aqua-dim); /* حدود مائية */
-  box-shadow: 
-    0 0 0 1px rgba(0, 242, 255, 0.02),
-    0 32px 64px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--aqua-dim);
+  box-shadow: 0 0 0 1px rgba(0, 242, 255, 0.02), 0 32px 64px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.03);
   padding: 44px 36px;
   transition: 0.3s;
-  position: relative;
-  overflow: hidden;
 }
-
 .card:hover {
   border-color: rgba(0, 242, 255, 0.4);
-  box-shadow: 
-    0 0 60px rgba(0, 242, 255, 0.1),
-    0 32px 64px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 60px rgba(0, 242, 255, 0.1), 0 32px 64px rgba(0, 0, 0, 0.6);
 }
 
-/* ── الشعار النيون المائي المتحرك ── */
+/* الشعار */
 .logo-a { text-align: center; margin-bottom: 30px; }
 .mk-logo {
   display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px;
@@ -132,35 +120,15 @@ body {
   animation: mkP 2.6s ease-in-out infinite;
   box-shadow: 0 0 20px var(--aqua-dim);
 }
-
-.mk-logo span {
-  position: relative; z-index: 2;
-  background: linear-gradient(135deg, #fff, var(--aqua-neon), #fff);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.8));
-}
-
-.mk-logo::before {
-  content:''; position:absolute; inset:-60%;
-  background: conic-gradient(from 0deg, transparent, rgba(0, 242, 255, 0.3), transparent);
-  animation: mkR 3.8s linear infinite; z-index: 1;
-}
-
-@keyframes mkP {
-  0%, 100% { box-shadow: 0 0 14px var(--aqua-dim), 0 0 28px rgba(0, 242, 255, 0.1), inset 0 0 16px rgba(0, 242, 255, 0.05); }
-  50% { box-shadow: 0 0 26px rgba(0, 242, 255, 0.6), 0 0 52px rgba(0, 242, 255, 0.3), inset 0 0 28px rgba(0, 242, 255, 0.1); }
-}
+.mk-logo span { position: relative; z-index: 2; background: linear-gradient(135deg, #fff, var(--aqua-neon), #fff); -webkit-background-clip:text; background-clip:text; color:transparent; filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.8)); }
+.mk-logo::before { content:''; position:absolute; inset:-60%; background: conic-gradient(from 0deg, transparent, rgba(0, 242, 255, 0.3), transparent); animation: mkR 3.8s linear infinite; z-index: 1; }
+@keyframes mkP { 0%, 100% { box-shadow: 0 0 14px var(--aqua-dim), 0 0 28px rgba(0, 242, 255, 0.1), inset 0 0 16px rgba(0, 242, 255, 0.05); } 50% { box-shadow: 0 0 26px rgba(0, 242, 255, 0.6), 0 0 52px rgba(0, 242, 255, 0.3), inset 0 0 28px rgba(0, 242, 255, 0.1); } }
 @keyframes mkR { from { transform: rotate(0); } to { transform: rotate(360deg); } }
 
-.logo-name {
-  font-family: 'Orbitron', sans-serif; font-size: 1.7rem; font-weight: 900; letter-spacing: 4px; display: block; margin-bottom: 4px;
-  background: linear-gradient(135deg, #fff, var(--aqua-neon), #fff);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5));
-}
+.logo-name { font-family: 'Orbitron', sans-serif; font-size: 1.7rem; font-weight: 900; letter-spacing: 4px; display: block; margin-bottom: 4px; background: linear-gradient(135deg, #fff, var(--aqua-neon), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5)); }
 .logo-sub { font-size: 0.7rem; color: #4e6185; letter-spacing: 2.5px; text-transform: uppercase; }
 
-/* ── تبويبات النيون المائية ── */
+/* التبويبات */
 .tabs {
   display: flex;
   background: rgba(0, 0, 0, 0.4);
@@ -170,93 +138,72 @@ body {
   border: 1px solid rgba(0, 242, 255, 0.05);
   gap: 3px;
 }
-
 .tab {
   flex: 1; padding: 9px 6px; border-radius: 10px; border: none; background: transparent;
   color: #6a7a9f; font-family: 'Tajawal', sans-serif; font-size: 0.87rem; font-weight: 600; cursor: pointer; transition: 0.2s;
 }
 .tab:hover:not(.act) { background: rgba(0, 242, 255, 0.03); color: #fff; }
-
 .tab.act {
   background: linear-gradient(135deg, rgba(0, 242, 255, 0.2), rgba(0, 100, 255, 0.1));
   color: var(--aqua-neon);
   border: 1px solid var(--aqua-dim);
   box-shadow: 0 0 15px rgba(0, 242, 255, 0.15);
-  filter: drop-shadow(0 0 5px var(--aqua-neon));
 }
 
-/* ── الحقول والأيقونات النيون المتحركة ── */
+/* النماذج */
 .form { display: none; animation: fSlide 0.22s ease; }
 .form.act { display: block; }
 @keyframes fSlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
 .field { margin-bottom: 15px; position: relative; }
 .lbl { font-size: 0.72rem; color: #8191b3; margin-bottom: 5px; display: block; font-weight: 600; }
-
 .fw {
   position: relative; display: flex; align-items: center; background: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--aqua-dim);
   border-radius: 13px; overflow: hidden; transition: 0.2s;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
 .fw:focus-within {
   border-color: var(--aqua-neon);
-  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
 }
-
-/* الأيقونة النيون المتحركة بجانب الاسم */
-.fic {
-  width: 44px; display: flex; align-items: center; justify-content: center;
-  color: var(--aqua-neon); font-size: 0.86rem; flex-shrink: 0;
-  filter: drop-shadow(0 0 4px var(--aqua-neon));
-  position: relative;
-}
-
-/* تأثير نبض نيون خلف الأيقونة */
-.fic::after {
-  content: ''; position: absolute; width: 10px; height: 10px;
-  background: var(--aqua-neon); border-radius: 50%; opacity: 0;
-  animation: ficPulse 2s infinite;
-}
-@keyframes ficPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(3); opacity: 0; } }
-
+.fic { width: 44px; display: flex; align-items: center; justify-content: center; color: var(--aqua-neon); font-size: 0.86rem; flex-shrink: 0; filter: drop-shadow(0 0 4px var(--aqua-neon)); position: relative; }
 .fi { flex: 1; background: transparent; border: none; outline: none; color: #eef2ff; font-family: 'Tajawal', sans-serif; font-size: 0.9rem; padding: 12px 0; direction: ltr; text-align: right; }
 .fi::placeholder { color: #3b4e71; }
-
 .ey { background: none; border: none; cursor: pointer; color: #6a7a9f; padding: 0 13px; font-size: 0.86rem; transition: color 0.14s; }
-.ey:hover { color: var(--aqua-neon); filter: drop-shadow(0 0 4px var(--aqua-neon)); }
+.ey:hover { color: var(--aqua-neon); }
 
-/* ── الزر المائي النيون السائل ── */
+/* شريط قوة كلمة المرور */
+.sbar { height: 3px; background: rgba(255, 255, 255, 0.05); border-radius: 4px; margin-top: 4px; overflow: hidden; }
+.sbar-f { height: 100%; border-radius: 4px; transition: width 0.3s, background 0.3s; width: 0; }
+
+/* رسائل الخطأ النصية */
+.err-msg {
+  font-size: 0.7rem;
+  color: var(--fail-red);
+  margin-top: 5px;
+  display: block;
+  text-align: right;
+}
+
+/* الزر */
 .sbtn {
   width: 100%; padding: 13px;
   background: linear-gradient(135deg, var(--aqua-neon), #00A3FF, var(--aqua-neon));
   background-size: 200% 100%;
   border: none; border-radius: 13px;
-  color: #030a16; font-family: 'Tajawal', sans-serif; font-size: 0.97rem; font-weight: 800; letter-spacing: 0.5px; cursor: pointer;
+  color: #030a16; font-family: 'Tajawal', sans-serif; font-size: 0.97rem; font-weight: 800; cursor: pointer;
   transition: all 0.22s, background-position 0.5s;
   display: flex; align-items: center; justify-content: center; gap: 9px;
   box-shadow: 0 5px 20px rgba(0, 242, 255, 0.3);
-  margin-top: 5px; position: relative; overflow: hidden;
+  margin-top: 5px;
   animation: fluidBg 4s linear infinite;
 }
-
 @keyframes fluidBg { 0% { background-position: 0 0; } 100% { background-position: 200% 0; } }
-
-.sbtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 242, 255, 0.5);
-}
+.sbtn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.5); }
 .sbtn:active { transform: translateY(0); }
 .sbtn.ld { opacity: 0.72; pointer-events: none; }
 
-/* تم حذف عناصر الرسائل .msg النصية */
-
-/* ── شريط القوة النيون المائي ── */
-.sbar { height: 3px; background: rgba(255, 255, 255, 0.05); border-radius: 4px; margin-top: 4px; overflow: hidden; }
-.sbar-f { height: 100%; border-radius: 4px; transition: width 0.3s, background 0.3s; width: 0; }
-
-/* ── بطاقة VIP النيون المائية ── */
+/* بطاقة VIP */
 .vip-card {
   display: none; position: fixed; inset: 0; z-index: 999;
   background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(12px);
@@ -267,46 +214,30 @@ body {
   background: linear-gradient(145deg, #0d1a30, #060f1e);
   border: 1px solid var(--aqua-neon); border-radius: 28px;
   padding: 36px 32px; max-width: 420px; width: 100%; text-align: center;
-  box-shadow: 0 0 60px rgba(0, 242, 255, 0.2), 0 40px 80px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 60px rgba(0, 242, 255, 0.2);
   animation: vIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 @keyframes vIn { from { opacity: 0; transform: scale(0.88) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
 .vip-crown { font-size: 3rem; color: var(--aqua-neon); margin-bottom: 14px; text-shadow: 0 0 20px var(--aqua-neon); animation: vCP 2s ease-in-out infinite; }
 @keyframes vCP { 0%, 100% { transform: scale(1) rotate(-3deg); } 50% { transform: scale(1.12) rotate(3deg); } }
-
-.vip-title {
-  font-family: 'Orbitron', sans-serif; font-size: 1.35rem; font-weight: 900; letter-spacing: 2px;
-  background: linear-gradient(135deg, #fff, var(--aqua-neon)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px;
-}
-.vip-sub { color: #8191b3; font-size: 0.83rem; margin-bottom: 20px; line-height: 1.6; }
-
+.vip-title { font-family: 'Orbitron', sans-serif; font-size: 1.35rem; font-weight: 900; background: linear-gradient(135deg, #fff, var(--aqua-neon)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.vip-sub { color: #8191b3; font-size: 0.83rem; margin: 10px 0 20px; }
 .vip-feats { background: rgba(0, 242, 255, 0.03); border: 1px solid var(--aqua-dim); border-radius: 16px; padding: 16px; margin-bottom: 20px; text-align: right; }
 .vip-feat { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 0.82rem; color: #b0bcd0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
 .vip-feat:last-child { border-bottom: none; }
-.vip-feat i { color: var(--aqua-neon); width: 18px; text-align: center; filter: drop-shadow(0 0 4px var(--aqua-neon)); }
-
-.vip-btn {
-  width: 100%; padding: 13px;
-  background: linear-gradient(135deg, var(--aqua-neon), #00A3FF);
-  border: none; border-radius: 13px;
-  color: #030a16; font-family: 'Tajawal', sans-serif; font-size: 0.97rem; font-weight: 800; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 9px; box-shadow: 0 5px 20px rgba(0, 242, 255, 0.3);
-  transition: 0.22s; text-decoration: none;
-}
+.vip-feat i { color: var(--aqua-neon); width: 18px; }
+.vip-btn { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--aqua-neon), #00A3FF); border: none; border-radius: 13px; color: #030a16; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; text-decoration: none; transition: 0.22s; }
 .vip-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0, 242, 255, 0.5); }
 
-/* ── التذييل النيون المائي ── */
 .foot { text-align: center; margin-top: 20px; font-size: 0.67rem; color: #4e6185; border-top: 1px solid rgba(255, 255, 255, 0.04); padding-top: 14px; }
-.foot a { color: var(--aqua-dim); text-decoration: none; transition: color 0.2s; }
-.foot a:hover { color: var(--aqua-neon); filter: drop-shadow(0 0 4px var(--aqua-neon)); }
+.foot a { color: var(--aqua-dim); text-decoration: none; }
+.foot a:hover { color: var(--aqua-neon); }
 
-@media(max-width:480px) { .card { padding: 32px 22px; border-radius: 26px; } .mk-logo { width: 62px; height: 62px; } .logo-name { font-size: 1.4rem; } }
+@media(max-width:480px) { .card { padding: 32px 22px; } .mk-logo { width: 62px; height: 62px; } .logo-name { font-size: 1.4rem; } }
 </style>
 </head>
 <body>
 <div id="actionOverlay"></div>
-
 <div class="grid-bg"></div>
 
 <div class="vip-card" id="vipCard">
@@ -316,14 +247,11 @@ body {
     <div class="vip-sub">وصلت للحد الأقصى (3 حسابات) من هذا الجهاز.<br>قم بالترقية للحصول على حسابات غير محدودة!</div>
     <div class="vip-feats">
       <div class="vip-feat"><i class="fas fa-infinity"></i> حسابات وسيرفرات غير محدودة</div>
-      <div class="vip-feat"><i class="fas fa-bolt"></i> أولوية في المعالجة والأداء</div>
+      <div class="vip-feat"><i class="fas fa-bolt"></i> أولوية في المعالجة</div>
       <div class="vip-feat"><i class="fas fa-hdd"></i> مساحة تخزين مضاعفة 4x</div>
-      <div class="vip-feat"><i class="fas fa-headset"></i> دعم فني مباشر وأولوية</div>
-      <div class="vip-feat"><i class="fas fa-shield-alt"></i> حماية متقدمة للسيرفرات</div>
+      <div class="vip-feat"><i class="fas fa-headset"></i> دعم فني مباشر</div>
     </div>
-    <a href="https://t.me/a_u711" target="_blank" class="vip-btn">
-      <i class="fab fa-telegram"></i> تواصل للاشتراك في VIP
-    </a>
+    <a href="https://t.me/a_u711" target="_blank" class="vip-btn"><i class="fab fa-telegram"></i> تواصل للاشتراك في VIP</a>
   </div>
 </div>
 
@@ -340,16 +268,17 @@ body {
     </div>
     
     <div class="form act" id="loginForm">
-      <div class="field"><label class="lbl">اسم المستخدم المائي</label>
+      <div class="field"><label class="lbl">اسم المستخدم</label>
         <div class="fw">
           <div class="fic"><i class="fas fa-user-circle"></i></div>
-          <input class="fi" id="loginUser" type="text" placeholder="أدخل اسم المستخدم" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
+          <input class="fi" id="loginUser" type="text" placeholder="أدخل اسم المستخدم" autocomplete="username">
         </div>
+        <div id="loginError" class="err-msg"></div>
       </div>
-      <div class="field"><label class="lbl">كلمة المرور المائية</label>
+      <div class="field"><label class="lbl">كلمة المرور</label>
         <div class="fw">
           <div class="fic"><i class="fas fa-lock-open"></i></div>
-          <input class="fi" id="loginPass" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+          <input class="fi" id="loginPass" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password">
           <button class="ey" onclick="toggleEye('loginPass',this)"><i class="fas fa-eye"></i></button>
         </div>
       </div>
@@ -362,6 +291,7 @@ body {
           <div class="fic"><i class="fas fa-user-plus"></i></div>
           <input class="fi" id="regUser" type="text" placeholder="3 أحرف على الأقل" autocomplete="username">
         </div>
+        <div id="regUserError" class="err-msg"></div>
       </div>
       <div class="field"><label class="lbl">كلمة المرور الجديدة</label>
         <div class="fw">
@@ -370,15 +300,17 @@ body {
           <button class="ey" onclick="toggleEye('regPass',this)"><i class="fas fa-eye"></i></button>
         </div>
         <div class="sbar"><div class="sbar-f" id="sBarF"></div></div>
+        <div id="regPassError" class="err-msg"></div>
       </div>
       <div class="field"><label class="lbl">تأكيد كلمة المرور</label>
         <div class="fw">
           <div class="fic"><i class="fas fa-shield-alt"></i></div>
-          <input class="fi" id="regPassC" type="password" placeholder="أعد كتابة كلمة المرور" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()">
+          <input class="fi" id="regPassC" type="password" placeholder="أعد كتابة كلمة المرور">
           <button class="ey" onclick="toggleEye('regPassC',this)"><i class="fas fa-eye"></i></button>
         </div>
+        <div id="regConfirmError" class="err-msg"></div>
       </div>
-      <button class="sbtn" id="registerBtn" onclick="doRegister()"><i class="fas fa-plus-circle"></i> إنشاء الحساب المائي</button>
+      <button class="sbtn" id="registerBtn" onclick="doRegister()"><i class="fas fa-plus-circle"></i> إنشاء الحساب </button>
     </div>
     
     <div class="foot">MIKO HOST &copy; 2025 — <a href="https://t.me/a_u711" target="_blank"><i class="fab fa-telegram"></i> تواصل معنا</a></div>
@@ -386,77 +318,180 @@ body {
 </div>
 
 <script>
-/* ── جافا سكريبت لتوليد التفاعلات البصرية المائية (نيون) بدل النصوص ── */
-const actionOverlay = document.getElementById('actionOverlay');
+// --- API محلية باستخدام localStorage ---
+const STORAGE_KEY = 'miko_users';
+const IP_LIMIT_KEY = 'mk_reg_count';
+const MAX_ACCOUNTS_PER_DEVICE = 3;
 
-// دالة لتشغيل تأثير الفشل (انفجار مائي أحمر)
+// الحصول على قائمة المستخدمين
+function getUsers() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  return raw ? JSON.parse(raw) : {};
+}
+
+// حفظ قائمة المستخدمين
+function saveUsers(users) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+}
+
+// التحقق من حد الأجهزة
+function getDeviceAccountsCount() {
+  try {
+    return parseInt(localStorage.getItem(IP_LIMIT_KEY) || '0');
+  } catch(e) { return 0; }
+}
+function incDeviceAccounts() {
+  localStorage.setItem(IP_LIMIT_KEY, String(getDeviceAccountsCount() + 1));
+}
+function checkDeviceLimit() {
+  if (getDeviceAccountsCount() >= MAX_ACCOUNTS_PER_DEVICE) {
+    document.getElementById('vipCard').classList.add('show');
+    return true;
+  }
+  return false;
+}
+
+// --- التأثيرات البصرية ---
+const actionOverlay = document.getElementById('actionOverlay');
 function triggerVisualFail() {
   actionOverlay.innerHTML = '<div class="fail-ripple"></div>';
   actionOverlay.style.opacity = 1;
   setTimeout(() => { actionOverlay.style.opacity = 0; actionOverlay.innerHTML = ''; }, 800);
 }
-
-// دالة لتشغيل تأثير النجاح (تدفق مائي أخضر)
 function triggerVisualSuccess() {
   actionOverlay.innerHTML = '<div class="success-flow"></div>';
   actionOverlay.style.opacity = 1;
   setTimeout(() => { actionOverlay.style.opacity = 0; actionOverlay.innerHTML = ''; }, 1000);
 }
 
-// تبديل التبويبات (الحفاظ عليه)
+// --- دوال مساعدة ---
 function showTab(t) {
   ['login', 'register'].forEach(x => {
     document.getElementById(x + 'Form').classList.toggle('act', x === t);
     document.getElementById('tab' + x[0].toUpperCase()).classList.toggle('act', x === t);
   });
-  // حذف دالة clearMsgs()
+  // مسح الرسائل عند التبديل
+  document.querySelectorAll('.err-msg').forEach(el => el.innerText = '');
 }
 
-/* ── دوال جافا سكريبت الأصلية (تحديثها لاستخدام التفاعلات البصرية بدل النصوص) ── */
-const IP_LIMIT = 3;
-function getIpAccounts() { try { return JSON.parse(localStorage.getItem('mk_reg_count') || '0') } catch { return 0 } }
-function incIpAccounts() { localStorage.setItem('mk_reg_count', String(getIpAccounts() + 1)) }
-function checkIpLimit() { if (getIpAccounts() >= IP_LIMIT) { document.getElementById('vipCard').classList.add('show'); return true; } return false; }
-function toggleEye(id, btn) { const i = document.getElementById(id); const s = i.type === 'password'; i.type = s ? 'text' : 'password'; btn.innerHTML = `<i class="fas fa-eye${s?'-slash':''}"></i>` }
+function toggleEye(id, btn) {
+  const inp = document.getElementById(id);
+  const type = inp.type === 'password' ? 'text' : 'password';
+  inp.type = type;
+  btn.innerHTML = `<i class="fas fa-eye${type === 'password' ? '' : '-slash'}"></i>`;
+}
 
 function checkStr(v) {
-  const f = document.getElementById('sBarF'); let s = 0; if (v.length >= 6) s++; if (v.length >= 10) s++; if (/[A-Z0-9]/.test(v)) s++; if (/[^a-zA-Z0-9]/.test(v)) s++;
-  const c = ['#ff4444', '#ff8800', '#ffd700', '#00dc64'], w = ['18%', '46%', '72%', '100%'];
-  f.style.background = c[s - 1] || '#ff4444'; f.style.width = v.length ? (w[s - 1] || '8%') : '0';
+  const f = document.getElementById('sBarF');
+  let s = 0;
+  if (v.length >= 6) s++;
+  if (v.length >= 10) s++;
+  if (/[A-Z0-9]/.test(v)) s++;
+  if (/[^a-zA-Z0-9]/.test(v)) s++;
+  const colors = ['#ff4444', '#ff8800', '#ffd700', '#00dc64'];
+  const widths = ['18%', '46%', '72%', '100%'];
+  f.style.background = colors[s-1] || '#ff4444';
+  f.style.width = v.length ? (widths[s-1] || '8%') : '0';
 }
 
+// --- تسجيل الدخول (محلي) ---
 async function doLogin() {
-  const u = document.getElementById('loginUser').value.trim(), p = document.getElementById('loginPass').value.trim();
-  if (!u || !p) { triggerVisualFail(); return } // تشغيل تأثير الفشل عند نقص البيانات
-  const btn = document.getElementById('loginBtn'); btn.classList.add('ld'); btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
-  try {
-    const r = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: u, password: p }) });
-    const d = await r.json();
-    if (d.success) { 
-      triggerVisualSuccess(); // تشغيل تأثير النجاح البصري
-      btn.innerHTML = '<i class="fas fa-check"></i> تم!'; setTimeout(() => location.href = d.redirect || '/', 700) 
-    }
-    else { triggerVisualFail(); btn.classList.remove('ld'); btn.innerHTML = '<i class="fas fa-water"></i> دخول آمن' } // تشغيل تأثير الفشل البصري
-  } catch (e) { triggerVisualFail(); btn.classList.remove('ld'); btn.innerHTML = '<i class="fas fa-water"></i> دخول آمن' } // تشغيل تأثير الفشل البصري
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value.trim();
+  const errorDiv = document.getElementById('loginError');
+  errorDiv.innerText = '';
+  
+  if (!username || !password) {
+    errorDiv.innerText = 'يرجى إدخال اسم المستخدم وكلمة المرور';
+    triggerVisualFail();
+    return;
+  }
+  
+  const users = getUsers();
+  const user = users[username];
+  if (!user || user.password !== password) {
+    errorDiv.innerText = 'اسم المستخدم أو كلمة المرور غير صحيحة';
+    triggerVisualFail();
+    return;
+  }
+  
+  // تسجيل الدخول ناجح
+  triggerVisualSuccess();
+  // حفظ حالة الدخول (محاكاة session)
+  localStorage.setItem('miko_logged_in', username);
+  // توجيه إلى الصفحة الرئيسية (أو إعادة تحميل)
+  setTimeout(() => {
+    window.location.href = 'index';  // سيتم التعامل معها في الواجهة الرئيسية
+  }, 700);
 }
 
+// --- إنشاء حساب (محلي) ---
 async function doRegister() {
-  if (checkIpLimit()) return;
-  const u = document.getElementById('regUser').value.trim(), p = document.getElementById('regPass').value.trim(), c = document.getElementById('regPassC').value.trim();
-  if (!u || !p || u.length < 3 || p.length < 4 || p !== c) { triggerVisualFail(); return } // تشغيل تأثير الفشل عند خطأ البيانات
-  const btn = document.getElementById('registerBtn'); btn.classList.add('ld'); btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
-  try {
-    const r = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: u, password: p }) });
-    const d = await r.json();
-    if (d.success) { incIpAccounts(); triggerVisualSuccess(); btn.innerHTML = '<i class="fas fa-check"></i> تم!'; setTimeout(() => showTab('login'), 1500) } // تشغيل تأثير النجاح البصري
-    else {
-      if (d.message && d.message.includes('حد')) { document.getElementById('vipCard').classList.add('show') }
-      else { triggerVisualFail(); } // تشغيل تأثير الفشل البصري
-      btn.classList.remove('ld'); btn.innerHTML = '<i class="fas fa-plus-circle"></i> إنشاء الحساب'
-    }
-  } catch (e) { triggerVisualFail(); btn.classList.remove('ld'); btn.innerHTML = '<i class="fas fa-plus-circle"></i> إنشاء الحساب' } // تشغيل تأثير الفشل البصري
+  if (checkDeviceLimit()) return; // يظهر بطاقة VIP
+  
+  const username = document.getElementById('regUser').value.trim();
+  const password = document.getElementById('regPass').value.trim();
+  const confirm = document.getElementById('regPassC').value.trim();
+  
+  // مسح الرسائل السابقة
+  document.getElementById('regUserError').innerText = '';
+  document.getElementById('regPassError').innerText = '';
+  document.getElementById('regConfirmError').innerText = '';
+  
+  let hasError = false;
+  if (username.length < 3) {
+    document.getElementById('regUserError').innerText = 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل';
+    hasError = true;
+  }
+  if (password.length < 4) {
+    document.getElementById('regPassError').innerText = 'كلمة المرور يجب أن تكون 4 أحرف على الأقل';
+    hasError = true;
+  }
+  if (password !== confirm) {
+    document.getElementById('regConfirmError').innerText = 'كلمتا المرور غير متطابقتين';
+    hasError = true;
+  }
+  
+  if (hasError) {
+    triggerVisualFail();
+    return;
+  }
+  
+  const users = getUsers();
+  if (users[username]) {
+    document.getElementById('regUserError').innerText = 'اسم المستخدم موجود بالفعل';
+    triggerVisualFail();
+    return;
+  }
+  
+  // إنشاء الحساب
+  users[username] = { password: password, created_at: new Date().toISOString() };
+  saveUsers(users);
+  incDeviceAccounts();
+  triggerVisualSuccess();
+  
+  // إظهار رسالة نجاح وتبديل إلى تبويب الدخول
+  const btn = document.getElementById('registerBtn');
+  btn.innerHTML = '<i class="fas fa-check"></i> تم!';
+  setTimeout(() => {
+    showTab('login');
+    btn.innerHTML = '<i class="fas fa-plus-circle"></i> إنشاء الحساب ';
+    // مسح حقول التسجيل
+    document.getElementById('regUser').value = '';
+    document.getElementById('regPass').value = '';
+    document.getElementById('regPassC').value = '';
+    document.getElementById('sBarF').style.width = '0';
+  }, 1500);
 }
-fetch('/api/current_user').then(r => r.json()).then(d => { if (d.success) location.href = '/' }).catch(() => {});
+
+// التحقق من وجود جلسة مسبقة (إذا كان مسجل الدخول، يوجه للرئيسية)
+(async function checkExistingSession() {
+  const logged = localStorage.getItem('miko_logged_in');
+  if (logged) {
+    // يمكن توجيهه إلى الصفحة الرئيسية مباشرة
+    window.location.href = 'index';
+  }
+})();
 </script>
 </body>
 </html>
