@@ -421,7 +421,7 @@ async function doLogin() {
   localStorage.setItem('miko_logged_in', username);
   // توجيه إلى الصفحة الرئيسية (أو إعادة تحميل)
   setTimeout(() => {
-    window.location.href = 'index';  // سيتم التعامل معها في الواجهة الرئيسية
+    window.location.href = 'index.html';  // سيتم التعامل معها في الواجهة الرئيسية
   }, 700);
 }
 
@@ -489,7 +489,7 @@ async function doRegister() {
   const logged = localStorage.getItem('miko_logged_in');
   if (logged) {
     // يمكن توجيهه إلى الصفحة الرئيسية مباشرة
-    window.location.href = 'index';
+    window.location.href = 'index.html';
   }
 })();
 </script>
