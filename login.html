@@ -1,491 +1,462 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>MIKO HOST | الدخول - تسجيل  </title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* ===== 1. المتغيرات والألوان المائية ===== */
-        :root {
-            --aqua-primary: #00e5ff;
-            --aqua-deep: #051622;
-            --aqua-glow: rgba(0, 229, 255, 0.35);
-            --glass-bg: rgba(10, 35, 50, 0.8);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIKO HOST | تجربة النيون المائي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+/* ── المتغيرات النيون المائية (المطورة) ── */
+:root {
+  --aqua-neon: #00f2ff; /* لون السيان النيون المائي الأساسي */
+  --aqua-dim: rgba(0, 242, 255, 0.3); /* لون سيان خافت للحدود والظلال */
+  --deep-ocean: #030a16; /* لون خلفية عميق */
+  --card-glass: rgba(6, 15, 30, 0.9); /* لون بطاقة أكثر زرقة */
+  --fail-red: #FF3D5A; /* لون الفشل النيون */
+  --success-green: #00dc64; /* لون النجاح النيون */
+}
 
-        /* ===== 2. تنسيق الخلفية العامة ===== */
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle at center, #0a2d41 0%, #051622 100%);
-            font-family: 'Tajawal', sans-serif;
-            color: #fff;
-            padding: 20px;
-        }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
 
-        /* ===== 3. شعار MK الدوار ===== */
-        .logo-container {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+body {
+  font-family: 'Tajawal', sans-serif;
+  min-height: 100vh;
+  background: var(--deep-ocean); /* تغيير الخلفية للون المحيط العميق */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #fff;
+}
 
-        .mk-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px solid transparent;
-            border-top: 3px solid var(--aqua-primary);
-            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
-            border-radius: 50%;
-            animation: rotateRing 4s linear infinite;
-        }
+/* ── الشبكة الهندسية المائية النيون (الحفاظ عليها) ── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(rgba(0, 242, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 242, 255, 0.04) 1px, transparent 1px);
+  background-size: 58px 58px;
+  animation: gsm 28s linear infinite;
+}
+@keyframes gsm { 0% { background-position: 0 0; } 100% { background-position: 58px 58px; } }
 
-        .mk-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 32px;
-            color: var(--aqua-primary);
-            font-weight: 900;
-            text-shadow: 0 0 15px var(--aqua-glow);
-        }
+/* ── حاوية تأثيرات ملء الشاشة (جديد - للتفاعلات البصرية) ── */
+#actionOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-        @keyframes rotateRing {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+/* ── تأثير "انفجار مائي أحمر" (للفشل) ── */
+.fail-ripple {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border: 4px solid var(--fail-red);
+  border-radius: 50%;
+  animation: failExplode 0.8s ease-out forwards;
+  box-shadow: 0 0 20px var(--fail-red), inset 0 0 10px var(--fail-red);
+}
+@keyframes failExplode {
+  0% { transform: scale(1); opacity: 1; border-width: 4px; }
+  100% { transform: scale(100); opacity: 0; border-width: 1px; }
+}
 
-        /* ===== 4. الكارد الزجاجي المائي ===== */
-        .aqua-card {
-            background: var(--glass-bg);
-            width: 100%;
-            max-width: 460px;
-            padding: 32px 28px;
-            border-radius: 45px;
-            border: 1px solid rgba(0, 229, 255, 0.2);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
+/* ── تأثير "تدفق مائي أخضر" (للنجاح) ── */
+.success-flow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 10%, var(--success-green) 100%);
+  opacity: 0;
+  animation: successFlow 1s ease-out forwards;
+}
+@keyframes successFlow {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 0.4; }
+  100% { opacity: 0; transform: scale(1.2); }
+}
 
-        /* ===== 5. أزرار التبديل (Tabs) ===== */
-        .tabs {
-            display: flex;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 5px;
-            border-radius: 25px;
-            margin-bottom: 30px;
-        }
+/* ── الحفاظ على الهيكل العام للبطاقة وتغيير الألوان ── */
+.wrap {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 455px;
+  margin: 20px;
+  animation: wIn 0.72s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes wIn { from { opacity: 0; transform: translateY(42px) scale(0.94); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: transparent;
-            color: var(--aqua-primary);
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 20px;
-            transition: 0.4s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
+.card {
+  background: var(--card-glass);
+  backdrop-filter: blur(26px) saturate(1.8);
+  border-radius: 32px;
+  border: 1px solid var(--aqua-dim); /* حدود مائية */
+  box-shadow: 
+    0 0 0 1px rgba(0, 242, 255, 0.02),
+    0 32px 64px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  padding: 44px 36px;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
 
-        .tab-btn.active {
-            background: var(--aqua-primary);
-            color: #000;
-            box-shadow: 0 0 20px var(--aqua-glow);
-        }
+.card:hover {
+  border-color: rgba(0, 242, 255, 0.4);
+  box-shadow: 
+    0 0 60px rgba(0, 242, 255, 0.1),
+    0 32px 64px rgba(0, 0, 0, 0.6);
+}
 
-        /* ===== 6. حقول الإدخال المائية ===== */
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
+/* ── الشعار النيون المائي المتحرك ── */
+.logo-a { text-align: center; margin-bottom: 30px; }
+.mk-logo {
+  display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px;
+  background: linear-gradient(145deg, #0b1a30, #060f1e);
+  border: 2px solid var(--aqua-neon);
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900;
+  position: relative; overflow: hidden; margin-bottom: 14px;
+  animation: mkP 2.6s ease-in-out infinite;
+  box-shadow: 0 0 20px var(--aqua-dim);
+}
 
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(0, 229, 255, 0.1);
-            border-radius: 18px;
-            padding: 12px 15px;
-            transition: 0.3s;
-        }
+.mk-logo span {
+  position: relative; z-index: 2;
+  background: linear-gradient(135deg, #fff, var(--aqua-neon), #fff);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.8));
+}
 
-        .input-wrapper:focus-within {
-            border-color: var(--aqua-primary);
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
-            transform: scale(1.02);
-        }
+.mk-logo::before {
+  content:''; position:absolute; inset:-60%;
+  background: conic-gradient(from 0deg, transparent, rgba(0, 242, 255, 0.3), transparent);
+  animation: mkR 3.8s linear infinite; z-index: 1;
+}
 
-        .input-wrapper i {
-            color: var(--aqua-primary);
-            opacity: 0.7;
-            margin-left: 10px;
-        }
+@keyframes mkP {
+  0%, 100% { box-shadow: 0 0 14px var(--aqua-dim), 0 0 28px rgba(0, 242, 255, 0.1), inset 0 0 16px rgba(0, 242, 255, 0.05); }
+  50% { box-shadow: 0 0 26px rgba(0, 242, 255, 0.6), 0 0 52px rgba(0, 242, 255, 0.3), inset 0 0 28px rgba(0, 242, 255, 0.1); }
+}
+@keyframes mkR { from { transform: rotate(0); } to { transform: rotate(360deg); } }
 
-        .input-field {
-            background: transparent;
-            border: none;
-            color: #fff;
-            width: 100%;
-            outline: none;
-            font-family: 'Tajawal';
-            font-size: 0.9rem;
-        }
+.logo-name {
+  font-family: 'Orbitron', sans-serif; font-size: 1.7rem; font-weight: 900; letter-spacing: 4px; display: block; margin-bottom: 4px;
+  background: linear-gradient(135deg, #fff, var(--aqua-neon), #fff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5));
+}
+.logo-sub { font-size: 0.7rem; color: #4e6185; letter-spacing: 2.5px; text-transform: uppercase; }
 
-        .input-field::placeholder {
-            color: #6c8da0;
-        }
+/* ── تبويبات النيون المائية ── */
+.tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 13px;
+  padding: 4px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 242, 255, 0.05);
+  gap: 3px;
+}
 
-        /* ===== 7. زر الإرسال المتدفق ===== */
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 22px;
-            background: linear-gradient(135deg, var(--aqua-primary), #008fa0);
-            color: #000;
-            font-weight: 900;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.4s;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+.tab {
+  flex: 1; padding: 9px 6px; border-radius: 10px; border: none; background: transparent;
+  color: #6a7a9f; font-family: 'Tajawal', sans-serif; font-size: 0.87rem; font-weight: 600; cursor: pointer; transition: 0.2s;
+}
+.tab:hover:not(.act) { background: rgba(0, 242, 255, 0.03); color: #fff; }
 
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px var(--aqua-glow);
-            filter: brightness(1.1);
-        }
+.tab.act {
+  background: linear-gradient(135deg, rgba(0, 242, 255, 0.2), rgba(0, 100, 255, 0.1));
+  color: var(--aqua-neon);
+  border: 1px solid var(--aqua-dim);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.15);
+  filter: drop-shadow(0 0 5px var(--aqua-neon));
+}
 
-        .submit-btn.loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
+/* ── الحقول والأيقونات النيون المتحركة ── */
+.form { display: none; animation: fSlide 0.22s ease; }
+.form.act { display: block; }
+@keyframes fSlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ===== 8. صندوق الرسائل ===== */
-        .msg-box {
-            padding: 10px 14px;
-            border-radius: 18px;
-            font-size: 0.8rem;
-            margin-bottom: 20px;
-            display: none;
-            align-items: center;
-            gap: 8px;
-        }
-        .msg-box.error {
-            background: rgba(255, 61, 90, 0.15);
-            border: 1px solid rgba(255, 61, 90, 0.4);
-            color: #ff8fa0;
-            display: flex;
-        }
-        .msg-box.success {
-            background: rgba(0, 220, 100, 0.12);
-            border: 1px solid rgba(0, 220, 100, 0.3);
-            color: #6ee7b7;
-            display: flex;
-        }
+.field { margin-bottom: 15px; position: relative; }
+.lbl { font-size: 0.72rem; color: #8191b3; margin-bottom: 5px; display: block; font-weight: 600; }
 
-        /* ===== 9. شريط قوة كلمة المرور ===== */
-        .strength-bar {
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-        .strength-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.3s, background 0.3s;
-            width: 0;
-        }
+.fw {
+  position: relative; display: flex; align-items: center; background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--aqua-dim);
+  border-radius: 13px; overflow: hidden; transition: 0.2s;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
-        /* ===== 10. التحكم في ظهور النماذج ===== */
-        .form-content { display: none; }
-        .form-content.active { display: block; animation: waterFade 0.5s ease; }
+.fw:focus-within {
+  border-color: var(--aqua-neon);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-        @keyframes waterFade {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* الأيقونة النيون المتحركة بجانب الاسم */
+.fic {
+  width: 44px; display: flex; align-items: center; justify-content: center;
+  color: var(--aqua-neon); font-size: 0.86rem; flex-shrink: 0;
+  filter: drop-shadow(0 0 4px var(--aqua-neon));
+  position: relative;
+}
 
-        /* ===== 11. تذييل ===== */
-        .card-footer {
-            margin-top: 24px;
-            font-size: 0.7rem;
-            color: #5b7a8c;
-            border-top: 1px solid rgba(0, 229, 255, 0.15);
-            padding-top: 16px;
-        }
-        .card-footer a {
-            color: var(--aqua-primary);
-            text-decoration: none;
-        }
-        .card-footer a:hover {
-            text-decoration: underline;
-        }
+/* تأثير نبض نيون خلف الأيقونة */
+.fic::after {
+  content: ''; position: absolute; width: 10px; height: 10px;
+  background: var(--aqua-neon); border-radius: 50%; opacity: 0;
+  animation: ficPulse 2s infinite;
+}
+@keyframes ficPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(3); opacity: 0; } }
 
-        /* ===== 12. توافق الجوال ===== */
-        @media (max-width: 500px) {
-            .aqua-card { padding: 24px 18px; margin: 16px; }
-            .tab-btn { padding: 8px; font-size: 0.8rem; }
-            .input-wrapper { padding: 10px 12px; }
-            .submit-btn { padding: 12px; }
-        }
-    </style>
+.fi { flex: 1; background: transparent; border: none; outline: none; color: #eef2ff; font-family: 'Tajawal', sans-serif; font-size: 0.9rem; padding: 12px 0; direction: ltr; text-align: right; }
+.fi::placeholder { color: #3b4e71; }
+
+.ey { background: none; border: none; cursor: pointer; color: #6a7a9f; padding: 0 13px; font-size: 0.86rem; transition: color 0.14s; }
+.ey:hover { color: var(--aqua-neon); filter: drop-shadow(0 0 4px var(--aqua-neon)); }
+
+/* ── الزر المائي النيون السائل ── */
+.sbtn {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, var(--aqua-neon), #00A3FF, var(--aqua-neon));
+  background-size: 200% 100%;
+  border: none; border-radius: 13px;
+  color: #030a16; font-family: 'Tajawal', sans-serif; font-size: 0.97rem; font-weight: 800; letter-spacing: 0.5px; cursor: pointer;
+  transition: all 0.22s, background-position 0.5s;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  box-shadow: 0 5px 20px rgba(0, 242, 255, 0.3);
+  margin-top: 5px; position: relative; overflow: hidden;
+  animation: fluidBg 4s linear infinite;
+}
+
+@keyframes fluidBg { 0% { background-position: 0 0; } 100% { background-position: 200% 0; } }
+
+.sbtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 242, 255, 0.5);
+}
+.sbtn:active { transform: translateY(0); }
+.sbtn.ld { opacity: 0.72; pointer-events: none; }
+
+/* تم حذف عناصر الرسائل .msg النصية */
+
+/* ── شريط القوة النيون المائي ── */
+.sbar { height: 3px; background: rgba(255, 255, 255, 0.05); border-radius: 4px; margin-top: 4px; overflow: hidden; }
+.sbar-f { height: 100%; border-radius: 4px; transition: width 0.3s, background 0.3s; width: 0; }
+
+/* ── بطاقة VIP النيون المائية ── */
+.vip-card {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(12px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+.vip-card.show { display: flex; }
+.vip-inner {
+  background: linear-gradient(145deg, #0d1a30, #060f1e);
+  border: 1px solid var(--aqua-neon); border-radius: 28px;
+  padding: 36px 32px; max-width: 420px; width: 100%; text-align: center;
+  box-shadow: 0 0 60px rgba(0, 242, 255, 0.2), 0 40px 80px rgba(0, 0, 0, 0.8);
+  animation: vIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes vIn { from { opacity: 0; transform: scale(0.88) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+.vip-crown { font-size: 3rem; color: var(--aqua-neon); margin-bottom: 14px; text-shadow: 0 0 20px var(--aqua-neon); animation: vCP 2s ease-in-out infinite; }
+@keyframes vCP { 0%, 100% { transform: scale(1) rotate(-3deg); } 50% { transform: scale(1.12) rotate(3deg); } }
+
+.vip-title {
+  font-family: 'Orbitron', sans-serif; font-size: 1.35rem; font-weight: 900; letter-spacing: 2px;
+  background: linear-gradient(135deg, #fff, var(--aqua-neon)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px;
+}
+.vip-sub { color: #8191b3; font-size: 0.83rem; margin-bottom: 20px; line-height: 1.6; }
+
+.vip-feats { background: rgba(0, 242, 255, 0.03); border: 1px solid var(--aqua-dim); border-radius: 16px; padding: 16px; margin-bottom: 20px; text-align: right; }
+.vip-feat { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 0.82rem; color: #b0bcd0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.vip-feat:last-child { border-bottom: none; }
+.vip-feat i { color: var(--aqua-neon); width: 18px; text-align: center; filter: drop-shadow(0 0 4px var(--aqua-neon)); }
+
+.vip-btn {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, var(--aqua-neon), #00A3FF);
+  border: none; border-radius: 13px;
+  color: #030a16; font-family: 'Tajawal', sans-serif; font-size: 0.97rem; font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 9px; box-shadow: 0 5px 20px rgba(0, 242, 255, 0.3);
+  transition: 0.22s; text-decoration: none;
+}
+.vip-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0, 242, 255, 0.5); }
+
+/* ── التذييل النيون المائي ── */
+.foot { text-align: center; margin-top: 20px; font-size: 0.67rem; color: #4e6185; border-top: 1px solid rgba(255, 255, 255, 0.04); padding-top: 14px; }
+.foot a { color: var(--aqua-dim); text-decoration: none; transition: color 0.2s; }
+.foot a:hover { color: var(--aqua-neon); filter: drop-shadow(0 0 4px var(--aqua-neon)); }
+
+@media(max-width:480px) { .card { padding: 32px 22px; border-radius: 26px; } .mk-logo { width: 62px; height: 62px; } .logo-name { font-size: 1.4rem; } }
+</style>
 </head>
 <body>
+<div id="actionOverlay"></div>
 
-<div class="wrapper">
-    <div class="logo-container">
-        <div class="mk-ring"></div>
-        <div class="mk-text">MK</div>
+<div class="grid-bg"></div>
+
+<div class="vip-card" id="vipCard">
+  <div class="vip-inner">
+    <div class="vip-crown">👑</div>
+    <div class="vip-title">VIP MEMBER</div>
+    <div class="vip-sub">وصلت للحد الأقصى (3 حسابات) من هذا الجهاز.<br>قم بالترقية للحصول على حسابات غير محدودة!</div>
+    <div class="vip-feats">
+      <div class="vip-feat"><i class="fas fa-infinity"></i> حسابات وسيرفرات غير محدودة</div>
+      <div class="vip-feat"><i class="fas fa-bolt"></i> أولوية في المعالجة والأداء</div>
+      <div class="vip-feat"><i class="fas fa-hdd"></i> مساحة تخزين مضاعفة 4x</div>
+      <div class="vip-feat"><i class="fas fa-headset"></i> دعم فني مباشر وأولوية</div>
+      <div class="vip-feat"><i class="fas fa-shield-alt"></i> حماية متقدمة للسيرفرات</div>
     </div>
+    <a href="https://t.me/a_u711" target="_blank" class="vip-btn">
+      <i class="fab fa-telegram"></i> تواصل للاشتراك في VIP
+    </a>
+  </div>
+</div>
 
-    <div class="aqua-card">
-        <div class="tabs">
-            <button class="tab-btn active" id="tabLoginBtn" onclick="showForm('login')">
-                <i class="fas fa-unlock"></i> دخول
-            </button>
-            <button class="tab-btn" id="tabRegisterBtn" onclick="showForm('register')">
-                <i class="fas fa-user-plus"></i> إنشاء
-            </button>
-        </div>
-
-        <!-- نموذج تسجيل الدخول -->
-        <div id="login-form" class="form-content active">
-            <div class="msg-box" id="loginMsg"></div>
-            <div class="form-group">
-                <div class="input-wrapper">
-                    <i class="fas fa-user"></i>
-                    <input type="text" class="input-field" id="loginUser" placeholder="اسم المستخدم" autocomplete="username">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-wrapper">
-                    <i class="fas fa-key"></i>
-                    <input type="password" class="input-field" id="loginPass" placeholder="كلمة المرور" autocomplete="current-password">
-                    <button class="eye-btn" type="button" onclick="toggleEye('loginPass', this)" style="background: none; border: none; color: var(--aqua-primary); cursor: pointer; margin-right: 8px;"><i class="fas fa-eye"></i></button>
-                </div>
-            </div>
-            <button class="submit-btn" id="loginBtn" onclick="doLogin()">
-                <i class="fas fa-arrow-left"></i> دخول للمنصة
-            </button>
-        </div>
-
-        <!-- نموذج إنشاء حساب -->
-        <div id="register-form" class="form-content">
-            <div class="msg-box" id="registerMsg"></div>
-            <div class="form-group">
-                <div class="input-wrapper">
-                    <i class="fas fa-user"></i>
-                    <input type="text" class="input-field" id="regUser" placeholder="اسم المستخدم (3 أحرف على الأقل)" autocomplete="username">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-wrapper">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" class="input-field" id="regPass" placeholder="كلمة المرور (4 أحرف على الأقل)" autocomplete="new-password" oninput="checkStrength(this.value)">
-                    <button class="eye-btn" type="button" onclick="toggleEye('regPass', this)" style="background: none; border: none; color: var(--aqua-primary); cursor: pointer; margin-right: 8px;"><i class="fas fa-eye"></i></button>
-                </div>
-                <div class="strength-bar"><div class="strength-fill" id="sFill"></div></div>
-            </div>
-            <div class="form-group">
-                <div class="input-wrapper">
-                    <i class="fas fa-check-circle"></i>
-                    <input type="password" class="input-field" id="regPassC" placeholder="تأكيد كلمة المرور" autocomplete="new-password">
-                    <button class="eye-btn" type="button" onclick="toggleEye('regPassC', this)" style="background: none; border: none; color: var(--aqua-primary); cursor: pointer; margin-right: 8px;"><i class="fas fa-eye"></i></button>
-                </div>
-            </div>
-            <button class="submit-btn" id="registerBtn" onclick="doRegister()">
-                <i class="fas fa-user-plus"></i> تفعيل الحساب
-            </button>
-        </div>
-
-        <div class="card-footer">
-            MIKO HOST &copy; 2025 — <a href="https://t.me/a_u711" target="_blank"><i class="fab fa-telegram"></i> تواصل معنا</a>
-        </div>
+<div class="wrap">
+  <div class="card">
+    <div class="logo-a">
+      <div class="mk-logo"><span>MK</span></div>
+      <span class="logo-name">MIKO HOST</span>
+      <div class="logo-sub">Cloud Hosting Platform</div>
     </div>
+    <div class="tabs">
+      <button class="tab act" id="tabL" onclick="showTab('login')"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
+      <button class="tab" id="tabR" onclick="showTab('register')"><i class="fas fa-user-plus"></i> إنشاء حساب</button>
+    </div>
+    
+    <div class="form act" id="loginForm">
+      <div class="field"><label class="lbl">اسم المستخدم المائي</label>
+        <div class="fw">
+          <div class="fic"><i class="fas fa-user-circle"></i></div>
+          <input class="fi" id="loginUser" type="text" placeholder="أدخل اسم المستخدم" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+      </div>
+      <div class="field"><label class="lbl">كلمة المرور المائية</label>
+        <div class="fw">
+          <div class="fic"><i class="fas fa-lock-open"></i></div>
+          <input class="fi" id="loginPass" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="ey" onclick="toggleEye('loginPass',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <button class="sbtn" id="loginBtn" onclick="doLogin()"><i class="fas fa-water"></i> دخول آمن</button>
+    </div>
+    
+    <div class="form" id="registerForm">
+      <div class="field"><label class="lbl">اسم المستخدم الجديد</label>
+        <div class="fw">
+          <div class="fic"><i class="fas fa-user-plus"></i></div>
+          <input class="fi" id="regUser" type="text" placeholder="3 أحرف على الأقل" autocomplete="username">
+        </div>
+      </div>
+      <div class="field"><label class="lbl">كلمة المرور الجديدة</label>
+        <div class="fw">
+          <div class="fic"><i class="fas fa-key"></i></div>
+          <input class="fi" id="regPass" type="password" placeholder="4 أحرف على الأقل" autocomplete="new-password" oninput="checkStr(this.value)">
+          <button class="ey" onclick="toggleEye('regPass',this)"><i class="fas fa-eye"></i></button>
+        </div>
+        <div class="sbar"><div class="sbar-f" id="sBarF"></div></div>
+      </div>
+      <div class="field"><label class="lbl">تأكيد كلمة المرور</label>
+        <div class="fw">
+          <div class="fic"><i class="fas fa-shield-alt"></i></div>
+          <input class="fi" id="regPassC" type="password" placeholder="أعد كتابة كلمة المرور" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()">
+          <button class="ey" onclick="toggleEye('regPassC',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <button class="sbtn" id="registerBtn" onclick="doRegister()"><i class="fas fa-plus-circle"></i> إنشاء الحساب المائي</button>
+    </div>
+    
+    <div class="foot">MIKO HOST &copy; 2025 — <a href="https://t.me/a_u711" target="_blank"><i class="fab fa-telegram"></i> تواصل معنا</a></div>
+  </div>
 </div>
 
 <script>
-    // ========== دوال تبديل النماذج ==========
-    function showForm(type) {
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        const tabLogin = document.getElementById('tabLoginBtn');
-        const tabRegister = document.getElementById('tabRegisterBtn');
-        
-        if (type === 'login') {
-            loginForm.classList.add('active');
-            registerForm.classList.remove('active');
-            tabLogin.classList.add('active');
-            tabRegister.classList.remove('active');
-        } else {
-            registerForm.classList.add('active');
-            loginForm.classList.remove('active');
-            tabRegister.classList.add('active');
-            tabLogin.classList.remove('active');
-        }
-        // مسح الرسائل عند التبديل
-        clearMsgs();
+/* ── جافا سكريبت لتوليد التفاعلات البصرية المائية (نيون) بدل النصوص ── */
+const actionOverlay = document.getElementById('actionOverlay');
+
+// دالة لتشغيل تأثير الفشل (انفجار مائي أحمر)
+function triggerVisualFail() {
+  actionOverlay.innerHTML = '<div class="fail-ripple"></div>';
+  actionOverlay.style.opacity = 1;
+  setTimeout(() => { actionOverlay.style.opacity = 0; actionOverlay.innerHTML = ''; }, 800);
+}
+
+// دالة لتشغيل تأثير النجاح (تدفق مائي أخضر)
+function triggerVisualSuccess() {
+  actionOverlay.innerHTML = '<div class="success-flow"></div>';
+  actionOverlay.style.opacity = 1;
+  setTimeout(() => { actionOverlay.style.opacity = 0; actionOverlay.innerHTML = ''; }, 1000);
+}
+
+// تبديل التبويبات (الحفاظ عليه)
+function showTab(t) {
+  ['login', 'register'].forEach(x => {
+    document.getElementById(x + 'Form').classList.toggle('act', x === t);
+    document.getElementById('tab' + x[0].toUpperCase()).classList.toggle('act', x === t);
+  });
+  // حذف دالة clearMsgs()
+}
+
+/* ── دوال جافا سكريبت الأصلية (تحديثها لاستخدام التفاعلات البصرية بدل النصوص) ── */
+const IP_LIMIT = 3;
+function getIpAccounts() { try { return JSON.parse(localStorage.getItem('mk_reg_count') || '0') } catch { return 0 } }
+function incIpAccounts() { localStorage.setItem('mk_reg_count', String(getIpAccounts() + 1)) }
+function checkIpLimit() { if (getIpAccounts() >= IP_LIMIT) { document.getElementById('vipCard').classList.add('show'); return true; } return false; }
+function toggleEye(id, btn) { const i = document.getElementById(id); const s = i.type === 'password'; i.type = s ? 'text' : 'password'; btn.innerHTML = `<i class="fas fa-eye${s?'-slash':''}"></i>` }
+
+function checkStr(v) {
+  const f = document.getElementById('sBarF'); let s = 0; if (v.length >= 6) s++; if (v.length >= 10) s++; if (/[A-Z0-9]/.test(v)) s++; if (/[^a-zA-Z0-9]/.test(v)) s++;
+  const c = ['#ff4444', '#ff8800', '#ffd700', '#00dc64'], w = ['18%', '46%', '72%', '100%'];
+  f.style.background = c[s - 1] || '#ff4444'; f.style.width = v.length ? (w[s - 1] || '8%') : '0';
+}
+
+async function doLogin() {
+  const u = document.getElementById('loginUser').value.trim(), p = document.getElementById('loginPass').value.trim();
+  if (!u || !p) { triggerVisualFail(); return } // تشغيل تأثير الفشل عند نقص البيانات
+  const btn = document.getElementById('loginBtn'); btn.classList.add('ld'); btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
+  try {
+    const r = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: u, password: p }) });
+    const d = await r.json();
+    if (d.success) { 
+      triggerVisualSuccess(); // تشغيل تأثير النجاح البصري
+      btn.innerHTML = '<i class="fas fa-check"></i> تم!'; setTimeout(() => location.href = d.redirect || '/', 700) 
     }
+    else { triggerVisualFail(); btn.classList.remove('ld'); btn.innerHTML = '<i class="fas fa-water"></i> دخول آمن' } // تشغيل تأثير الفشل البصري
+  } catch (e) { triggerVisualFail(); btn.classList.remove('ld'); btn.innerHTML = '<i class="fas fa-water"></i> دخول آمن' } // تشغيل تأثير الفشل البصري
+}
 
-    function clearMsgs() {
-        const loginMsg = document.getElementById('loginMsg');
-        const registerMsg = document.getElementById('registerMsg');
-        if (loginMsg) { loginMsg.className = 'msg-box'; loginMsg.innerHTML = ''; }
-        if (registerMsg) { registerMsg.className = 'msg-box'; registerMsg.innerHTML = ''; }
+async function doRegister() {
+  if (checkIpLimit()) return;
+  const u = document.getElementById('regUser').value.trim(), p = document.getElementById('regPass').value.trim(), c = document.getElementById('regPassC').value.trim();
+  if (!u || !p || u.length < 3 || p.length < 4 || p !== c) { triggerVisualFail(); return } // تشغيل تأثير الفشل عند خطأ البيانات
+  const btn = document.getElementById('registerBtn'); btn.classList.add('ld'); btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
+  try {
+    const r = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: u, password: p }) });
+    const d = await r.json();
+    if (d.success) { incIpAccounts(); triggerVisualSuccess(); btn.innerHTML = '<i class="fas fa-check"></i> تم!'; setTimeout(() => showTab('login'), 1500) } // تشغيل تأثير النجاح البصري
+    else {
+      if (d.message && d.message.includes('حد')) { document.getElementById('vipCard').classList.add('show') }
+      else { triggerVisualFail(); } // تشغيل تأثير الفشل البصري
+      btn.classList.remove('ld'); btn.innerHTML = '<i class="fas fa-plus-circle"></i> إنشاء الحساب'
     }
-
-    function showMsg(elementId, msg, type) {
-        const el = document.getElementById(elementId);
-        el.className = `msg-box ${type}`;
-        el.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${msg}`;
-    }
-
-    // ========== إظهار/إخفاء كلمة المرور ==========
-    function toggleEye(inputId, btn) {
-        const inp = document.getElementById(inputId);
-        const icon = btn.querySelector('i');
-        if (inp.type === 'password') {
-            inp.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            inp.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-
-    // ========== قوة كلمة المرور ==========
-    function checkStrength(val) {
-        const fill = document.getElementById('sFill');
-        let strength = 0;
-        if (val.length >= 4) strength++;
-        if (val.length >= 8) strength++;
-        if (/[A-Z]/.test(val)) strength++;
-        if (/[0-9]/.test(val)) strength++;
-        if (/[^a-zA-Z0-9]/.test(val)) strength++;
-        const colors = ['#ff4444', '#ff8800', '#ffd700', '#00dc64', '#00e5ff'];
-        const widths = ['10%', '30%', '55%', '80%', '100%'];
-        const index = Math.min(strength, 4);
-        fill.style.background = colors[index];
-        fill.style.width = val.length ? widths[index] : '0%';
-    }
-
-    // ========== تسجيل الدخول ==========
-    async function doLogin() {
-        const username = document.getElementById('loginUser').value.trim();
-        const password = document.getElementById('loginPass').value.trim();
-        if (!username || !password) {
-            showMsg('loginMsg', 'يرجى ملء جميع الحقول', 'error');
-            return;
-        }
-        const btn = document.getElementById('loginBtn');
-        btn.classList.add('loading');
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
-        try {
-            const res = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await res.json();
-            if (data.success) {
-                showMsg('loginMsg', 'تم تسجيل الدخول ✅ جاري التحويل...', 'success');
-                btn.innerHTML = '<i class="fas fa-check"></i> تم بنجاح';
-                setTimeout(() => window.location.href = data.redirect || '/', 700);
-            } else {
-                showMsg('loginMsg', data.message || 'بيانات خاطئة', 'error');
-                btn.classList.remove('loading');
-                btn.innerHTML = '<i class="fas fa-arrow-left"></i> دخول للمنصة';
-            }
-        } catch (e) {
-            showMsg('loginMsg', 'خطأ في الاتصال بالخادم', 'error');
-            btn.classList.remove('loading');
-            btn.innerHTML = '<i class="fas fa-arrow-left"></i> دخول للمنصة';
-        }
-    }
-
-    // ========== إنشاء حساب ==========
-    async function doRegister() {
-        const username = document.getElementById('regUser').value.trim();
-        const password = document.getElementById('regPass').value.trim();
-        const confirm = document.getElementById('regPassC').value.trim();
-        if (!username || !password || !confirm) {
-            showMsg('registerMsg', 'يرجى ملء جميع الحقول', 'error');
-            return;
-        }
-        if (username.length < 3) {
-            showMsg('registerMsg', 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل', 'error');
-            return;
-        }
-        if (password.length < 4) {
-            showMsg('registerMsg', 'كلمة المرور يجب أن تكون 4 أحرف على الأقل', 'error');
-            return;
-        }
-        if (password !== confirm) {
-            showMsg('registerMsg', 'كلمتا المرور غير متطابقتين', 'error');
-            return;
-        }
-        const btn = document.getElementById('registerBtn');
-        btn.classList.add('loading');
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
-        try {
-            const res = await fetch('/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await res.json();
-            if (data.success) {
-                showMsg('registerMsg', 'تم إنشاء الحساب بنجاح ✅', 'success');
-                btn.innerHTML = '<i class="fas fa-check"></i> تم!';
-                setTimeout(() => showForm('login'), 1500);
-            } else {
-                showMsg('registerMsg', data.message || 'فشل إنشاء الحساب', 'error');
-                btn.classList.remove('loading');
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> تفعيل الحساب';
-            }
-        } catch (e) {
-            showMsg('registerMsg', 'خطأ في الاتصال بالخادم', 'error');
-            btn.classList.remove('loading');
-            btn.innerHTML = '<i class="fas fa-user-plus"></i> تفعيل الحساب';
-        }
-    }
-
-    // التحقق من وجود جلسة نشطة (توجيه تلقائي)
-    fetch('/api/current_user')
-        .then(r => r.json())
-        .then(d => {
-            if (d.success) window.location.href = '/';
-        })
-        .catch(() => {});
-
-    // إضافة مستمع لأزرار الإدخال (Enter)
-    document.getElementById('loginPass').addEventListener('keypress', (e) => { if (e.key === 'Enter') doLogin(); });
-    document.getElementById('regPassC').addEventListener('keypress', (e) => { if (e.key === 'Enter') doRegister(); });
+  } catch (e) { triggerVisualFail(); btn.classList.remove('ld'); btn.innerHTML = '<i class="fas fa-plus-circle"></i> إنشاء الحساب' } // تشغيل تأثير الفشل البصري
+}
+fetch('/api/current_user').then(r => r.json()).then(d => { if (d.success) location.href = '/' }).catch(() => {});
 </script>
 </body>
 </html>
