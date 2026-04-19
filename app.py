@@ -18,7 +18,8 @@ from flask import Flask, send_from_directory, request, jsonify, session, redirec
 from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime, Float, Text, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
-#--------اعدادت التخزين الدائم------
+
+# -------- إعدادات التخزين الدائم --------
 PERSISTENT_DIR = '/app/data'
 os.makedirs(PERSISTENT_DIR, exist_ok=True)
 
@@ -39,9 +40,9 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['SESSION_COOKIE_SECURE'] = False  # لو HTTPS غيّر إلى True
+app.config['SESSION_COOKIE_SECURE'] = False
 
-# ============== تجديد الجلسة تلقائياً (إصلاح مشكلة انتهاء الجلسة) ==============
+# ============== تجديد الجلسة تلقائياً ==============
 @app.before_request
 def refresh_session():
     if 'username' in session:
@@ -222,50 +223,27 @@ def get_assigned_port():
                 return port
     return PORT_RANGE_START
 
-# ============== مراقبة العمليات ==============
-def process_monitor():
-    while True:
-        try:
-            for srv in db_session.query(Server).filter_by(status="Running"):
-                if srv.pid:
-                    try:
-                        p = psutil.Process(srv.pid)
-                        if not p.is_running() or p.status() == psutil.STATUS_ZOMBIE:
-                            restart_server(srv.folder)
-                    except psutil.NoSuchProcess:
-                        restart_server(srv.folder)
-                    except:
-                        pass
-        except:
-            pass
-        time.sleep(15)
+# ============== كشف بوتات التليجرام ==============
+def is_telegram_bot_file(file_path):
+    """تحقق مما إذا كان الملف يحتوي على كود بوت تليجرام"""
+    if not os.path.exists(file_path):
+        return False
+    try:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read(2000)  # اقرأ أول 2000 حرف فقط
+            # البحث عن توكن بوت أو استخدام مكتبة python-telegram-bot
+            if 'BOT_TOKEN' in content or 'Application.builder().token' in content:
+                return True
+            if 'telegram' in content.lower() and ('bot' in content.lower() or 'updater' in content.lower()):
+                return True
+    except:
+        pass
+    return False
 
-def restart_server(folder):
-    srv = db_session.query(Server).filter_by(folder=folder).first()
-    if not srv:
-        return
-    if srv.pid:
-        try:
-            p = psutil.Process(srv.pid)
-            if hasattr(os, 'killpg'):
-                try:
-                    os.killpg(os.getpgid(p.pid), signal.SIGTERM)
-                except:
-                    pass
-            for child in p.children(recursive=True):
-                child.kill()
-            p.kill()
-        except:
-            pass
-    srv.status = "Stopped"
-    srv.pid = None
-    db_session.commit()
-    time.sleep(2)
-    start_server_process(folder)
-
+# ============== تشغيل العمليات ==============
 def start_server_process(folder):
     """
-    تشغيل السيرفر وإرجاع (نجاح, رسالة_خطأ)
+    تشغيل السيرفر (أو بوت التليجرام) وإرجاع (نجاح, رسالة_خطأ)
     """
     srv = db_session.query(Server).filter_by(folder=folder).first()
     if not srv:
@@ -314,10 +292,19 @@ def start_server_process(folder):
     log_file.write(f"\n{'='*50}\n🚀 بدء التشغيل - {datetime.now()}\n📁 {main_file}\n🔌 المنفذ: {port}\n🌐 اللغة: {srv.language}\n{'='*50}\n\n")
     log_file.flush()
     
+    # تحديد إذا كان هذا بوت تليجرام
+    is_bot = is_telegram_bot_file(file_path)
+    if is_bot:
+        log_file.write("🤖 تم الكشف عن بوت تليجرام. سيتم تشغيله في وضعية الاستقصاء (polling).\n")
+        log_file.flush()
+    
     try:
         env = os.environ.copy()
         env["PORT"] = str(port)
         env["SERVER_PORT"] = str(port)
+        if is_bot:
+            env["IS_TELEGRAM_BOT"] = "true"
+        
         lang = srv.language.lower()
         if lang == 'python':
             cmd = [sys.executable, "-u", main_file]
@@ -330,6 +317,7 @@ def start_server_process(folder):
         else:
             return False, f"لغة {lang} غير مدعومة للتشغيل التلقائي"
         
+        # استخدام preexec_fn=os.setsid لإنشاء مجموعة عمليات منفصلة (للبوتات)
         proc = subprocess.Popen(
             cmd,
             cwd=srv.path,
@@ -342,14 +330,67 @@ def start_server_process(folder):
         srv.pid = proc.pid
         srv.start_time = time.time()
         db_session.commit()
+        
+        if is_bot:
+            log_file.write(f"✅ بوت التليجرام يعمل الآن (PID: {proc.pid})\n")
+            log_file.write("📡 البوت في وضع الاستقصاء (polling) - سيبقى نشطاً.\n")
+        else:
+            log_file.write(f"✅ العملية بدأت بنجاح (PID: {proc.pid})\n")
+        log_file.flush()
         return True, "تم التشغيل بنجاح"
     except Exception as e:
         log_file.write(f"\n❌ خطأ: {str(e)}\n")
         log_file.close()
         return False, f"خطأ في التشغيل: {str(e)}"
 
+def restart_server(folder):
+    srv = db_session.query(Server).filter_by(folder=folder).first()
+    if not srv:
+        return
+    if srv.pid:
+        try:
+            p = psutil.Process(srv.pid)
+            if hasattr(os, 'killpg'):
+                try:
+                    os.killpg(os.getpgid(p.pid), signal.SIGTERM)
+                except:
+                    pass
+            for child in p.children(recursive=True):
+                child.kill()
+            p.kill()
+        except:
+            pass
+    srv.status = "Stopped"
+    srv.pid = None
+    db_session.commit()
+    time.sleep(2)
+    start_server_process(folder)
+
+# ============== مراقبة العمليات وإعادة تشغيل البوتات إذا توقفت ==============
+def process_monitor():
+    while True:
+        try:
+            for srv in db_session.query(Server).filter_by(status="Running"):
+                if srv.pid:
+                    try:
+                        p = psutil.Process(srv.pid)
+                        if not p.is_running() or p.status() == psutil.STATUS_ZOMBIE:
+                            # تحقق مما إذا كان سيرفراً عادياً أم بوتاً
+                            log_path = os.path.join(srv.path, "out.log")
+                            with open(log_path, "a", encoding='utf-8') as log:
+                                log.write(f"\n⚠️ العملية (PID: {srv.pid}) توقفت. جاري إعادة التشغيل...\n")
+                            restart_server(srv.folder)
+                    except psutil.NoSuchProcess:
+                        restart_server(srv.folder)
+                    except:
+                        pass
+        except:
+            pass
+        time.sleep(15)
+
 threading.Thread(target=process_monitor, daemon=True).start()
 
+# ============== دوال إضافية ==============
 def get_current_user():
     if "username" in session:
         return db_session.query(User).filter_by(username=session["username"]).first()
@@ -644,7 +685,6 @@ def admin_ban_user():
     if ban_ip:
         user.ban_ip = ban_ip
     db_session.commit()
-    # إنهاء جميع سيرفرات المستخدم
     for srv in db_session.query(Server).filter_by(owner=target_username):
         if srv.pid:
             try:
@@ -960,7 +1000,6 @@ def add_server():
     cpu_limit = float(data.get("cpu", 0.5))
     language = data.get("language", "python").strip().lower()
     
-    # التحقق من الخطة المدفوعة لغير VIP
     if plan_id != 'free' and not user.is_vip:
         return jsonify({"success": False, "message": "هذه الخطة مدفوعة. للترقية إلى VIP تواصل مع الدعم: https://t.me/a_u711"})
     
@@ -1775,6 +1814,32 @@ def bot_create_server():
     db_session.add(new_server)
     db_session.commit()
     return jsonify({"success": True, "message": f"✅ تم إنشاء {name}", "folder": folder, "port": assigned_port})
+
+# ============== نقطة إيقاف البوت المخصصة ==============
+@app.route('/api/bot/stop/<folder>', methods=['POST'])
+def stop_bot_process(folder):
+    """إيقاف بوت التليجرام بشكل آمن"""
+    if 'username' not in session:
+        return jsonify({"success": False, "message": "غير مصرح"}), 401
+    srv = db_session.query(Server).filter_by(folder=folder).first()
+    if not srv or srv.owner != session['username']:
+        return jsonify({"success": False, "message": "غير مصرح"}), 403
+    if srv.pid:
+        try:
+            p = psutil.Process(srv.pid)
+            if hasattr(os, 'killpg'):
+                os.killpg(os.getpgid(p.pid), signal.SIGTERM)
+            else:
+                p.terminate()
+            time.sleep(2)
+            if p.is_running():
+                p.kill()
+        except:
+            pass
+    srv.status = "Stopped"
+    srv.pid = None
+    db_session.commit()
+    return jsonify({"success": True, "message": "تم إيقاف البوت"})
 
 # ============== التشغيل ==============
 if __name__ == "__main__":
