@@ -27,11 +27,7 @@
             --red-dark: #DC2626;
             --black-bg: #0A0A0C;
             --card-bg: rgba(0, 0, 0, 0.75);
-            --green: #2ecc71;
-            --blue: #3498db;
-            --yellow: #f1c40f;
-            --orange: #e67e22;
-            --purple: #9b59b6;
+            --purple: #c084fc;
         }
 
         .bg-aurora {
@@ -248,145 +244,13 @@
             border: 1px solid var(--gold);
         }
 
-        /* ========== تنسيق جميع الأزرار بشكل موحد ========== */
-        .action-btn, .tab-btn, .detail-action-btn, .create-final-btn, .fm-action-btn, .api-actions .action-btn, .modal .action-btn, .logout-btn, .back-btn, .fm-delete-selected {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 8px 18px;
-            border-radius: 60px !important;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 600;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
-            color: #e2e8f0;
-            text-decoration: none;
-        }
-
-        .action-btn i, .tab-btn i, .detail-action-btn i, .fm-action-btn i {
-            font-size: 0.9rem;
-        }
-
-        .action-btn:hover, .tab-btn:hover, .detail-action-btn:hover, .fm-action-btn:hover, .back-btn:hover, .fm-delete-selected:hover {
-            transform: translateY(-2px);
-            background: rgba(255,255,255,0.12);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-        }
-
-        /* ألوان الأزرار حسب الوظيفة */
-        .action-btn.start, .detail-action-btn.start, .btn-start {
-            border-color: var(--green);
-            color: var(--green);
-        }
-        .action-btn.start:hover, .detail-action-btn.start:hover, .btn-start:hover {
-            background: rgba(46,204,113,0.2);
-            box-shadow: 0 0 8px rgba(46,204,113,0.3);
-        }
-
-        .action-btn.stop, .detail-action-btn.stop, .btn-stop {
-            border-color: var(--red);
-            color: var(--red);
-        }
-        .action-btn.stop:hover, .detail-action-btn.stop:hover, .btn-stop:hover {
-            background: rgba(255,61,90,0.2);
-        }
-
-        .action-btn.restart, .detail-action-btn.restart, .btn-restart {
-            border-color: var(--yellow);
-            color: var(--yellow);
-        }
-        .action-btn.restart:hover, .detail-action-btn.restart:hover, .btn-restart:hover {
-            background: rgba(241,196,15,0.2);
-        }
-
-        .action-btn.delete, .detail-action-btn.delete, .fm-delete-selected {
-            border-color: var(--red-dark);
-            color: #f87171;
-        }
-        .action-btn.delete:hover, .detail-action-btn.delete:hover, .fm-delete-selected:hover {
-            background: rgba(220,38,38,0.2);
-        }
-
-        .action-btn.detail, .btn-console {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-        .action-btn.detail:hover, .btn-console:hover {
-            background: rgba(255,215,0,0.2);
-        }
-
-        /* أزرار مدير الملفات */
-        .fm-action-btn.fm-upload { border-color: var(--blue); color: #63b3ed; }
-        .fm-action-btn.fm-newfile { border-color: var(--green); color: #9ae6b4; }
-        .fm-action-btn.fm-newfolder { border-color: var(--gold); color: var(--gold); }
-        .fm-action-btn.fm-install { border-color: var(--orange); color: #f39c12; }
-
-        /* أزرار التحكم الرئيسية Control Grid */
-        .control-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .control-grid .action-btn {
-            flex-direction: column;
-            padding: 14px 8px;
-            gap: 6px;
-        }
-        .control-grid .action-btn i {
-            font-size: 1.6rem;
-            margin-bottom: 4px;
-        }
-
-        /* التبويبات الجديدة */
-        .tab-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .tab-buttons .tab-btn {
-            flex-direction: column;
-            padding: 12px 8px;
-            border-bottom-width: 3px;
-            border-bottom-style: solid;
-            background: rgba(0,0,0,0.3);
-        }
-        .tab-buttons .tab-btn i {
-            font-size: 1.4rem;
-        }
-
-        /* التبويبات الأصلية */
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 20px 0;
-            background: rgba(6,10,22,0.5);
-            padding: 10px;
-            border-radius: 60px;
-        }
-        .tabs .tab-btn {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,215,0,0.2);
-        }
-        .tabs .tab-btn.active {
-            background: rgba(255,215,0,0.2);
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        /* باقي التنسيقات الأصلية */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin-bottom: 28px;
         }
+
         .stat-card {
             background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(12px);
@@ -395,21 +259,25 @@
             padding: 18px 20px;
             transition: all 0.3s;
         }
+
         .stat-card:hover {
             border-color: var(--gold);
             transform: translateY(-3px);
         }
+
         .stat-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
         }
+
         .stat-title {
             font-size: 0.7rem;
             text-transform: uppercase;
             color: #9ca3cf;
         }
+
         .stat-icon {
             width: 36px;
             height: 36px;
@@ -420,11 +288,13 @@
             justify-content: center;
             color: var(--gold);
         }
+
         .stat-value {
             font-size: 1.8rem;
             font-weight: 700;
             margin-top: 8px;
         }
+
         .stat-progress {
             height: 4px;
             background: rgba(255,255,255,0.1);
@@ -432,11 +302,13 @@
             overflow: hidden;
             margin-top: 8px;
         }
+
         .stat-progress-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--gold), #FFA500);
             width: 0%;
         }
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -444,11 +316,13 @@
             border-radius: 48px;
             margin-top: 40px;
         }
+
         .servers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
             gap: 24px;
         }
+
         .server-card {
             background: rgba(12, 18, 34, 0.7);
             backdrop-filter: blur(12px);
@@ -459,11 +333,13 @@
             cursor: pointer;
             overflow: hidden;
         }
+
         .server-card:hover {
             border-color: var(--gold);
             transform: translateY(-5px);
             box-shadow: 0 20px 30px -15px rgba(0,0,0,0.5);
         }
+
         .server-card-header {
             padding: 20px 20px 12px 20px;
             display: flex;
@@ -471,6 +347,7 @@
             align-items: flex-start;
             border-bottom: 1px solid var(--gold);
         }
+
         .server-icon {
             width: 50px;
             height: 50px;
@@ -482,6 +359,7 @@
             font-size: 1.6rem;
             color: var(--gold);
         }
+
         .server-status-badge {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 30px;
@@ -491,8 +369,13 @@
             align-items: center;
             gap: 6px;
         }
-        .status-online { color: var(--gold); }
-        .status-offline { color: #9ca3cf; }
+
+        .status-online {
+            color: var(--gold);
+        }
+        .status-offline {
+            color: #9ca3cf;
+        }
         .status-dot {
             width: 8px;
             height: 8px;
@@ -500,11 +383,13 @@
         }
         .dot-online { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
         .dot-offline { background: #9ca3cf; }
+
         .server-name {
             font-size: 1.1rem;
             font-weight: 700;
             padding: 16px 20px 0 20px;
         }
+
         .server-meta {
             display: flex;
             gap: 16px;
@@ -512,17 +397,20 @@
             color: #9ca3cf;
             padding: 8px 20px;
         }
+
         .server-port {
             background: rgba(255, 215, 0, 0.15);
             border-radius: 30px;
             padding: 4px 12px;
         }
+
         .server-plan-badge {
             background: rgba(255, 215, 0, 0.15);
             border-radius: 30px;
             padding: 4px 12px;
             color: var(--gold);
         }
+
         .server-stats {
             display: flex;
             gap: 16px;
@@ -533,17 +421,144 @@
             border-bottom: 1px solid var(--gold);
             background: rgba(0,0,0,0.2);
         }
+
+        /* ===== BUTTONS UNIFIED STYLES ===== */
+        .action-btn, .detail-action-btn, .tab-btn, .fm-action-btn {
+            border-radius: 60px !important;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .action-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--gold);
+            padding: 8px 20px;
+            font-size: 0.75rem;
+            color: #cbd5ff;
+            min-width: 100px;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .detail-action-btn {
+            padding: 10px 24px;
+            font-size: 0.85rem;
+            min-width: 110px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 10px 24px;
+            font-size: 0.85rem;
+            color: #6b7a9f;
+            min-width: 100px;
+        }
+        .tab-btn.active {
+            background: rgba(255,215,0,0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 10px rgba(255,215,0,0.2);
+        }
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,215,0,0.05);
+            color: #b0b8d4;
+        }
+
+        .fm-action-btn {
+            background: rgba(14,20,38,0.7);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            color: #b0b8d4;
+            position: relative;
+        }
+        .fm-action-btn:hover {
+            background: rgba(255,255,255,0.07);
+            transform: translateY(-2px);
+        }
+
+        /* Colored action buttons */
+        .action-btn.start, .detail-action-btn.start {
+            background: rgba(0,220,100,0.13);
+            border-color: #00dc64;
+            color: #00dc64;
+        }
+        .action-btn.start:hover, .detail-action-btn.start:hover {
+            background: rgba(0,220,100,0.25);
+            box-shadow: 0 0 12px rgba(0,220,100,0.3);
+        }
+        .action-btn.stop, .detail-action-btn.stop {
+            background: rgba(255,61,90,0.13);
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .action-btn.stop:hover, .detail-action-btn.stop:hover {
+            background: rgba(255,61,90,0.25);
+            box-shadow: 0 0 12px rgba(255,61,90,0.3);
+        }
+        .action-btn.restart, .detail-action-btn.restart {
+            background: rgba(255,165,0,0.13);
+            border-color: #FFA500;
+            color: #FFA500;
+        }
+        .action-btn.restart:hover, .detail-action-btn.restart:hover {
+            background: rgba(255,165,0,0.25);
+            box-shadow: 0 0 12px rgba(255,165,0,0.3);
+        }
+        .action-btn.delete, .detail-action-btn.delete {
+            background: rgba(220,38,38,0.13);
+            border-color: #dc2626;
+            color: #f87171;
+        }
+        .action-btn.delete:hover, .detail-action-btn.delete:hover {
+            background: rgba(220,38,38,0.25);
+            box-shadow: 0 0 12px rgba(220,38,38,0.3);
+        }
+        .action-btn.detail {
+            background: rgba(255,215,0,0.1);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .action-btn.detail:hover {
+            background: rgba(255,215,0,0.22);
+            box-shadow: 0 0 12px rgba(255,215,0,0.3);
+        }
+
+        /* Special package installer button */
+        .fm-packages {
+            border-color: rgba(192,132,252,0.4) !important;
+            background: rgba(192,132,252,0.1) !important;
+            color: #d8b4fe !important;
+        }
+        .fm-packages:hover {
+            background: rgba(192,132,252,0.2) !important;
+            border-color: #c084fc !important;
+            box-shadow: 0 0 12px rgba(192,132,252,0.3);
+        }
+
         .server-actions {
             display: flex;
             gap: 12px;
             padding: 16px 20px;
-            flex-wrap: wrap;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
         .action-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
+
         .server-detail {
             display: none;
             animation: fadeSlide 0.3s ease;
@@ -559,13 +574,59 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
             flex-wrap: wrap;
         }
         .back-btn {
-            background: rgba(255,215,0,0.1);
+            background: rgba(255, 215, 0, 0.15);
             border: 1px solid var(--gold);
+            border-radius: 60px;
+            padding: 8px 24px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--gold);
+            font-weight: 600;
         }
+        .back-btn:hover {
+            background: rgba(255,215,0,0.25);
+            transform: translateY(-2px);
+        }
+
+        .server-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .detail-actions-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: rgba(6,10,22,0.8);
+            padding: 12px 20px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            background: rgba(6,10,22,0.7);
+            padding: 8px;
+            border-radius: 60px;
+            border: 1px solid rgba(255,215,0,0.15);
+        }
+
         .console-box {
             background: #010409;
             border: 1px solid var(--gold);
@@ -578,6 +639,41 @@
             color: #b0f0b0;
             white-space: pre-wrap;
         }
+
+        .files-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .files-table th, .files-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid var(--gold);
+            text-align: right;
+        }
+
+        .upload-zone {
+            border: 1px dashed var(--gold);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            background: rgba(255, 215, 0, 0.02);
+        }
+
+        .file-btn {
+            background: rgba(255, 215, 0, 0.2);
+            border: none;
+            border-radius: 30px;
+            padding: 4px 12px;
+            margin: 0 4px;
+            cursor: pointer;
+            color: white;
+        }
+        .file-btn.delete {
+            background: rgba(255, 61, 90, 0.2);
+            color: var(--red);
+        }
+
         .stats-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -603,6 +699,13 @@
             border: 1px solid var(--gold);
             font-size: 0.85rem;
         }
+        .api-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
         .create-server-view {
             display: none;
             animation: fadeSlide 0.3s ease;
@@ -612,104 +715,52 @@
         }
         .languages-grid, .plans-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 24px;
-            margin: 24px 0;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
         }
         .lang-card, .plan-card {
             background: rgba(12, 18, 34, 0.7);
-            border: 1px solid rgba(255,215,0,0.3);
-            border-radius: 28px;
-            padding: 24px 16px;
+            border: 1px solid var(--gold);
+            border-radius: 24px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: 0.25s ease;
+            transition: 0.2s;
         }
         .lang-card.selected, .plan-card.selected {
             border-color: var(--gold);
             background: rgba(255,215,0,0.15);
             box-shadow: 0 0 15px rgba(255,215,0,0.3);
         }
+        .lang-card:hover, .plan-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+        }
+        .lang-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
         .create-final-btn {
             background: linear-gradient(135deg, var(--gold), #FFA500);
             color: #0a0c10;
             font-weight: bold;
             padding: 12px 32px;
+            font-size: 1rem;
             border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
         }
         .create-final-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
-        /* مدير الملفات */
-        .fm-file-icon { font-size: 1.2rem; width: 28px; text-align: center; }
-        .fi-folder { color: var(--gold); }
-        .fi-py { color: #3776AB; }
-        .fi-js { color: #F7DF1E; }
-        .fi-json { color: #8bc34a; }
-        .fi-txt { color: #9ca3cf; }
-        .fi-zip { color: #FFA500; }
-        .fi-image { color: #f472b6; }
-        .fi-html { color: #e34c26; }
-        .fi-css { color: #264de4; }
-        .fm-table-wrap {
-            background: rgba(8,12,24,0.6);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
+        .create-final-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
         }
-        .fm-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .fm-table thead th {
-            background: rgba(0,0,0,0.4);
-            padding: 12px 16px;
-            text-align: right;
-            font-size: 0.75rem;
-        }
-        .fm-table tbody tr {
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        .fm-table tbody td {
-            padding: 10px 16px;
-            font-size: 0.85rem;
-        }
-        .fm-file-name {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .fm-three-dot {
-            background: none;
-            border: none;
-            color: #4b5563;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        .fm-three-dot:hover { color: var(--gold); }
-        .fm-context-menu {
-            position: fixed;
-            z-index: 9999;
-            background: rgba(10,12,24,0.97);
-            border: 1px solid rgba(255,215,0,0.2);
-            border-radius: 16px;
-            padding: 6px;
-            min-width: 160px;
-            backdrop-filter: blur(10px);
-            display: none;
-        }
-        .fm-ctx-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 14px;
-            border-radius: 12px;
-            font-size: 0.82rem;
-            cursor: pointer;
-            color: #b0b8d4;
-        }
-        .fm-ctx-item:hover { background: rgba(255,255,255,0.07); color: white; }
+
         .modal {
             display: none;
             position: fixed;
@@ -720,7 +771,9 @@
             align-items: center;
             justify-content: center;
         }
-        .modal.active { display: flex; }
+        .modal.active {
+            display: flex;
+        }
         .modal-content {
             background: linear-gradient(145deg, #0f172f, #050a18);
             border: 1px solid var(--gold);
@@ -730,7 +783,17 @@
             padding: 28px;
             text-align: center;
         }
-        .notif-box {
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,215,0,0.3);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .toast {
             position: fixed;
             bottom: 20px;
             left: 50%;
@@ -742,9 +805,37 @@
             z-index: 1100;
             display: none;
             font-size: 0.8rem;
+        }
+
+        .notif-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1a1f2e;
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 12px 20px;
+            z-index: 1200;
+            display: none;
             align-items: center;
             gap: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            animation: slideInRight 0.3s ease;
         }
+        .notif-box.success { border-color: #00ff88; color: #00ff88; }
+        .notif-box.error { border-color: var(--red); color: var(--red); }
+        .notif-box.warning { border-color: #ffb800; color: #ffb800; }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .notif-box .close-notif {
+            cursor: pointer;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
         .loading-overlay {
             display: none;
             position: fixed;
@@ -756,16 +847,9 @@
             justify-content: center;
             flex-direction: column;
         }
-        .loading-overlay.active { display: flex; }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255,215,0,0.3);
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        .loading-overlay.active {
+            display: flex;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
         .fun-fact {
             margin-top: 20px;
             background: rgba(255,255,255,0.05);
@@ -774,12 +858,168 @@
             font-size: 0.8rem;
             color: var(--gold);
         }
+
         @media (max-width: 768px) {
             .stats-row { grid-template-columns: repeat(2,1fr); gap: 12px; }
             .servers-grid { grid-template-columns: 1fr; }
+            .top-bar { flex-wrap: wrap; gap: 12px; }
             .main-content { padding: 16px; }
-            .control-grid, .tab-buttons { grid-template-columns: repeat(2,1fr); }
+            .tabs { gap: 8px; }
+            .tab-btn { padding: 6px 16px; font-size: 0.7rem; min-width: auto; }
+            .detail-actions-bar { gap: 8px; }
+            .detail-action-btn { padding: 6px 16px; font-size: 0.7rem; min-width: auto; }
+            .server-actions .action-group { flex-wrap: wrap; }
+            .languages-grid, .plans-grid { grid-template-columns: repeat(2, 1fr); }
+            .fm-actions-grid { grid-template-columns: 1fr; }
+            .action-btn, .fm-action-btn { min-width: auto; padding: 8px 16px; }
         }
+
+        /* ===== FILE MANAGER ===== */
+        .fm-breadcrumb {
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 14px; margin-bottom: 14px;
+            background: rgba(0,0,0,0.35); border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.78rem; flex-wrap: wrap;
+        }
+        .fm-crumb {
+            color: #6b7a9f; cursor: pointer; transition: 0.15s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .fm-crumb:hover { color: var(--gold); }
+        .fm-crumb-sep { color: #3d4560; font-size: 0.7rem; }
+        .fm-crumb:last-child { color: #b0b8d4; pointer-events: none; }
+
+        .fm-actions-grid {
+            display: grid; grid-template-columns: repeat(5, 1fr);
+            gap: 12px; margin-bottom: 20px;
+        }
+        @media (max-width: 900px) {
+            .fm-actions-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 550px) {
+            .fm-actions-grid { grid-template-columns: 1fr; }
+        }
+
+        .fm-badge-beta {
+            position: absolute; top: -6px; left: 8px;
+            background: #FFA500; color: #0a0808;
+            font-size: 0.55rem; font-weight: 800; padding: 2px 6px;
+            border-radius: 20px; letter-spacing: 0.5px;
+        }
+
+        .fm-search-wrap {
+            position: relative; margin-bottom: 14px;
+        }
+        .fm-search-icon {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            color: #4b5563; font-size: 0.85rem; pointer-events: none;
+        }
+        .fm-search {
+            width: 100%; background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;
+            padding: 10px 40px 10px 14px; color: white;
+            font-family: 'Tajawal', sans-serif; font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .fm-search:focus { outline: none; border-color: rgba(255,215,0,0.4); box-shadow: 0 0 0 3px rgba(255,215,0,0.07); }
+
+        .fm-table-wrap {
+            background: rgba(8,12,24,0.6); border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.06); overflow: hidden;
+            position: relative;
+        }
+        .fm-table { width: 100%; border-collapse: collapse; }
+        .fm-table thead th {
+            background: rgba(0,0,0,0.4); padding: 10px 14px;
+            text-align: right; font-size: 0.7rem; text-transform: uppercase;
+            color: #4b5563; letter-spacing: 0.8px; font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .fm-table tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: background 0.12s; cursor: pointer;
+        }
+        .fm-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+        .fm-table tbody tr.fm-selected { background: rgba(255,215,0,0.06); }
+        .fm-table tbody td { padding: 10px 14px; font-size: 0.83rem; color: #b0b8d4; }
+
+        .fm-file-name {
+            display: flex; align-items: center; gap: 10px; font-weight: 500;
+        }
+        .fm-file-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+        .fi-folder  { color: var(--gold); }
+        .fi-py      { color: #3776AB; }
+        .fi-js      { color: #F7DF1E; }
+        .fi-json    { color: #8bc34a; }
+        .fi-txt     { color: #9ca3cf; }
+        .fi-zip     { color: #FFA500; }
+        .fi-image   { color: #f472b6; }
+        .fi-default { color: #6b7a9f; }
+
+        .fm-three-dot {
+            background: none; border: none; color: #4b5563;
+            cursor: pointer; padding: 4px 8px; border-radius: 6px;
+            font-size: 1rem; transition: 0.15s; line-height: 1;
+        }
+        .fm-three-dot:hover { background: rgba(255,255,255,0.07); color: #b0b8d4; }
+
+        .fm-footer {
+            display: flex; justify-content: flex-end;
+            padding: 12px 4px; margin-top: 8px;
+        }
+        .fm-delete-selected {
+            background: rgba(220,38,38,0.12); border: 1px solid rgba(220,38,38,0.3);
+            border-radius: 60px; color: #f87171;
+            padding: 10px 24px; font-family: 'Tajawal', sans-serif;
+            font-size: 0.8rem; font-weight: 700; cursor: pointer;
+            transition: 0.18s; display: flex; align-items: center; gap: 7px;
+        }
+        .fm-delete-selected:disabled { opacity: 0.35; cursor: not-allowed; }
+        .fm-delete-selected:not(:disabled):hover { background: rgba(220,38,38,0.25); transform: translateY(-1px); }
+
+        .fm-context-menu {
+            position: fixed; z-index: 9999;
+            background: rgba(10,12,24,0.97); border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 12px; padding: 6px; min-width: 160px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6); backdrop-filter: blur(10px);
+            display: none;
+        }
+        .fm-ctx-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 14px; border-radius: 8px;
+            font-size: 0.82rem; cursor: pointer; transition: 0.12s; color: #b0b8d4;
+        }
+        .fm-ctx-item:hover { background: rgba(255,255,255,0.07); color: white; }
+        .fm-ctx-rename:hover { color: var(--gold); }
+        .fm-ctx-download:hover { color: #63b3ed; }
+        .fm-ctx-delete:hover { color: #f87171; background: rgba(220,38,38,0.1); }
+        .fm-ctx-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 4px 0; }
+
+        .fm-drop-overlay {
+            display: none; position: absolute; inset: 0;
+            background: rgba(255,215,0,0.06); border: 2px dashed var(--gold);
+            border-radius: 14px; z-index: 10;
+            align-items: center; justify-content: center;
+            flex-direction: column; gap: 12px;
+            font-size: 1.5rem; color: var(--gold);
+        }
+        .fm-drop-overlay.show { display: flex; }
+
+        .plan-paid {
+            border-color: rgba(255,107,53,0.4) !important;
+            background: rgba(255,107,53,0.06) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .plan-paid::before {
+            content: '💳 مدفوع';
+            position: absolute; top: 8px; left: 8px;
+            background: rgba(255,107,53,0.2); color: #FF6B35;
+            font-size: 0.58rem; font-weight: 700; padding: 2px 8px;
+            border-radius: 20px; border: 1px solid rgba(255,107,53,0.3);
+        }
+        .plan-paid:hover { border-color: rgba(255,107,53,0.7) !important; background: rgba(255,107,53,0.1) !important; }
     </style>
 </head>
 <body>
@@ -849,59 +1089,88 @@
                 <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة</button>
                 <div class="server-title" id="detailTitle"></div>
             </div>
-
-            <!-- أزرار التحكم الرئيسية (Control Grid) -->
-            <div class="control-grid">
-                <button class="action-btn btn-start" onclick="controlServer('start')"><i class="fas fa-play"></i><span>تشغيل</span></button>
-                <button class="action-btn btn-stop" onclick="controlServer('stop')"><i class="fas fa-stop"></i><span>إيقاف</span></button>
-                <button class="action-btn btn-restart" onclick="controlServer('restart')"><i class="fas fa-sync-alt"></i><span>إعادة تشغيل</span></button>
-                <button class="action-btn btn-console" onclick="openConsole()"><i class="fas fa-terminal"></i><span>الكونسول</span></button>
+            <div class="detail-actions-bar">
+                <button class="detail-action-btn start" id="detailStartBtn"><i class="fas fa-play"></i> تشغيل</button>
+                <button class="detail-action-btn stop" id="detailStopBtn"><i class="fas fa-stop"></i> إيقاف</button>
+                <button class="detail-action-btn restart" id="detailRestartBtn"><i class="fas fa-sync-alt"></i> إعادة تشغيل</button>
+                <button class="detail-action-btn delete" id="detailDeleteBtn"><i class="fas fa-trash"></i> حذف</button>
             </div>
-
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
-
-            <!-- التبويبات الجديدة -->
-            <div class="tab-buttons">
-                <button class="tab-btn" style="border-bottom-color: #9b59b6;" onclick="switchToTab('files')"><i class="fas fa-folder-open"></i><span>الملفات</span></button>
-                <button class="tab-btn" style="border-bottom-color: #1abc9c;" onclick="switchToTab('database')"><i class="fas fa-database"></i><span>قواعد البيانات</span></button>
-                <button class="tab-btn" style="border-bottom-color: #e67e22;" onclick="switchToTab('security')"><i class="fas fa-shield-alt"></i><span>الحماية</span></button>
-            </div>
-
-            <!-- التبويبات الأصلية -->
             <div class="tabs">
                 <button class="tab-btn active" data-tab="console"><i class="fas fa-terminal"></i> الكونسول</button>
-                <button class="tab-btn" data-tab="files"><i class="fas fa-folder-open"></i> الملفات (قديم)</button>
+                <button class="tab-btn" data-tab="files"><i class="fas fa-folder-open"></i> الملفات</button>
                 <button class="tab-btn" data-tab="stats"><i class="fas fa-chart-bar"></i> الإحصائيات</button>
                 <button class="tab-btn" data-tab="settings"><i class="fas fa-cog"></i> الإعدادات</button>
                 <button class="tab-btn" data-tab="api"><i class="fas fa-key"></i> مفاتيح API</button>
             </div>
-
-            <!-- محتوى التبويبات -->
             <div id="consoleTab" class="tab-content active"><div class="console-box" id="consoleOut"></div></div>
             <div id="filesTab" class="tab-content">
+                <!-- Breadcrumb -->
                 <div class="fm-breadcrumb" id="fmBreadcrumb">
                     <span class="fm-crumb fm-crumb-root" onclick="navigateTo('')"><i class="fas fa-home"></i> الرئيسية</span>
                 </div>
-                <div class="fm-actions-grid" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
-                    <button class="fm-action-btn fm-upload" onclick="document.getElementById('fileUpload').click()"><i class="fas fa-upload"></i> تحميل ملفات</button>
-                    <button class="fm-action-btn fm-newfile" onclick="showCreateFileModal()"><i class="fas fa-plus"></i> إنشاء ملف</button>
-                    <button class="fm-action-btn fm-newfolder" onclick="showCreateFolderModal()"><i class="fas fa-folder-plus"></i> إنشاء مجلد</button>
-                    <button class="fm-action-btn fm-install" onclick="installPackages()"><i class="fas fa-cube"></i> تثبيت المكتبات</button>
-                    <button class="fm-action-btn fm-dlzone" onclick="alert('مجلد التحميل قيد التطوير')"><i class="fas fa-box-archive"></i> مجلد التحميل</button>
+
+                <!-- Action buttons grid (5 buttons now) -->
+                <div class="fm-actions-grid">
+                    <button class="fm-action-btn fm-upload" onclick="document.getElementById('fileUpload').click()">
+                        <i class="fas fa-upload"></i> تحميل ملفات
+                    </button>
+                    <button class="fm-action-btn fm-newfile" onclick="showCreateFileModal()">
+                        <i class="fas fa-plus"></i> إنشاء ملف
+                    </button>
+                    <button class="fm-action-btn fm-newfolder" onclick="showCreateFolderModal()">
+                        <i class="fas fa-folder-plus"></i> إنشاء مجلد
+                    </button>
+                    <button class="fm-action-btn fm-dlzone" onclick="alert('ميزة تجريبية: يمكنك تنزيل الملفات من خلال قائمة النقاط الثلاث على كل ملف')">
+                        <i class="fas fa-box-archive"></i> مجلد التحميل
+                        <span class="fm-badge-beta">تجريبي</span>
+                    </button>
+                    <button class="fm-action-btn fm-packages" onclick="installPackages()">
+                        <i class="fas fa-cubes"></i> تثبيت المكتبات
+                        <span class="fm-badge-beta">مباشر</span>
+                    </button>
                 </div>
+
                 <input type="file" id="fileUpload" multiple style="display:none" onchange="uploadFiles(this.files)">
-                <div class="fm-table-wrap">
+
+                <!-- Search bar -->
+                <div class="fm-search-wrap">
+                    <i class="fas fa-search fm-search-icon"></i>
+                    <input type="text" class="fm-search" id="fileSearch" placeholder="ابحث عن الملفات...">
+                </div>
+
+                <!-- Drop zone overlay -->
+                <div class="fm-drop-overlay" id="fmDropOverlay" ondragover="event.preventDefault()" ondrop="handleDropOverlay(event)">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>أفلت الملفات هنا</span>
+                </div>
+
+                <!-- Files table -->
+                <div class="fm-table-wrap" ondragover="showDropOverlay()" ondragleave="hideDropOverlay()">
                     <table class="fm-table">
-                        <thead><tr><th style="width:40px"><input type="checkbox" id="selectAllFiles" onchange="toggleSelectAll(this)"></th><th>الاسم</th><th>الحجم</th><th></th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th style="width:40px"><input type="checkbox" id="selectAllFiles" onchange="toggleSelectAll(this)"></th>
+                                <th>الاسم</th>
+                                <th style="width:100px">الحجم</th>
+                                <th style="width:50px"></th>
+                            </tr>
+                        </thead>
                         <tbody id="filesList"></tbody>
                     </table>
                 </div>
-                <div class="fm-footer" style="margin-top: 16px; text-align: left;">
-                    <button class="fm-delete-selected" onclick="deleteSelected()" id="deleteSelectedBtn" disabled><i class="fas fa-trash"></i> حذف المحدد</button>
+
+                <!-- Delete selected -->
+                <div class="fm-footer">
+                    <button class="fm-delete-selected" onclick="deleteSelected()" id="deleteSelectedBtn" disabled>
+                        <i class="fas fa-trash"></i> حذف المحدد
+                    </button>
                 </div>
+
+                <!-- Context menu -->
                 <div class="fm-context-menu" id="fmContextMenu">
                     <div class="fm-ctx-item fm-ctx-rename" onclick="ctxRename()"><i class="fas fa-pencil"></i> إعادة تسمية</div>
                     <div class="fm-ctx-item fm-ctx-download" id="ctxDownloadItem" onclick="ctxDownload()"><i class="fas fa-download"></i> تنزيل</div>
+                    <div class="fm-ctx-divider"></div>
                     <div class="fm-ctx-item fm-ctx-delete" onclick="ctxDelete()"><i class="fas fa-trash"></i> حذف</div>
                 </div>
             </div>
@@ -916,10 +1185,7 @@
             <div id="settingsTab" class="tab-content">
                 <div style="background: rgba(12,18,34,0.6); border-radius: 24px; padding: 20px; margin-bottom: 20px;">
                     <div><i class="fas fa-rocket"></i> ملف بدء التشغيل</div>
-                    <div style="display: flex; gap: 12px; margin-top: 12px;">
-                        <select id="startupFileSelect" style="background:#0a0c18; border:1px solid var(--gold); border-radius:60px; padding:8px 16px; color:white;"></select>
-                        <button class="action-btn" onclick="setStartupFile()">حفظ</button>
-                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 12px;"><select id="startupFileSelect" style="background:#0a0c18; border:1px solid var(--gold); border-radius:40px; padding:8px 16px; color:white;"></select><button class="action-btn" onclick="setStartupFile()">حفظ</button></div>
                 </div>
                 <div style="background: rgba(12,18,34,0.6); border-radius: 24px; padding: 20px;">
                     <div>الخطة: <span id="planDetails"></span></div>
@@ -929,7 +1195,7 @@
             </div>
             <div id="apiTab" class="tab-content">
                 <div class="api-panel">
-                    <h3><i class="fas fa-key api-icon"></i> إدارة مفاتيح API</h3>
+                    <h3><i class="fas fa-key"></i> إدارة مفاتيح API</h3>
                     <p>مفتاح API الحالي:</p>
                     <div class="api-key-display" id="currentApiKeyDisplay">لا يوجد مفتاح</div>
                     <div class="api-actions">
@@ -940,7 +1206,7 @@
             </div>
         </div>
 
-        <!-- صفحة إنشاء السيرفر -->
+        <!-- صفحة إنشاء السيرفر الجديدة -->
         <div id="createServerView" class="create-server-view">
             <div class="detail-header">
                 <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة</button>
@@ -962,63 +1228,31 @@
     </div>
 </div>
 
-<!-- المودالات -->
-<div id="editorModal" class="modal">
-    <div class="modal-content">
-        <textarea id="editorArea" rows="12" style="width:100%; background:#010409; border:1px solid var(--gold); border-radius:16px; padding:12px; color:white;"></textarea>
-        <button class="action-btn" style="width:100%; margin-top:16px;" onclick="saveFile()">حفظ</button>
-    </div>
-</div>
-<div id="confirmModal" class="modal">
-    <div class="modal-content">
-        <p id="confirmMsg"></p>
-        <div style="display:flex; gap:12px; margin-top:20px;">
-            <button class="action-btn" id="confirmYesBtn" style="background:var(--red); border-radius:60px;">تأكيد</button>
-            <button class="action-btn" onclick="closeConfirm()" style="border-radius:60px;">إلغاء</button>
-        </div>
-    </div>
-</div>
-<div id="createFileModal" class="modal">
-    <div class="modal-content">
-        <input type="text" id="newFileName" placeholder="script.py" style="width:100%; margin-bottom:12px; padding:10px; border-radius:60px; border:1px solid var(--gold); background:#010409; color:white;">
-        <textarea id="newFileContent" rows="4" placeholder="المحتوى" style="width:100%; border-radius:16px; border:1px solid var(--gold); background:#010409; color:white; padding:12px;"></textarea>
-        <button class="action-btn" style="width:100%; margin-top:16px;" onclick="createFile()">إنشاء</button>
-    </div>
-</div>
-<div id="createFolderModal" class="modal">
-    <div class="modal-content">
-        <input type="text" id="newFolderName" placeholder="اسم المجلد" style="width:100%; margin-bottom:12px; padding:10px; border-radius:60px; border:1px solid var(--gold); background:#010409; color:white;">
-        <button class="action-btn" style="width:100%;" onclick="createFolder()">إنشاء مجلد</button>
-    </div>
-</div>
+<!-- مودالات -->
+<div id="plansModal" class="modal"><div class="modal-content">...</div></div>
+<div id="createProgressModal" class="modal"><div class="modal-content"><div id="createLoading"><div class="spinner"></div><p>جاري إنشاء الخادم...</p><div class="fun-fact" id="funFact">✨ استمتع باستضافة غير محدودة</div></div><div id="createSuccess" style="display:none;"><i class="fas fa-check-circle" style="font-size:3rem; color:#00ff88;"></i><p style="margin:16px 0;">تم إنشاء الخادم بنجاح!</p><button class="action-btn start" id="goToServerBtn">الانتقال إلى الخادم</button></div></div></div>
+<div id="editorModal" class="modal"><div class="modal-content"><textarea id="editorArea" rows="12" style="width:100%; background:#010409; border:1px solid var(--gold); border-radius:16px; padding:12px; color:white;"></textarea><button class="action-btn" style="width:100%; margin-top:16px;" onclick="saveFile()">حفظ</button></div></div>
+<div id="confirmModal" class="modal"><div class="modal-content"><p id="confirmMsg"></p><div style="display:flex; gap:12px; margin-top:20px;"><button class="action-btn" id="confirmYesBtn" style="background:var(--red);">تأكيد</button><button class="action-btn" onclick="closeConfirm()">إلغاء</button></div></div></div>
+<div id="createFileModal" class="modal"><div class="modal-content"><input type="text" id="newFileName" placeholder="script.py" style="width:100%; margin-bottom:12px; padding:10px; border-radius:40px; border:1px solid var(--gold); background:#010409; color:white;"><textarea id="newFileContent" rows="4" placeholder="المحتوى" style="width:100%; border-radius:16px; border:1px solid var(--gold); background:#010409; color:white; padding:12px;"></textarea><button class="action-btn" style="width:100%; margin-top:16px;" onclick="createFile()">إنشاء</button></div></div>
+<div id="createFolderModal" class="modal"><div class="modal-content"><input type="text" id="newFolderName" placeholder="اسم المجلد" style="width:100%; margin-bottom:12px; padding:10px; border-radius:40px; border:1px solid var(--gold); background:#010409; color:white;"><button class="action-btn" style="width:100%;" onclick="createFolder()">إنشاء مجلد</button></div></div>
 
 <div id="notifBox" class="notif-box"><span id="notifMsg"></span><i class="fas fa-times close-notif" onclick="closeNotif()"></i></div>
 <div id="loadingOverlay" class="loading-overlay"><div class="spinner"></div><div id="loadingFact" class="fun-fact"></div></div>
 
 <script>
-    // ========== جميع الدوال الأصلية + الدوال الجديدة ==========
     let currentServer = null, polling = null, currentFile = null, confirmAction = null, selectedPlan = null, selectedLanguage = null;
-    let currentPath = '';
-    let ctxFileName = '', ctxFileIsDir = false;
     const funFacts = ["🚀 أكثر من 1000 مستخدم يثقون بنا", "⚡ استضافة فائقة السرعة", "🔒 حماية متقدمة لبياناتك", "💾 نسخ احتياطي يومي", "🤖 دعم بوتات التليجرام", "📁 مساحة تخزين غير محدودة", "🌐 دعم كامل لـ Python", "🛠️ دعم فني على مدار الساعة"];
 
-    const plans = [
-        { id:'free',  name:'🎁 مجاني',   storage:100,   ram:256,  price:0,  paid:false, specs:'100MB تخزين | 256MB رام | 0.5 نواة' },
-        { id:'4gb',   name:'💎 4 جيجا',  storage:4096,  ram:1024, price:5,  paid:true,  specs:'4GB تخزين | 1GB رام | 1 نواة' },
-        { id:'10gb',  name:'💎 10 جيجا', storage:10240, ram:2048, price:10, paid:true,  specs:'10GB تخزين | 2GB رام | 2 نواة' },
-        { id:'40gb',  name:'💎 40 جيجا', storage:40960, ram:4096, price:25, paid:true,  specs:'40GB تخزين | 4GB رام | 4 نواة' }
-    ];
+    function getLanguageIcon(lang) {
+        const icons = {
+            'python': '<i class="fab fa-python" style="color:#3776AB;"></i>',
+            'java': '<i class="fab fa-java" style="color:#007396;"></i>',
+            'nodejs': '<i class="fab fa-node-js" style="color:#339933;"></i>',
+            'go': '<i class="fab fa-golang" style="color:#00ADD8;"></i>',
+        };
+        return icons[lang?.toLowerCase()] || '<i class="fas fa-code"></i>';
+    }
 
-    const languages = [
-        { id: 'python', name: 'Python', icon: '<i class="fab fa-python"></i>' },
-        { id: 'java', name: 'Java', icon: '<i class="fab fa-java"></i>' },
-        { id: 'nodejs', name: 'Node.js', icon: '<i class="fab fa-node-js"></i>' },
-        { id: 'go', name: 'Go', icon: '<i class="fab fa-golang"></i>' },
-    ];
-
-    let currentUserIsVip = false;
-
-    // دوال مساعدة
     function showNotif(msg, type = 'info') {
         const box = document.getElementById('notifBox');
         box.className = `notif-box ${type}`;
@@ -1026,7 +1260,9 @@
         box.style.display = 'flex';
         setTimeout(() => box.style.display = 'none', 4000);
     }
+
     function closeNotif() { document.getElementById('notifBox').style.display = 'none'; }
+
     function showLoading(show, customFact = null) {
         const overlay = document.getElementById('loadingOverlay');
         if (show) {
@@ -1037,6 +1273,7 @@
             overlay.classList.remove('active');
         }
     }
+
     function showConfirm(msg, cb) {
         document.getElementById('confirmMsg').innerText = msg;
         confirmAction = cb;
@@ -1044,37 +1281,6 @@
     }
     function closeConfirm() { document.getElementById('confirmModal').classList.remove('active'); confirmAction = null; }
     document.getElementById('confirmYesBtn').onclick = () => { if(confirmAction) confirmAction(); closeConfirm(); };
-    function escapeHtml(s) { return String(s).replace(/[&<>]/g, m=>m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
-
-    function getFileIcon(name, isDir) {
-        if (isDir) return '<i class="fas fa-folder fm-file-icon fi-folder"></i>';
-        const ext = name.split('.').pop().toLowerCase();
-        const icons = {
-            py: '<i class="fab fa-python fm-file-icon fi-py"></i>',
-            js: '<i class="fab fa-js fm-file-icon fi-js"></i>',
-            json: '<i class="fas fa-brackets-curly fm-file-icon fi-json"></i>',
-            txt: '<i class="fas fa-file-lines fm-file-icon fi-txt"></i>',
-            md: '<i class="fas fa-file-lines fm-file-icon fi-txt"></i>',
-            zip: '<i class="fas fa-file-zipper fm-file-icon fi-zip"></i>',
-            png: '<i class="fas fa-image fm-file-icon fi-image"></i>',
-            jpg: '<i class="fas fa-image fm-file-icon fi-image"></i>',
-            jpeg:'<i class="fas fa-image fm-file-icon fi-image"></i>',
-            gif: '<i class="fas fa-image fm-file-icon fi-image"></i>',
-            html: '<i class="fab fa-html5 fm-file-icon fi-html"></i>',
-            css: '<i class="fab fa-css3-alt fm-file-icon fi-css"></i>'
-        };
-        return icons[ext] || '<i class="fas fa-file fm-file-icon fi-default"></i>';
-    }
-
-    function getLanguageIcon(lang) {
-        const icons = {
-            'python': '<i class="fab fa-python" style="color:#3776AB;"></i>',
-            'java': '<i class="fab fa-java" style="color:#007396;"></i>',
-            'nodejs': '<i class="fab fa-node-js" style="color:#339933;"></i>',
-            'go': '<i class="fab fa-golang" style="color:#00ADD8;"></i>'
-        };
-        return icons[lang?.toLowerCase()] || '<i class="fas fa-code"></i>';
-    }
 
     // Sidebar logic
     const sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
@@ -1086,439 +1292,29 @@
         btn.onclick = () => {
             const nav = btn.dataset.nav;
             if (nav === 'create') { showCreatePage(); closeSidebar(); return; }
-            if (nav === 'dashboard' || nav === 'servers') { goHome(); closeSidebar(); loadServers(); return; }
+            if (nav === 'dashboard') { goHome(); closeSidebar(); return; }
+            if (nav === 'servers') { loadServers(); goHome(); closeSidebar(); return; }
             if (nav === 'account') { showNotif('سيتم إضافة إعدادات الحساب قريباً', 'info'); closeSidebar(); return; }
             if (nav === 'api') { if(currentServer) document.querySelector('.tab-btn[data-tab="api"]').click(); else showNotif('افتح سيرفراً أولاً', 'warning'); closeSidebar(); return; }
-            if (nav === 'admin') { window.location.href = '/admin'; closeSidebar(); }
+            if (nav === 'admin') { window.location.href = '/admin'; closeSidebar(); return; }
         };
     });
 
-    // المصادقة والمتريكات
-    async function checkAuth() {
-        try {
-            const r = await fetch('/api/current_user');
-            const d = await r.json();
-            if(!d.success) window.location.href='/login';
-            else {
-                document.getElementById('username').innerText = d.username;
-                document.getElementById('usernameTop').innerText = d.username;
-                if(d.is_admin) document.getElementById('adminPanelNav').style.display = 'flex';
-                loadServers();
-                fetchMetrics();
-                setInterval(fetchMetrics, 8000);
-            }
-        } catch(e) { window.location.href='/login'; }
-    }
+    const plans = [
+        { id:'free',  name:'🎁 مجاني',   storage:100,   ram:256,  price:0,  paid:false, specs:'100MB تخزين | 256MB رام | 0.5 نواة' },
+        { id:'4gb',   name:'💎 4 جيجا',  storage:4096,  ram:1024, price:5,  paid:true,  specs:'4GB تخزين | 1GB رام | 1 نواة' },
+        { id:'10gb',  name:'💎 10 جيجا', storage:10240, ram:2048, price:10, paid:true,  specs:'10GB تخزين | 2GB رام | 2 نواة' },
+        { id:'40gb',  name:'💎 40 جيجا', storage:40960, ram:4096, price:25, paid:true,  specs:'40GB تخزين | 4GB رام | 4 نواة' }
+    ];
+    let currentUserIsVip = false;
 
-    async function fetchMetrics() {
-        try {
-            const r = await fetch('/api/system/metrics');
-            const d = await r.json();
-            document.getElementById('ramUsage').innerText = d.memory+'%';
-            document.getElementById('ramProgress').style.width = d.memory+'%';
-            document.getElementById('cpuStat').innerText = d.cpu+'%';
-            document.getElementById('cpuProgress').style.width = d.cpu+'%';
-        } catch(e) {}
-    }
+    const languages = [
+        { id: 'python', name: 'Python', icon: '<i class="fab fa-python"></i>' },
+        { id: 'java', name: 'Java', icon: '<i class="fab fa-java"></i>' },
+        { id: 'nodejs', name: 'Node.js', icon: '<i class="fab fa-node-js"></i>' },
+        { id: 'go', name: 'Go', icon: '<i class="fab fa-golang"></i>' },
+    ];
 
-    async function loadServers() {
-        try {
-            const r = await fetch('/api/servers');
-            const d = await r.json();
-            document.getElementById('usedServers').innerText = `${d.stats.used}/${d.stats.total||1}`;
-            document.getElementById('expiryDays').innerText = d.stats.expiry;
-            const diskTotal = d.stats.disk_total||100, diskUsed = d.stats.disk_used||0;
-            document.getElementById('diskUsed').innerText = `${Math.round(diskUsed)}/${diskTotal} MB`;
-            document.getElementById('diskProgress').style.width = (diskUsed/diskTotal)*100+'%';
-            document.getElementById('storageStat').innerText = `${Math.round(diskUsed)}/${diskTotal} MB`;
-            document.getElementById('storageProgress').style.width = (diskUsed/diskTotal)*100+'%';
-            document.getElementById('storageLimit').innerText = diskTotal;
-            
-            const grid = document.getElementById('serversGrid');
-            if(d.servers.length === 0) {
-                document.getElementById('noServerBlock').style.display = 'block';
-                grid.innerHTML = '';
-                return;
-            }
-            document.getElementById('noServerBlock').style.display = 'none';
-            grid.innerHTML = d.servers.map(s => `
-                <div class="server-card">
-                    <div class="server-card-header">
-                        <div class="server-icon"><i class="fas fa-cube"></i></div>
-                        <div class="server-status-badge ${s.status==='Running'?'status-online':'status-offline'}">
-                            <span class="status-dot ${s.status==='Running'?'dot-online':'dot-offline'}"></span>${s.status==='Running'?'يعمل':'متوقف'}
-                        </div>
-                    </div>
-                    <div class="server-name">${getLanguageIcon(s.language)} ${escapeHtml(s.title)}</div>
-                    <div class="server-meta">
-                        <span class="server-port"><i class="fas fa-plug"></i> المنفذ: ${s.port||'N/A'}</span>
-                        <span class="server-plan-badge"><i class="fas fa-tag"></i> ${s.plan==='free'?'مجاني':s.plan}</span>
-                    </div>
-                    <div class="server-stats">
-                        <span title="التخزين"><i class="fas fa-hdd"></i> ${s.storage_limit||100}MB</span>
-                        <span title="النواة"><i class="fas fa-microchip"></i> ${s.cpu_limit||0.5} نواة</span>
-                        <span title="الرام"><i class="fas fa-memory"></i> ${s.ram_limit||256}MB RAM</span>
-                        <span title="وقت التشغيل"><i class="fas fa-clock"></i> ${s.uptime || '—'}</span>
-                        <span title="اللغة"><i class="fas fa-code"></i> ${s.language||'python'}</span>
-                    </div>
-                    <div class="server-actions">
-                        <div class="action-group">
-                            <button class="action-btn start" data-action="start" data-folder="${s.folder}"><i class="fas fa-play"></i> تشغيل</button>
-                            <button class="action-btn restart" data-action="restart" data-folder="${s.folder}"><i class="fas fa-sync-alt"></i> إعادة</button>
-                            <button class="action-btn stop" data-action="stop" data-folder="${s.folder}"><i class="fas fa-stop"></i> إيقاف</button>
-                        </div>
-                        <div class="action-group">
-                            <button class="action-btn delete" data-action="delete" data-folder="${s.folder}"><i class="fas fa-trash"></i> حذف</button>
-                            <button class="action-btn detail" data-action="detail" data-folder="${s.folder}"><i class="fas fa-chevron-left"></i> تفاصيل</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            
-            document.querySelectorAll('.action-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const action = btn.dataset.action;
-                    const folder = btn.dataset.folder;
-                    if(action === 'detail') openServer(d.servers.find(s=>s.folder===folder));
-                    else performAction(folder, action);
-                });
-            });
-        } catch(e) { showNotif('خطأ في التحميل', 'error'); }
-    }
-
-    async function performAction(folder, action) {
-        if(action === 'delete') {
-            showConfirm('حذف الخادم نهائياً؟', async () => {
-                await fetch(`/api/server/action/${folder}/delete`, { method:'POST' });
-                loadServers();
-                if(currentServer && currentServer.folder === folder) goHome();
-            });
-            return;
-        }
-        showNotif(`جاري ${action}...`, 'info');
-        try {
-            const r = await fetch(`/api/server/action/${folder}/${action}`, { method:'POST' });
-            const d = await r.json();
-            if(d.success) {
-                showNotif(d.message, 'success');
-                if(action !== 'delete') loadServers();
-                if(currentServer && currentServer.folder === folder) fetchStats();
-            } else showNotif(d.message || 'فشل', 'error');
-        } catch(e) { showNotif('خطأ', 'error'); }
-    }
-
-    function openServer(s) {
-        currentServer = s;
-        document.getElementById('homeView').style.display = 'none';
-        document.getElementById('detailView').classList.add('active');
-        document.getElementById('createServerView').classList.remove('active');
-        document.getElementById('detailTitle').innerHTML = `${getLanguageIcon(s.language)} ${escapeHtml(s.title)}`;
-        document.getElementById('ramLimit').innerText = s.ram_limit || 256;
-        document.getElementById('planDetails').innerText = s.plan === 'free' ? 'مجاني' : s.plan;
-        if(polling) clearInterval(polling);
-        fetchStats();
-        polling = setInterval(fetchStats, 4000);
-        loadFiles('');
-        loadStartupFiles();
-        loadApiKey();
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.getElementById('consoleTab').classList.add('active');
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('.tab-btn[data-tab="console"]').classList.add('active');
-        document.getElementById('detailStartBtn').onclick = () => performAction(currentServer.folder, 'start');
-        document.getElementById('detailStopBtn').onclick = () => performAction(currentServer.folder, 'stop');
-        document.getElementById('detailRestartBtn').onclick = () => performAction(currentServer.folder, 'restart');
-        document.getElementById('detailDeleteBtn').onclick = () => performAction(currentServer.folder, 'delete');
-    }
-
-    async function fetchStats() {
-        if(!currentServer) return;
-        try {
-            const r = await fetch(`/api/server/stats/${currentServer.folder}`);
-            const d = await r.json();
-            if(!d.success) return;
-            document.getElementById('consoleOut').innerHTML = (d.logs || 'لا توجد مخرجات').split('\n').map(l => `<div>${escapeHtml(l)}</div>`).join('');
-            document.getElementById('consoleOut').scrollTop = document.getElementById('consoleOut').scrollHeight;
-            document.getElementById('ramStat').innerText = `${d.mem || 0} MB / ${currentServer.ram_limit || 256} MB`;
-            const ramPercent = (parseFloat(d.mem||0)/(currentServer.ram_limit||256))*100;
-            document.getElementById('ramDetailProgress').style.width = Math.min(ramPercent,100)+'%';
-            document.getElementById('uptimeStat').innerText = d.uptime || '0';
-        } catch(e) {}
-    }
-
-    function goHome() {
-        document.getElementById('homeView').style.display = 'block';
-        document.getElementById('detailView').classList.remove('active');
-        document.getElementById('createServerView').classList.remove('active');
-        if(polling) clearInterval(polling);
-        currentServer = null;
-        loadServers();
-    }
-
-    // دوال مدير الملفات
-    async function loadFiles(subPath) {
-        if(!currentServer) return;
-        const path = (subPath !== undefined) ? subPath : currentPath;
-        const tbody = document.getElementById('filesList');
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;"><i class="fas fa-spinner fa-spin"></i> جاري...</td></tr>';
-        const url = path ? `/api/files/list/${currentServer.folder}?path=${encodeURIComponent(path)}` : `/api/files/list/${currentServer.folder}`;
-        try {
-            const r = await fetch(url);
-            const files = await r.json();
-            document.getElementById('selectAllFiles').checked = false;
-            document.getElementById('deleteSelectedBtn').disabled = true;
-            if(!files.length) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;"><i class="fas fa-folder-open" style="font-size:2rem;display:block;margin-bottom:8px;"></i>المجلد فارغ</td></tr>';
-                return;
-            }
-            tbody.innerHTML = files.map(f => `
-                <tr class="fm-row" data-name="${escapeHtml(f.name)}" data-isdir="${f.is_dir}">
-                    <td><input type="checkbox" class="file-checkbox" value="${escapeHtml(f.name)}" onchange="updateDeleteBtn()"></td>
-                    <td onclick="${f.is_dir ? `navigateTo('${(currentPath?currentPath+'/':'')+f.name}')` : `editFile('${escapeHtml(f.name)}')`}">
-                        <div class="fm-file-name">
-                            ${getFileIcon(f.name, f.is_dir)}
-                            <span>${escapeHtml(f.name)}</span>
-                        </div>
-                    </td>
-                    <td style="color:#4b5563;">${f.is_dir ? '—' : (f.size || '—')}</td>
-                    <td><button class="fm-three-dot" onclick="openCtxMenu(event,'${escapeHtml(f.name)}',${f.is_dir})">⋮</button></td>
-                </tr>
-            `).join('');
-            
-            document.getElementById('fileSearch').oninput = function() {
-                const q = this.value.toLowerCase();
-                tbody.querySelectorAll('tr.fm-row').forEach(r => {
-                    r.style.display = r.dataset.name.toLowerCase().includes(q) ? '' : 'none';
-                });
-            };
-        } catch(e) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--red);">خطأ في التحميل</td></tr>';
-        }
-    }
-
-    function renderBreadcrumb(path) {
-        const crumb = document.getElementById('fmBreadcrumb');
-        let parts = path ? path.split('/').filter(Boolean) : [];
-        let html = `<span class="fm-crumb fm-crumb-root" onclick="navigateTo('')"><i class="fas fa-home"></i> الرئيسية</span>`;
-        let built = '';
-        parts.forEach((p, i) => {
-            built += (built ? '/' : '') + p;
-            html += `<span class="fm-crumb-sep"><i class="fas fa-chevron-left" style="font-size:0.6rem;"></i></span>`;
-            if (i === parts.length - 1) {
-                html += `<span class="fm-crumb" style="color:#eef2ff;pointer-events:none;">${escapeHtml(p)}</span>`;
-            } else {
-                html += `<span class="fm-crumb" onclick="navigateTo('${built}')">${escapeHtml(p)}</span>`;
-            }
-        });
-        crumb.innerHTML = html;
-    }
-
-    function navigateTo(path) {
-        currentPath = path;
-        renderBreadcrumb(path);
-        loadFiles(path);
-    }
-
-    function toggleSelectAll(cb) {
-        document.querySelectorAll('.file-checkbox').forEach(c => c.checked = cb.checked);
-        updateDeleteBtn();
-    }
-
-    function updateDeleteBtn() {
-        const any = [...document.querySelectorAll('.file-checkbox')].some(c => c.checked);
-        document.getElementById('deleteSelectedBtn').disabled = !any;
-        document.querySelectorAll('.fm-row').forEach(r => {
-            const cb = r.querySelector('.file-checkbox');
-            r.classList.toggle('fm-selected', cb && cb.checked);
-        });
-    }
-
-    async function deleteSelected() {
-        const names = [...document.querySelectorAll('.file-checkbox:checked')].map(c => c.value);
-        if (!names.length) return;
-        showConfirm(`حذف ${names.length} عنصر؟`, async () => {
-            await fetch(`/api/files/delete/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({names}) });
-            showNotif('تم الحذف', 'success');
-            loadFiles(currentPath);
-        });
-    }
-
-    function openCtxMenu(e, name, isDir) {
-        e.stopPropagation();
-        ctxFileName = name;
-        ctxFileIsDir = isDir;
-        const menu = document.getElementById('fmContextMenu');
-        document.getElementById('ctxDownloadItem').style.display = isDir ? 'none' : 'flex';
-        menu.style.display = 'block';
-        let x = e.clientX, y = e.clientY;
-        if (x + 180 > window.innerWidth) x = window.innerWidth - 185;
-        if (y + 130 > window.innerHeight) y = window.innerHeight - 135;
-        menu.style.left = x + 'px';
-        menu.style.top = y + 'px';
-        window.ctxMenu = menu;
-    }
-
-    document.addEventListener('click', () => { if(window.ctxMenu) window.ctxMenu.style.display='none'; });
-
-    function ctxRename() {
-        const newName = prompt('الاسم الجديد:', ctxFileName);
-        if (!newName || newName === ctxFileName) return;
-        fetch(`/api/files/rename/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({old_name:ctxFileName, new_name:newName}) })
-            .then(() => { showNotif('تمت إعادة التسمية','success'); loadFiles(currentPath); })
-            .catch(() => showNotif('خطأ','error'));
-    }
-
-    function ctxDownload() {
-        const a = document.createElement('a');
-        a.href = `/api/files/download/${currentServer.folder}/${ctxFileName}`;
-        a.download = ctxFileName;
-        a.click();
-    }
-
-    function ctxDelete() {
-        showConfirm(`حذف "${ctxFileName}"؟`, async () => {
-            await fetch(`/api/files/delete/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({names:[ctxFileName]}) });
-            showNotif('تم الحذف','success');
-            loadFiles(currentPath);
-        });
-    }
-
-    async function uploadFiles(files) {
-        if(!files.length) return;
-        const fd = new FormData();
-        for(let f of files) fd.append('files[]', f);
-        await fetch(`/api/files/upload/${currentServer.folder}`, { method:'POST', body: fd });
-        loadFiles(currentPath);
-        showNotif('تم رفع الملفات', 'success');
-    }
-
-    async function editFile(name) {
-        currentFile = name;
-        const r = await fetch(`/api/files/content/${currentServer.folder}/${name}`);
-        const d = await r.json();
-        document.getElementById('editorArea').value = d.content||'';
-        document.getElementById('editorModal').classList.add('active');
-    }
-
-    async function saveFile() {
-        if(!currentFile) return;
-        const content = document.getElementById('editorArea').value;
-        await fetch(`/api/files/save/${currentServer.folder}/${currentFile}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({content}) });
-        showNotif('تم الحفظ', 'success');
-        document.getElementById('editorModal').classList.remove('active');
-        currentFile=null;
-        loadFiles(currentPath);
-        loadStartupFiles();
-    }
-
-    async function installPackages() {
-        showNotif('بدء تثبيت المكتبات...', 'info');
-        const r = await fetch(`/api/server/install/${currentServer.folder}`, { method:'POST' });
-        const d = await r.json();
-        showNotif(d.message, d.success?'success':'error');
-    }
-
-    function showCreateFileModal() {
-        document.getElementById('newFileName').value='';
-        document.getElementById('newFileContent').value='';
-        document.getElementById('createFileModal').classList.add('active');
-    }
-
-    function showCreateFolderModal() {
-        document.getElementById('newFolderName').value='';
-        document.getElementById('createFolderModal').classList.add('active');
-    }
-
-    async function createFolder() {
-        const name = document.getElementById('newFolderName').value.trim();
-        if(!name) return;
-        await fetch(`/api/files/create/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({filename:name, content:''}) });
-        document.getElementById('createFolderModal').classList.remove('active');
-        loadFiles(currentPath);
-    }
-
-    async function createFile() {
-        const name = document.getElementById('newFileName').value.trim();
-        const content = document.getElementById('newFileContent').value;
-        if(!name) return;
-        await fetch(`/api/files/create/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({filename:name,content}) });
-        document.getElementById('createFileModal').classList.remove('active');
-        loadFiles(currentPath);
-        loadStartupFiles();
-    }
-
-    async function loadStartupFiles() {
-        if(!currentServer) return;
-        const r = await fetch(`/api/files/list/${currentServer.folder}`);
-        const files = await r.json();
-        const scriptFiles = files.filter(f=> (f.name.endsWith('.py') || f.name.endsWith('.js') || f.name.endsWith('.java') || f.name.endsWith('.go')) && !f.is_dir);
-        const select = document.getElementById('startupFileSelect');
-        if(select) select.innerHTML = '<option value="">-- اختر ملف التشغيل --</option>'+scriptFiles.map(f=>`<option value="${f.name}" ${currentServer.startup_file===f.name?'selected':''}>${f.name}</option>`).join('');
-    }
-
-    async function setStartupFile() {
-        const filename = document.getElementById('startupFileSelect').value;
-        if(!filename) return;
-        await fetch(`/api/server/set-startup/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({filename}) });
-        showNotif('تم تعيين ملف التشغيل', 'success');
-    }
-
-    async function loadApiKey() {
-        document.getElementById('currentApiKeyDisplay').innerText = 'لا يوجد مفتاح. اضغط إنشاء مفتاح جديد.';
-    }
-
-    async function generateApiKey() {
-        try {
-            const res = await fetch('/api/create_api_key', { method: 'POST' });
-            const data = await res.json();
-            if(data.success) {
-                document.getElementById('currentApiKeyDisplay').innerText = data.api_key;
-                showNotif('تم إنشاء مفتاح API جديد', 'success');
-            } else showNotif('فشل إنشاء المفتاح', 'error');
-        } catch(e) { showNotif('خطأ', 'error'); }
-    }
-
-    async function revokeApiKey() {
-        showNotif('يمكنك حذف المفتاح من قاعدة البيانات يدوياً', 'warning');
-    }
-
-    // دوال التبويبات الجديدة
-    function controlServer(action) {
-        if (currentServer) performAction(currentServer.folder, action);
-        else showNotif('لا يوجد سيرفر نشط', 'error');
-    }
-    function openConsole() {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelector('.tab-btn[data-tab="console"]').classList.add('active');
-        document.getElementById('consoleTab').classList.add('active');
-    }
-    function switchToTab(tabName) {
-        if (tabName === 'files') {
-            document.querySelector('.tab-btn[data-tab="files"]').click();
-        } else if (tabName === 'database') {
-            showNotif('قاعدة البيانات قيد التطوير', 'info');
-        } else if (tabName === 'security') {
-            showNotif('إعدادات الحماية قريباً', 'info');
-        }
-    }
-
-    // تبويبات الصفحة الأصلية
-    document.querySelectorAll('.tabs .tab-btn').forEach(btn => {
-        btn.onclick = () => {
-            const tab = btn.dataset.tab;
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.getElementById(`${tab}Tab`).classList.add('active');
-            document.querySelectorAll('.tabs .tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            if(tab === 'files') loadFiles(currentPath);
-            if(tab === 'settings') loadStartupFiles();
-            if(tab === 'api') loadApiKey();
-        };
-    });
-
-    // صفحة الإنشاء
     function showCreatePage() {
         document.getElementById('homeView').style.display = 'none';
         document.getElementById('detailView').classList.remove('active');
@@ -1527,7 +1323,8 @@
         setupPlanCards();
         selectedLanguage = null;
         selectedPlan = null;
-        document.getElementById('createServerFinalBtn').disabled = true;
+        const finalBtn = document.getElementById('createServerFinalBtn');
+        finalBtn.disabled = true;
         document.getElementById('createServerLoadingMsg').style.display = 'none';
     }
 
@@ -1551,17 +1348,19 @@
 
     function setupPlanCards() {
         const container = document.getElementById('createPlansGrid');
-        container.innerHTML = plans.map(p => `
-            <div class="plan-card ${p.paid && !currentUserIsVip ? 'plan-paid' : ''}" data-plan='${JSON.stringify(p)}' data-paid="${p.paid && !currentUserIsVip}">
+        container.innerHTML = plans.map(p => {
+            const isPaidAndNotVip = p.paid && !currentUserIsVip;
+            return `
+            <div class="plan-card ${isPaidAndNotVip ? 'plan-paid' : ''}" data-plan='${JSON.stringify(p)}' data-paid="${isPaidAndNotVip}">
                 <div style="font-weight:700;">${p.name}${currentUserIsVip && p.paid ? ' <span style="color:#FFD700;font-size:0.6rem;">VIP ✓</span>' : ''}</div>
                 <div style="font-size:0.7rem; color:#8a94b8;">${p.specs}</div>
-                <div style="color:var(--gold); font-size:0.85rem; margin-top:6px;">${p.price===0?'مجاني':(p.paid && !currentUserIsVip)?'<span style="color:#FF6B35;">'+p.price+'$ — للدفع اضغط هنا</span>':'<span style="color:#00dc64;">مجاني لـ VIP</span>'}</div>
-            </div>
-        `).join('');
-        
+                <div style="color:var(--gold); font-size:0.85rem; margin-top:6px;">${p.price===0?'مجاني':isPaidAndNotVip?'<span style="color:#FF6B35;">'+p.price+'$ — للدفع اضغط هنا</span>':'<span style="color:#00dc64;">مجاني لـ VIP</span>'}</div>
+            </div>`;
+        }).join('');
         document.querySelectorAll('#createPlansGrid .plan-card').forEach(card => {
             card.onclick = () => {
-                if(card.dataset.paid === 'true') {
+                const isPaid = card.dataset.paid === 'true';
+                if (isPaid) {
                     window.open('https://t.me/a_u711', '_blank');
                     showNotif('سيتم فتح التيليجرام لإتمام الدفع 💳', 'info');
                     return;
@@ -1575,17 +1374,18 @@
     }
 
     function checkEnableCreateBtn() {
-        document.getElementById('createServerFinalBtn').disabled = !(selectedLanguage && selectedPlan);
+        const btn = document.getElementById('createServerFinalBtn');
+        btn.disabled = !(selectedLanguage && selectedPlan);
     }
 
     async function createServerFromPage() {
-        if(!selectedLanguage || !selectedPlan) {
+        if (!selectedLanguage || !selectedPlan) {
             showNotif('الرجاء اختيار اللغة والخطة', 'warning');
             return;
         }
-        const btn = document.getElementById('createServerFinalBtn');
+        const finalBtn = document.getElementById('createServerFinalBtn');
         const loadingMsg = document.getElementById('createServerLoadingMsg');
-        btn.disabled = true;
+        finalBtn.disabled = true;
         loadingMsg.style.display = 'block';
         try {
             const res = await fetch('/api/server/add', {
@@ -1601,7 +1401,7 @@
                 })
             });
             const data = await res.json();
-            if(data.success) {
+            if (data.success) {
                 showNotif('تم إنشاء السيرفر بنجاح!', 'success');
                 goHome();
                 loadServers();
@@ -1611,20 +1411,320 @@
         } catch(e) {
             showNotif('خطأ في الاتصال', 'error');
         } finally {
-            btn.disabled = false;
+            finalBtn.disabled = false;
             loadingMsg.style.display = 'none';
         }
     }
 
-    async function logout() {
-        await fetch('/api/logout', { method:'POST' });
-        window.location.href = '/login';
+    async function createServerWithPlan(plan, language = 'python') {
+        closePlansModal();
+        const modal = document.getElementById('createProgressModal');
+        document.getElementById('createLoading').style.display = 'block';
+        document.getElementById('createSuccess').style.display = 'none';
+        modal.classList.add('active');
+        showLoading(true);
+        try {
+            const res = await fetch('/api/server/add', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: 'خادمي', plan: plan.id, storage: plan.storage, ram: plan.ram, cpu: 0.5, language })
+            });
+            const data = await res.json();
+            if(data.success) {
+                document.getElementById('createLoading').style.display = 'none';
+                document.getElementById('createSuccess').style.display = 'block';
+                document.getElementById('goToServerBtn').onclick = () => { modal.classList.remove('active'); showLoading(false); loadServers(); };
+            } else { modal.classList.remove('active'); showNotif(data.message || 'فشل الإنشاء', 'error'); showLoading(false); }
+        } catch(e) { modal.classList.remove('active'); showNotif('خطأ في الاتصال', 'error'); showLoading(false); }
     }
+
+    async function checkAuth() {
+        try { const r = await fetch('/api/current_user'); const d = await r.json(); if(!d.success) window.location.href='/login'; else { document.getElementById('username').innerText = d.username; document.getElementById('usernameTop').innerText = d.username; if(d.is_admin) document.getElementById('adminPanelNav').style.display = 'flex'; loadServers(); fetchMetrics(); setInterval(fetchMetrics, 8000); } } catch(e) { window.location.href='/login'; }
+    }
+    async function fetchMetrics() {
+        try { const r = await fetch('/api/system/metrics'); const d = await r.json(); document.getElementById('ramUsage').innerText = d.memory+'%'; document.getElementById('ramProgress').style.width = d.memory+'%'; document.getElementById('cpuStat').innerText = d.cpu+'%'; document.getElementById('cpuProgress').style.width = d.cpu+'%'; } catch(e) {}
+    }
+
+    async function loadServers() {
+        try {
+            const r = await fetch('/api/servers'); const d = await r.json();
+            document.getElementById('usedServers').innerText = `${d.stats.used}/1`;
+            document.getElementById('expiryDays').innerText = d.stats.expiry;
+            const diskTotal = d.stats.disk_total||100, diskUsed = d.stats.disk_used||0;
+            document.getElementById('diskUsed').innerText = `${Math.round(diskUsed)}/${diskTotal} MB`;
+            document.getElementById('diskProgress').style.width = (diskUsed/diskTotal)*100+'%';
+            document.getElementById('storageStat').innerText = `${Math.round(diskUsed)}/${diskTotal} MB`;
+            document.getElementById('storageProgress').style.width = (diskUsed/diskTotal)*100+'%';
+            document.getElementById('storageLimit').innerText = diskTotal;
+            const grid = document.getElementById('serversGrid');
+            if(d.servers.length === 0) {
+                document.getElementById('noServerBlock').style.display = 'block';
+                grid.innerHTML = '';
+                return;
+            }
+            document.getElementById('noServerBlock').style.display = 'none';
+            grid.innerHTML = '';
+            d.servers.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'server-card';
+                const langIcon = getLanguageIcon(s.language);
+                card.innerHTML = `
+                    <div class="server-card-header"><div class="server-icon"><i class="fas fa-cube"></i></div><div class="server-status-badge ${s.status==='Running'?'status-online':'status-offline'}"><span class="status-dot ${s.status==='Running'?'dot-online':'dot-offline'}"></span>${s.status==='Running'?'يعمل':'متوقف'}</div></div>
+                    <div class="server-name">${langIcon} ${escapeHtml(s.title)}</div>
+                    <div class="server-meta"><span class="server-port"><i class="fas fa-plug"></i> المنفذ: ${s.port||'N/A'}</span><span class="server-plan-badge"><i class="fas fa-tag"></i> ${s.plan==='free'?'مجاني':s.plan}</span></div>
+                    <div class="server-stats">
+                        <span title="التخزين"><i class="fas fa-hdd"></i> ${s.storage_limit||100}MB</span>
+                        <span title="النواة"><i class="fas fa-microchip"></i> ${s.cpu_limit||0.5} نواة</span>
+                        <span title="الرام"><i class="fas fa-memory"></i> ${s.ram_limit||256}MB RAM</span>
+                        <span title="وقت التشغيل"><i class="fas fa-clock"></i> ${s.uptime || '—'}</span>
+                        <span title="اللغة"><i class="fas fa-code"></i> ${s.language||'python'}</span>
+                        <span title="الخطة" style="color:${s.plan==='free'?'#9ca3cf':'#FFD700'}"><i class="fas fa-tag"></i> ${s.plan==='free'?'مجاني':s.plan}</span>
+                    </div>
+                    <div class="server-actions"><div class="action-group"><button class="action-btn start" data-action="start" data-folder="${s.folder}"><i class="fas fa-play"></i> تشغيل</button><button class="action-btn restart" data-action="restart" data-folder="${s.folder}"><i class="fas fa-sync-alt"></i> إعادة</button><button class="action-btn stop" data-action="stop" data-folder="${s.folder}"><i class="fas fa-stop"></i> إيقاف</button></div><div class="action-group"><button class="action-btn delete" data-action="delete" data-folder="${s.folder}"><i class="fas fa-trash"></i> حذف</button><button class="action-btn detail" data-action="detail" data-folder="${s.folder}"><i class="fas fa-chevron-left"></i> تفاصيل</button></div></div>
+                `;
+                card.querySelectorAll('.action-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const action = btn.dataset.action;
+                        const folder = btn.dataset.folder;
+                        if(action === 'detail') openServer({folder, title:s.title, port:s.port, status:s.status, storage_limit:s.storage_limit, ram_limit:s.ram_limit, plan:s.plan, startup_file:s.startup_file, language:s.language});
+                        else performAction(folder, action);
+                    });
+                });
+                grid.appendChild(card);
+            });
+        } catch(e) { showNotif('خطأ في التحميل', 'error'); }
+    }
+
+    async function performAction(folder, action) {
+        if(action === 'delete') { showConfirm('حذف الخادم نهائياً؟', async () => { await fetch(`/api/server/action/${folder}/delete`, { method:'POST' }); loadServers(); if(currentServer && currentServer.folder === folder) goHome(); }); return; }
+        showNotif(`جاري ${action}...`, 'info');
+        try { const r = await fetch(`/api/server/action/${folder}/${action}`, { method:'POST' }); const d = await r.json(); if(d.success) { showNotif(d.message, 'success'); if(action !== 'delete') loadServers(); if(currentServer && currentServer.folder === folder) fetchStats(); } else showNotif(d.message || 'فشل', 'error'); } catch(e) { showNotif('خطأ', 'error'); }
+    }
+
+    function openServer(s) {
+        currentServer = s;
+        document.getElementById('homeView').style.display = 'none';
+        document.getElementById('detailView').classList.add('active');
+        document.getElementById('createServerView').classList.remove('active');
+        const langIcon = getLanguageIcon(s.language);
+        document.getElementById('detailTitle').innerHTML = `${langIcon} ${escapeHtml(s.title)}`;
+        document.getElementById('ramLimit').innerText = s.ram_limit || 256;
+        document.getElementById('planDetails').innerText = s.plan === 'free' ? 'مجاني' : s.plan;
+        if(polling) clearInterval(polling);
+        fetchStats();
+        polling = setInterval(fetchStats, 4000);
+        loadFiles();
+        loadStartupFiles();
+        loadApiKey();
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.getElementById('consoleTab').classList.add('active');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('.tab-btn[data-tab="console"]').classList.add('active');
+        document.getElementById('detailStartBtn').onclick = () => performAction(currentServer.folder, 'start');
+        document.getElementById('detailStopBtn').onclick = () => performAction(currentServer.folder, 'stop');
+        document.getElementById('detailRestartBtn').onclick = () => performAction(currentServer.folder, 'restart');
+        document.getElementById('detailDeleteBtn').onclick = () => performAction(currentServer.folder, 'delete');
+    }
+
+    async function fetchStats() {
+        if(!currentServer) return;
+        try { const r = await fetch(`/api/server/stats/${currentServer.folder}`); const d = await r.json(); if(!d.success) return;
+            document.getElementById('consoleOut').innerHTML = (d.logs || 'لا توجد مخرجات').split('\n').map(l => `<div>${escapeHtml(l)}</div>`).join('');
+            document.getElementById('consoleOut').scrollTop = document.getElementById('consoleOut').scrollHeight;
+            document.getElementById('ramStat').innerText = `${d.mem || 0} MB / ${currentServer.ram_limit || 256} MB`;
+            const ramPercent = (parseFloat(d.mem||0)/(currentServer.ram_limit||256))*100;
+            document.getElementById('ramDetailProgress').style.width = Math.min(ramPercent,100)+'%';
+            document.getElementById('uptimeStat').innerText = d.uptime || '0';
+        } catch(e) {}
+    }
+
+    function goHome() {
+        document.getElementById('homeView').style.display = 'block';
+        document.getElementById('detailView').classList.remove('active');
+        document.getElementById('createServerView').classList.remove('active');
+        if(polling) clearInterval(polling);
+        currentServer = null;
+        loadServers();
+    }
+
+    async function loadFiles(subPath) {
+        if(!currentServer) return;
+        const path = (subPath !== undefined) ? subPath : (currentPath || '');
+        const tbody = document.getElementById('filesList');
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:#555;"><i class="fas fa-spinner fa-spin"></i>加载中...</td></tr>';
+        const url = path ? `/api/files/list/${currentServer.folder}?path=${encodeURIComponent(path)}` : `/api/files/list/${currentServer.folder}`;
+        try {
+            const r = await fetch(url);
+            const files = await r.json();
+            document.getElementById('selectAllFiles').checked = false;
+            document.getElementById('deleteSelectedBtn').disabled = true;
+            if (!files.length) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;color:#444;"><i class="fas fa-folder-open" style="font-size:2rem;display:block;margin-bottom:8px;"></i>المجلد فارغ</td></tr>';
+                return;
+            }
+            tbody.innerHTML = files.map(f => `
+                <tr class="fm-row" data-name="${escapeHtml(f.name)}" data-isdir="${f.is_dir}">
+                    <td><input type="checkbox" class="file-checkbox" value="${escapeHtml(f.name)}" onchange="updateDeleteBtn()"></td>
+                    <td onclick="${f.is_dir ? `navigateTo('${(path?path+'/':'')+f.name}')` : `editFile('${escapeHtml(f.name)}')`}">
+                        <div class="fm-file-name">
+                            ${getFileIcon(f.name, f.is_dir)}
+                            <span>${escapeHtml(f.name)}</span>
+                        </div>
+                    </td>
+                    <td style="color:#4b5563;font-size:0.78rem;">${f.is_dir ? '—' : (f.size || '—')}</td>
+                    <td><button class="fm-three-dot" onclick="openCtxMenu(event,'${escapeHtml(f.name)}',${f.is_dir})">⋮</button></td>
+                </tr>
+            `).join('');
+            document.getElementById('fileSearch').oninput = function() {
+                const q = this.value.toLowerCase();
+                tbody.querySelectorAll('tr.fm-row').forEach(r => {
+                    r.style.display = r.dataset.name.toLowerCase().includes(q) ? '' : 'none';
+                });
+            };
+        } catch(e) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--red);">خطأ في التحميل</td></tr>'; }
+    }
+
+    let currentPath = '';
+    function renderBreadcrumb(path) {
+        const crumb = document.getElementById('fmBreadcrumb');
+        let parts = path ? path.split('/').filter(Boolean) : [];
+        let html = `<span class="fm-crumb fm-crumb-root" onclick="navigateTo('')"><i class="fas fa-home"></i> الرئيسية</span>`;
+        let built = '';
+        parts.forEach((p, i) => {
+            built += (built ? '/' : '') + p;
+            const captured = built;
+            html += `<span class="fm-crumb-sep"><i class="fas fa-chevron-left" style="font-size:0.6rem;"></i></span>`;
+            if (i === parts.length - 1) {
+                html += `<span class="fm-crumb" style="color:#eef2ff;pointer-events:none;">${escapeHtml(p)}</span>`;
+            } else {
+                html += `<span class="fm-crumb" onclick="navigateTo('${captured}')">${escapeHtml(p)}</span>`;
+            }
+        });
+        crumb.innerHTML = html;
+    }
+
+    function navigateTo(path) {
+        currentPath = path;
+        renderBreadcrumb(path);
+        loadFiles(path);
+    }
+
+    function getFileIcon(name, isDir) {
+        if (isDir) return '<i class="fas fa-folder fm-file-icon fi-folder"></i>';
+        const ext = name.split('.').pop().toLowerCase();
+        const icons = {
+            py: '<i class="fab fa-python fm-file-icon fi-py"></i>',
+            js: '<i class="fab fa-js fm-file-icon fi-js"></i>',
+            json: '<i class="fas fa-brackets-curly fm-file-icon fi-json"></i>',
+            txt: '<i class="fas fa-file-lines fm-file-icon fi-txt"></i>',
+            md: '<i class="fas fa-file-lines fm-file-icon fi-txt"></i>',
+            zip: '<i class="fas fa-file-zipper fm-file-icon fi-zip"></i>',
+            png: '<i class="fas fa-image fm-file-icon fi-image"></i>',
+            jpg: '<i class="fas fa-image fm-file-icon fi-image"></i>',
+            jpeg:'<i class="fas fa-image fm-file-icon fi-image"></i>',
+            gif: '<i class="fas fa-image fm-file-icon fi-image"></i>',
+        };
+        return icons[ext] || '<i class="fas fa-file fm-file-icon fi-default"></i>';
+    }
+
+    function toggleSelectAll(cb) {
+        document.querySelectorAll('.file-checkbox').forEach(c => c.checked = cb.checked);
+        updateDeleteBtn();
+    }
+    function updateDeleteBtn() {
+        const any = [...document.querySelectorAll('.file-checkbox')].some(c => c.checked);
+        document.getElementById('deleteSelectedBtn').disabled = !any;
+        document.querySelectorAll('.fm-row').forEach(r => {
+            const cb = r.querySelector('.file-checkbox');
+            r.classList.toggle('fm-selected', cb && cb.checked);
+        });
+    }
+    async function deleteSelected() {
+        const names = [...document.querySelectorAll('.file-checkbox:checked')].map(c => c.value);
+        if (!names.length) return;
+        showConfirm(`حذف ${names.length} عنصر؟`, async () => {
+            await fetch(`/api/files/delete/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({names}) });
+            showNotif('تم الحذف', 'success'); loadFiles();
+        });
+    }
+
+    let ctxFileName = '', ctxFileIsDir = false;
+    let ctxEl = null;
+    function openCtxMenu(e, name, isDir) {
+        e.stopPropagation();
+        ctxFileName = name; ctxFileIsDir = isDir;
+        const menu = document.getElementById('fmContextMenu');
+        document.getElementById('ctxDownloadItem').style.display = isDir ? 'none' : 'flex';
+        menu.style.display = 'block';
+        let x = e.clientX, y = e.clientY;
+        if (x + 180 > window.innerWidth) x = window.innerWidth - 185;
+        if (y + 130 > window.innerHeight) y = window.innerHeight - 135;
+        menu.style.left = x + 'px'; menu.style.top = y + 'px';
+        ctxEl = menu;
+    }
+    document.addEventListener('click', () => { if(ctxEl) ctxEl.style.display='none'; });
+    function ctxRename() {
+        ctxEl.style.display='none';
+        const newName = prompt('الاسم الجديد:', ctxFileName);
+        if (!newName || newName === ctxFileName) return;
+        fetch(`/api/files/rename/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({old_name:ctxFileName, new_name:newName}) })
+        .then(() => { showNotif('تمت إعادة التسمية','success'); loadFiles(); })
+        .catch(() => showNotif('خطأ','error'));
+    }
+    function ctxDownload() {
+        ctxEl.style.display='none';
+        const a = document.createElement('a');
+        a.href = `/api/files/download/${currentServer.folder}/${ctxFileName}`;
+        a.download = ctxFileName; a.click();
+    }
+    function ctxDelete() {
+        ctxEl.style.display='none';
+        showConfirm(`حذف "${ctxFileName}"؟`, async () => {
+            await fetch(`/api/files/delete/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({names:[ctxFileName]}) });
+            showNotif('تم الحذف','success'); loadFiles();
+        });
+    }
+
+    function showDropOverlay() { document.getElementById('fmDropOverlay').classList.add('show'); }
+    function hideDropOverlay() { document.getElementById('fmDropOverlay').classList.remove('show'); }
+    function handleDropOverlay(e) { e.preventDefault(); hideDropOverlay(); uploadFiles(e.dataTransfer.files); }
+
+    async function editFile(name) { currentFile = name; const r = await fetch(`/api/files/content/${currentServer.folder}/${name}`); const d = await r.json(); document.getElementById('editorArea').value = d.content||''; document.getElementById('editorModal').classList.add('active'); }
+    async function saveFile() { if(!currentFile) return; const content = document.getElementById('editorArea').value; await fetch(`/api/files/save/${currentServer.folder}/${currentFile}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({content}) }); showNotif('تم الحفظ', 'success'); document.getElementById('editorModal').classList.remove('active'); currentFile=null; loadFiles(); loadStartupFiles(); }
+    async function deleteFile(name) { showConfirm(`حذف ${name}؟`, async () => { await fetch(`/api/files/delete/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({names:[name]}) }); loadFiles(); }); }
+    async function uploadFiles(files) { if(!files.length) return; const fd = new FormData(); for(let f of files) fd.append('files[]',f); await fetch(`/api/files/upload/${currentServer.folder}`, { method:'POST', body:fd }); loadFiles(); showNotif('تم رفع الملفات', 'success'); }
+    function handleDrop(e) { e.preventDefault(); uploadFiles(e.dataTransfer.files); }
+    async function installPackages() { showNotif('بدء تثبيت المكتبات...', 'info'); const r = await fetch(`/api/server/install/${currentServer.folder}`, { method:'POST' }); const d = await r.json(); showNotif(d.message, d.success?'success':'error'); }
+    function showCreateFileModal() { document.getElementById('newFileName').value=''; document.getElementById('newFileContent').value=''; document.getElementById('createFileModal').classList.add('active'); }
+    function showCreateFolderModal() { document.getElementById('newFolderName').value=''; document.getElementById('createFolderModal').classList.add('active'); }
+    async function createFolder() { const name = document.getElementById('newFolderName').value.trim(); if(!name) return; await fetch(`/api/files/create/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({filename:name, content:''}) }); document.getElementById('createFolderModal').classList.remove('active'); loadFiles(); }
+    async function unzipFile(name) { showNotif('جاري فك الضغط...', 'info'); await fetch(`/api/files/unzip/${currentServer.folder}/${name}`, { method:'POST' }); loadFiles(); }
+    async function createFile() { const name = document.getElementById('newFileName').value.trim(); const content = document.getElementById('newFileContent').value; if(!name) return; await fetch(`/api/files/create/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({filename:name,content}) }); closeCreateFileModal(); loadFiles(); loadStartupFiles(); }
+    function closeCreateFileModal() { document.getElementById('createFileModal').classList.remove('active'); }
+    async function loadStartupFiles() { if(!currentServer) return; const r = await fetch(`/api/files/list/${currentServer.folder}`); const files = await r.json(); const pyFiles = files.filter(f=>f.name.endsWith('.py')&&!f.is_dir); const select = document.getElementById('startupFileSelect'); if(select) select.innerHTML = '<option value="">-- اختر ملف التشغيل --</option>'+pyFiles.map(f=>`<option value="${f.name}" ${currentServer.startup_file===f.name?'selected':''}>${f.name}</option>`).join(''); }
+    async function setStartupFile() { const filename = document.getElementById('startupFileSelect').value; if(!filename) return; await fetch(`/api/server/set-startup/${currentServer.folder}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({filename}) }); showNotif('تم تعيين ملف التشغيل', 'success'); }
+    async function loadApiKey() { document.getElementById('currentApiKeyDisplay').innerText = 'لا يوجد مفتاح. اضغط إنشاء مفتاح جديد.'; }
+    async function generateApiKey() { try { const res = await fetch('/api/create_api_key', { method: 'POST' }); const data = await res.json(); if(data.success) { document.getElementById('currentApiKeyDisplay').innerText = data.api_key; showNotif('تم إنشاء مفتاح API جديد', 'success'); } else showNotif('فشل إنشاء المفتاح', 'error'); } catch(e) { showNotif('خطأ', 'error'); } }
+    async function revokeApiKey() { showNotif('يمكنك حذف المفتاح من قاعدة البيانات يدوياً', 'warning'); }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.onclick = () => {
+            const tab = btn.dataset.tab;
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(`${tab}Tab`).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(tab === 'files') { currentPath = ''; renderBreadcrumb(''); loadFiles(''); }
+            if(tab === 'settings') loadStartupFiles();
+            if(tab === 'api') loadApiKey();
+        };
+    });
+
+    async function logout() { await fetch('/api/logout', { method:'POST' }); window.location.href = '/login'; }
+    function escapeHtml(s) { return String(s).replace(/[&<>]/g, m=>m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
 
     document.getElementById('openCreatePageBtn').onclick = showCreatePage;
     document.getElementById('createServerFinalBtn').onclick = createServerFromPage;
-    
-    // بدء التشغيل
     checkAuth();
 </script>
 </body>
