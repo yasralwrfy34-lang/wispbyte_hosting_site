@@ -27,6 +27,11 @@
             --red-dark: #DC2626;
             --black-bg: #0A0A0C;
             --card-bg: rgba(0, 0, 0, 0.75);
+            --green: #2ecc71;
+            --blue: #3498db;
+            --yellow: #f1c40f;
+            --orange: #e67e22;
+            --purple: #9b59b6;
         }
 
         .bg-aurora {
@@ -243,13 +248,145 @@
             border: 1px solid var(--gold);
         }
 
+        /* ========== تنسيق جميع الأزرار بشكل موحد ========== */
+        .action-btn, .tab-btn, .detail-action-btn, .create-final-btn, .fm-action-btn, .api-actions .action-btn, .modal .action-btn, .logout-btn, .back-btn, .fm-delete-selected {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 60px !important;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: #e2e8f0;
+            text-decoration: none;
+        }
+
+        .action-btn i, .tab-btn i, .detail-action-btn i, .fm-action-btn i {
+            font-size: 0.9rem;
+        }
+
+        .action-btn:hover, .tab-btn:hover, .detail-action-btn:hover, .fm-action-btn:hover, .back-btn:hover, .fm-delete-selected:hover {
+            transform: translateY(-2px);
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+
+        /* ألوان الأزرار حسب الوظيفة */
+        .action-btn.start, .detail-action-btn.start, .btn-start {
+            border-color: var(--green);
+            color: var(--green);
+        }
+        .action-btn.start:hover, .detail-action-btn.start:hover, .btn-start:hover {
+            background: rgba(46,204,113,0.2);
+            box-shadow: 0 0 8px rgba(46,204,113,0.3);
+        }
+
+        .action-btn.stop, .detail-action-btn.stop, .btn-stop {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .action-btn.stop:hover, .detail-action-btn.stop:hover, .btn-stop:hover {
+            background: rgba(255,61,90,0.2);
+        }
+
+        .action-btn.restart, .detail-action-btn.restart, .btn-restart {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+        .action-btn.restart:hover, .detail-action-btn.restart:hover, .btn-restart:hover {
+            background: rgba(241,196,15,0.2);
+        }
+
+        .action-btn.delete, .detail-action-btn.delete, .fm-delete-selected {
+            border-color: var(--red-dark);
+            color: #f87171;
+        }
+        .action-btn.delete:hover, .detail-action-btn.delete:hover, .fm-delete-selected:hover {
+            background: rgba(220,38,38,0.2);
+        }
+
+        .action-btn.detail, .btn-console {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .action-btn.detail:hover, .btn-console:hover {
+            background: rgba(255,215,0,0.2);
+        }
+
+        /* أزرار مدير الملفات */
+        .fm-action-btn.fm-upload { border-color: var(--blue); color: #63b3ed; }
+        .fm-action-btn.fm-newfile { border-color: var(--green); color: #9ae6b4; }
+        .fm-action-btn.fm-newfolder { border-color: var(--gold); color: var(--gold); }
+        .fm-action-btn.fm-install { border-color: var(--orange); color: #f39c12; }
+
+        /* أزرار التحكم الرئيسية Control Grid */
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .control-grid .action-btn {
+            flex-direction: column;
+            padding: 14px 8px;
+            gap: 6px;
+        }
+        .control-grid .action-btn i {
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+        }
+
+        /* التبويبات الجديدة */
+        .tab-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .tab-buttons .tab-btn {
+            flex-direction: column;
+            padding: 12px 8px;
+            border-bottom-width: 3px;
+            border-bottom-style: solid;
+            background: rgba(0,0,0,0.3);
+        }
+        .tab-buttons .tab-btn i {
+            font-size: 1.4rem;
+        }
+
+        /* التبويبات الأصلية */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+            background: rgba(6,10,22,0.5);
+            padding: 10px;
+            border-radius: 60px;
+        }
+        .tabs .tab-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+        .tabs .tab-btn.active {
+            background: rgba(255,215,0,0.2);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* باقي التنسيقات الأصلية */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin-bottom: 28px;
         }
-
         .stat-card {
             background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(12px);
@@ -258,25 +395,21 @@
             padding: 18px 20px;
             transition: all 0.3s;
         }
-
         .stat-card:hover {
             border-color: var(--gold);
             transform: translateY(-3px);
         }
-
         .stat-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
         }
-
         .stat-title {
             font-size: 0.7rem;
             text-transform: uppercase;
             color: #9ca3cf;
         }
-
         .stat-icon {
             width: 36px;
             height: 36px;
@@ -287,13 +420,11 @@
             justify-content: center;
             color: var(--gold);
         }
-
         .stat-value {
             font-size: 1.8rem;
             font-weight: 700;
             margin-top: 8px;
         }
-
         .stat-progress {
             height: 4px;
             background: rgba(255,255,255,0.1);
@@ -301,13 +432,11 @@
             overflow: hidden;
             margin-top: 8px;
         }
-
         .stat-progress-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--gold), #FFA500);
             width: 0%;
         }
-
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -315,13 +444,11 @@
             border-radius: 48px;
             margin-top: 40px;
         }
-
         .servers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
             gap: 24px;
         }
-
         .server-card {
             background: rgba(12, 18, 34, 0.7);
             backdrop-filter: blur(12px);
@@ -332,13 +459,11 @@
             cursor: pointer;
             overflow: hidden;
         }
-
         .server-card:hover {
             border-color: var(--gold);
             transform: translateY(-5px);
             box-shadow: 0 20px 30px -15px rgba(0,0,0,0.5);
         }
-
         .server-card-header {
             padding: 20px 20px 12px 20px;
             display: flex;
@@ -346,7 +471,6 @@
             align-items: flex-start;
             border-bottom: 1px solid var(--gold);
         }
-
         .server-icon {
             width: 50px;
             height: 50px;
@@ -358,7 +482,6 @@
             font-size: 1.6rem;
             color: var(--gold);
         }
-
         .server-status-badge {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 30px;
@@ -368,13 +491,8 @@
             align-items: center;
             gap: 6px;
         }
-
-        .status-online {
-            color: var(--gold);
-        }
-        .status-offline {
-            color: #9ca3cf;
-        }
+        .status-online { color: var(--gold); }
+        .status-offline { color: #9ca3cf; }
         .status-dot {
             width: 8px;
             height: 8px;
@@ -382,13 +500,11 @@
         }
         .dot-online { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
         .dot-offline { background: #9ca3cf; }
-
         .server-name {
             font-size: 1.1rem;
             font-weight: 700;
             padding: 16px 20px 0 20px;
         }
-
         .server-meta {
             display: flex;
             gap: 16px;
@@ -396,20 +512,17 @@
             color: #9ca3cf;
             padding: 8px 20px;
         }
-
         .server-port {
             background: rgba(255, 215, 0, 0.15);
             border-radius: 30px;
             padding: 4px 12px;
         }
-
         .server-plan-badge {
             background: rgba(255, 215, 0, 0.15);
             border-radius: 30px;
             padding: 4px 12px;
             color: var(--gold);
         }
-
         .server-stats {
             display: flex;
             gap: 16px;
@@ -420,48 +533,17 @@
             border-bottom: 1px solid var(--gold);
             background: rgba(0,0,0,0.2);
         }
-
         .server-actions {
             display: flex;
             gap: 12px;
             padding: 16px 20px;
-            justify-content: space-between;
             flex-wrap: wrap;
+            justify-content: space-between;
         }
-
         .action-group {
             display: flex;
-            gap: 10px;
-        }
-
-        /* ===== جميع الأزرار بحواف دائرية ===== */
-        .action-btn, .detail-action-btn, .tab-btn {
-            border-radius: 60px !important;
-            transition: all 0.2s ease;
-        }
-        .action-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--gold);
-            padding: 8px 18px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
             gap: 8px;
-            cursor: pointer;
-            color: #cbd5ff;
         }
-        .action-btn.start  { background: rgba(0,220,100,0.13); border-color: #00dc64; color: #00dc64; }
-        .action-btn.start:hover  { background: rgba(0,220,100,0.25); box-shadow: 0 0 10px rgba(0,220,100,0.3); }
-        .action-btn.stop   { background: rgba(255,61,90,0.13); border-color: var(--red); color: var(--red); }
-        .action-btn.stop:hover   { background: rgba(255,61,90,0.25); box-shadow: 0 0 10px rgba(255,61,90,0.3); }
-        .action-btn.restart{ background: rgba(255,165,0,0.13); border-color: #FFA500; color: #FFA500; }
-        .action-btn.restart:hover{ background: rgba(255,165,0,0.25); box-shadow: 0 0 10px rgba(255,165,0,0.3); }
-        .action-btn.delete { background: rgba(220,38,38,0.13); border-color: #dc2626; color: #f87171; }
-        .action-btn.delete:hover { background: rgba(220,38,38,0.25); box-shadow: 0 0 10px rgba(220,38,38,0.3); }
-        .action-btn.detail { background: rgba(255,215,0,0.1); border-color: var(--gold); color: var(--gold); }
-        .action-btn.detail:hover { background: rgba(255,215,0,0.22); box-shadow: 0 0 10px rgba(255,215,0,0.3); }
-
         .server-detail {
             display: none;
             animation: fadeSlide 0.3s ease;
@@ -477,100 +559,12 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
         .back-btn {
-            background: rgba(255, 215, 0, 0.15);
+            background: rgba(255,215,0,0.1);
             border: 1px solid var(--gold);
-            border-radius: 40px;
-            padding: 8px 20px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            color: var(--gold);
-        }
-        .server-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--gold), #FFA500);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .detail-actions-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            background: rgba(6,10,22,0.8);
-            padding: 12px 20px;
-            border-radius: 60px;
-            margin-bottom: 20px;
-            justify-content: flex-start;
-            border: 1px solid rgba(255,215,0,0.2);
-        }
-        .detail-action-btn {
-            border: none;
-            padding: 8px 20px !important;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Tajawal', sans-serif;
-        }
-        .detail-action-btn.start   { background: rgba(0,220,100,0.15); color: #00dc64; border: 1px solid rgba(0,220,100,0.35); }
-        .detail-action-btn.start:hover   { background: rgba(0,220,100,0.28); transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,220,100,0.2); }
-        .detail-action-btn.stop    { background: rgba(255,61,90,0.15); color: #ff6b81; border: 1px solid rgba(255,61,90,0.35); }
-        .detail-action-btn.stop:hover    { background: rgba(255,61,90,0.28); transform:translateY(-1px); box-shadow:0 4px 12px rgba(255,61,90,0.2); }
-        .detail-action-btn.restart { background: rgba(255,165,0,0.15); color: #FFA500; border: 1px solid rgba(255,165,0,0.35); }
-        .detail-action-btn.restart:hover { background: rgba(255,165,0,0.28); transform:translateY(-1px); box-shadow:0 4px 12px rgba(255,165,0,0.2); }
-        .detail-action-btn.delete  { background: rgba(220,38,38,0.15); color: #f87171; border: 1px solid rgba(220,38,38,0.35); }
-        .detail-action-btn.delete:hover  { background: rgba(220,38,38,0.28); transform:translateY(-1px); box-shadow:0 4px 12px rgba(220,38,38,0.2); }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            background: rgba(6,10,22,0.7);
-            padding: 8px 12px;
-            border-radius: 60px;
-            border: 1px solid rgba(255,215,0,0.15);
-        }
-        .tab-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 60px;
-            padding: 8px 24px !important;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: #6b7a9f;
-            cursor: pointer;
-            transition: all 0.18s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .tab-btn:hover { color: #b0b8d4; background: rgba(255,255,255,0.04); }
-        .tab-btn.active {
-            color: var(--gold);
-            background: rgba(255,215,0,0.12);
-            border-color: rgba(255,215,0,0.3);
-            box-shadow: 0 0 8px rgba(255,215,0,0.15);
-        }
-        .tab-content {
-            display: none;
-            animation: fade 0.2s;
-        }
-        .tab-content.active {
-            display: block;
         }
         .console-box {
             background: #010409;
@@ -584,7 +578,6 @@
             color: #b0f0b0;
             white-space: pre-wrap;
         }
-
         .stats-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -610,14 +603,6 @@
             border: 1px solid var(--gold);
             font-size: 0.85rem;
         }
-        .api-actions {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-
-        /* صفحة إنشاء السيرفر - بطاقات متطورة */
         .create-server-view {
             display: none;
             animation: fadeSlide 0.3s ease;
@@ -639,92 +624,34 @@
             text-align: center;
             cursor: pointer;
             transition: 0.25s ease;
-            backdrop-filter: blur(6px);
         }
         .lang-card.selected, .plan-card.selected {
             border-color: var(--gold);
             background: rgba(255,215,0,0.15);
             box-shadow: 0 0 15px rgba(255,215,0,0.3);
-            transform: scale(1.02);
-        }
-        .lang-card:hover, .plan-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-        }
-        .lang-icon {
-            font-size: 2.8rem;
-            margin-bottom: 12px;
         }
         .create-final-btn {
             background: linear-gradient(135deg, var(--gold), #FFA500);
             color: #0a0c10;
             font-weight: bold;
             padding: 12px 32px;
-            font-size: 1rem;
-            margin-top: 20px;
             border: none;
-            border-radius: 60px;
-            cursor: pointer;
         }
         .create-final-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
-
-        /* ===== أيقونات الملفات الملونة ===== */
-        .fm-file-icon {
-            font-size: 1.2rem;
-            width: 28px;
-            text-align: center;
-        }
-        .fi-folder  { color: var(--gold); }
-        .fi-py      { color: #3776AB; }
-        .fi-js      { color: #F7DF1E; text-shadow: 0 0 2px black; }
-        .fi-json    { color: #8bc34a; }
-        .fi-txt     { color: #9ca3cf; }
-        .fi-zip     { color: #FFA500; }
-        .fi-image   { color: #f472b6; }
-        .fi-html    { color: #e34c26; }
-        .fi-css     { color: #264de4; }
-        .fi-default { color: #6b7a9f; }
-
-        /* أيقونة API ملونة */
-        .api-icon {
-            color: var(--gold);
-            font-size: 1.2rem;
-            margin-left: 8px;
-        }
-
-        /* ===== مدير الملفات مع أزرار دائرية ===== */
-        .fm-actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .fm-action-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px 16px;
-            border-radius: 60px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(14,20,38,0.7);
-            color: #b0b8d4;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .fm-action-btn:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); }
-        .fm-upload   { border-color: rgba(99,179,237,0.35); color: #63b3ed; }
-        .fm-newfile  { border-color: rgba(154,230,180,0.35); color: #9ae6b4; }
-        .fm-newfolder{ border-color: rgba(255,215,0,0.35); color: var(--gold); }
-        .fm-install  { border-color: rgba(255,165,0,0.35); color: #FFA500; }
-        .fm-dlzone   { border-color: rgba(255,165,0,0.35); color: #FFA500; }
-
+        /* مدير الملفات */
+        .fm-file-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+        .fi-folder { color: var(--gold); }
+        .fi-py { color: #3776AB; }
+        .fi-js { color: #F7DF1E; }
+        .fi-json { color: #8bc34a; }
+        .fi-txt { color: #9ca3cf; }
+        .fi-zip { color: #FFA500; }
+        .fi-image { color: #f472b6; }
+        .fi-html { color: #e34c26; }
+        .fi-css { color: #264de4; }
         .fm-table-wrap {
             background: rgba(8,12,24,0.6);
             border-radius: 20px;
@@ -740,52 +667,27 @@
             padding: 12px 16px;
             text-align: right;
             font-size: 0.75rem;
-            text-transform: uppercase;
-            color: #4b5563;
         }
         .fm-table tbody tr {
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            transition: background 0.12s;
-            cursor: pointer;
         }
-        .fm-table tbody tr:hover { background: rgba(255,255,255,0.03); }
-        .fm-table tbody td { padding: 10px 16px; font-size: 0.85rem; color: #b0b8d4; }
-
+        .fm-table tbody td {
+            padding: 10px 16px;
+            font-size: 0.85rem;
+        }
         .fm-file-name {
             display: flex;
             align-items: center;
             gap: 12px;
-            font-weight: 500;
         }
         .fm-three-dot {
             background: none;
             border: none;
             color: #4b5563;
             cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 8px;
             font-size: 1.1rem;
         }
-        .fm-three-dot:hover { background: rgba(255,255,255,0.07); color: #b0b8d4; }
-        .fm-footer {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 16px;
-        }
-        .fm-delete-selected {
-            background: rgba(220,38,38,0.12);
-            border: 1px solid rgba(220,38,38,0.3);
-            border-radius: 60px;
-            color: #f87171;
-            padding: 8px 20px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.18s;
-        }
-        .fm-delete-selected:disabled { opacity: 0.35; cursor: not-allowed; }
-        .fm-delete-selected:not(:disabled):hover { background: rgba(220,38,38,0.25); transform: translateY(-1px); }
-
-        /* قائمة السياق */
+        .fm-three-dot:hover { color: var(--gold); }
         .fm-context-menu {
             position: fixed;
             z-index: 9999;
@@ -808,30 +710,6 @@
             color: #b0b8d4;
         }
         .fm-ctx-item:hover { background: rgba(255,255,255,0.07); color: white; }
-        .fm-ctx-rename:hover { color: var(--gold); }
-        .fm-ctx-download:hover { color: #63b3ed; }
-        .fm-ctx-delete:hover { color: #f87171; background: rgba(220,38,38,0.1); }
-
-        /* تراكب السحب والإفلات */
-        .fm-drop-overlay {
-            display: none;
-            position: absolute;
-            inset: 0;
-            background: rgba(255,215,0,0.08);
-            border: 2px dashed var(--gold);
-            border-radius: 20px;
-            z-index: 10;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 12px;
-            font-size: 1.5rem;
-            color: var(--gold);
-            backdrop-filter: blur(4px);
-        }
-        .fm-drop-overlay.show { display: flex; }
-
-        /* المودالات */
         .modal {
             display: none;
             position: fixed;
@@ -852,17 +730,6 @@
             padding: 28px;
             text-align: center;
         }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255,215,0,0.3);
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 20px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
         .notif-box {
             position: fixed;
             bottom: 20px;
@@ -878,10 +745,6 @@
             align-items: center;
             gap: 12px;
         }
-        .notif-box.success { border-color: #00ff88; color: #00ff88; }
-        .notif-box.error { border-color: var(--red); color: var(--red); }
-        .notif-box.warning { border-color: #ffb800; color: #ffb800; }
-
         .loading-overlay {
             display: none;
             position: fixed;
@@ -894,6 +757,15 @@
             flex-direction: column;
         }
         .loading-overlay.active { display: flex; }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,215,0,0.3);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .fun-fact {
             margin-top: 20px;
             background: rgba(255,255,255,0.05);
@@ -902,14 +774,11 @@
             font-size: 0.8rem;
             color: var(--gold);
         }
-
         @media (max-width: 768px) {
             .stats-row { grid-template-columns: repeat(2,1fr); gap: 12px; }
             .servers-grid { grid-template-columns: 1fr; }
             .main-content { padding: 16px; }
-            .tabs { gap: 6px; }
-            .tab-btn { padding: 6px 16px; font-size: 0.75rem; }
-            .languages-grid, .plans-grid { grid-template-columns: repeat(2, 1fr); }
+            .control-grid, .tab-buttons { grid-template-columns: repeat(2,1fr); }
         }
     </style>
 </head>
@@ -980,60 +849,59 @@
                 <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة</button>
                 <div class="server-title" id="detailTitle"></div>
             </div>
-            <div class="detail-actions-bar">
-                <button class="detail-action-btn start" id="detailStartBtn"><i class="fas fa-play"></i> تشغيل</button>
-                <button class="detail-action-btn stop" id="detailStopBtn"><i class="fas fa-stop"></i> إيقاف</button>
-                <button class="detail-action-btn restart" id="detailRestartBtn"><i class="fas fa-sync-alt"></i> إعادة تشغيل</button>
-                <button class="detail-action-btn delete" id="detailDeleteBtn"><i class="fas fa-trash"></i> حذف</button>
+
+            <!-- أزرار التحكم الرئيسية (Control Grid) -->
+            <div class="control-grid">
+                <button class="action-btn btn-start" onclick="controlServer('start')"><i class="fas fa-play"></i><span>تشغيل</span></button>
+                <button class="action-btn btn-stop" onclick="controlServer('stop')"><i class="fas fa-stop"></i><span>إيقاف</span></button>
+                <button class="action-btn btn-restart" onclick="controlServer('restart')"><i class="fas fa-sync-alt"></i><span>إعادة تشغيل</span></button>
+                <button class="action-btn btn-console" onclick="openConsole()"><i class="fas fa-terminal"></i><span>الكونسول</span></button>
             </div>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
+
+            <!-- التبويبات الجديدة -->
+            <div class="tab-buttons">
+                <button class="tab-btn" style="border-bottom-color: #9b59b6;" onclick="switchToTab('files')"><i class="fas fa-folder-open"></i><span>الملفات</span></button>
+                <button class="tab-btn" style="border-bottom-color: #1abc9c;" onclick="switchToTab('database')"><i class="fas fa-database"></i><span>قواعد البيانات</span></button>
+                <button class="tab-btn" style="border-bottom-color: #e67e22;" onclick="switchToTab('security')"><i class="fas fa-shield-alt"></i><span>الحماية</span></button>
+            </div>
+
+            <!-- التبويبات الأصلية -->
             <div class="tabs">
                 <button class="tab-btn active" data-tab="console"><i class="fas fa-terminal"></i> الكونسول</button>
-                <button class="tab-btn" data-tab="files"><i class="fas fa-folder-open"></i> الملفات</button>
+                <button class="tab-btn" data-tab="files"><i class="fas fa-folder-open"></i> الملفات (قديم)</button>
                 <button class="tab-btn" data-tab="stats"><i class="fas fa-chart-bar"></i> الإحصائيات</button>
                 <button class="tab-btn" data-tab="settings"><i class="fas fa-cog"></i> الإعدادات</button>
                 <button class="tab-btn" data-tab="api"><i class="fas fa-key"></i> مفاتيح API</button>
             </div>
+
+            <!-- محتوى التبويبات -->
             <div id="consoleTab" class="tab-content active"><div class="console-box" id="consoleOut"></div></div>
             <div id="filesTab" class="tab-content">
                 <div class="fm-breadcrumb" id="fmBreadcrumb">
                     <span class="fm-crumb fm-crumb-root" onclick="navigateTo('')"><i class="fas fa-home"></i> الرئيسية</span>
                 </div>
-                <div class="fm-actions-grid">
+                <div class="fm-actions-grid" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
                     <button class="fm-action-btn fm-upload" onclick="document.getElementById('fileUpload').click()"><i class="fas fa-upload"></i> تحميل ملفات</button>
                     <button class="fm-action-btn fm-newfile" onclick="showCreateFileModal()"><i class="fas fa-plus"></i> إنشاء ملف</button>
                     <button class="fm-action-btn fm-newfolder" onclick="showCreateFolderModal()"><i class="fas fa-folder-plus"></i> إنشاء مجلد</button>
                     <button class="fm-action-btn fm-install" onclick="installPackages()"><i class="fas fa-cube"></i> تثبيت المكتبات</button>
-                    <button class="fm-action-btn fm-dlzone"><i class="fas fa-box-archive"></i> مجلد التحميل</button>
+                    <button class="fm-action-btn fm-dlzone" onclick="alert('مجلد التحميل قيد التطوير')"><i class="fas fa-box-archive"></i> مجلد التحميل</button>
                 </div>
                 <input type="file" id="fileUpload" multiple style="display:none" onchange="uploadFiles(this.files)">
-                <div class="fm-search-wrap" style="position:relative; margin-bottom:12px;">
-                    <i class="fas fa-search" style="position:absolute; right:14px; top:50%; transform:translateY(-50%); color:#4b5563;"></i>
-                    <input type="text" class="fm-search" id="fileSearch" placeholder="ابحث عن الملفات..." style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08); border-radius:60px; padding:10px 40px 10px 14px; color:white;">
-                </div>
-                <div class="fm-table-wrap" id="fmTableWrap" ondragover="showDropOverlay()" ondragleave="hideDropOverlay()">
-                    <div class="fm-drop-overlay" id="fmDropOverlay" ondragover="event.preventDefault()" ondrop="handleDropOverlay(event)">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <span>أفلت الملفات هنا</span>
-                    </div>
+                <div class="fm-table-wrap">
                     <table class="fm-table">
-                        <thead>
-                            <tr>
-                                <th style="width:40px"><input type="checkbox" id="selectAllFiles" onchange="toggleSelectAll(this)"></th>
-                                <th>الاسم</th>
-                                <th style="width:100px">الحجم</th>
-                                <th style="width:50px"></th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th style="width:40px"><input type="checkbox" id="selectAllFiles" onchange="toggleSelectAll(this)"></th><th>الاسم</th><th>الحجم</th><th></th></tr></thead>
                         <tbody id="filesList"></tbody>
                     </table>
                 </div>
-                <div class="fm-footer">
+                <div class="fm-footer" style="margin-top: 16px; text-align: left;">
                     <button class="fm-delete-selected" onclick="deleteSelected()" id="deleteSelectedBtn" disabled><i class="fas fa-trash"></i> حذف المحدد</button>
                 </div>
                 <div class="fm-context-menu" id="fmContextMenu">
                     <div class="fm-ctx-item fm-ctx-rename" onclick="ctxRename()"><i class="fas fa-pencil"></i> إعادة تسمية</div>
                     <div class="fm-ctx-item fm-ctx-download" id="ctxDownloadItem" onclick="ctxDownload()"><i class="fas fa-download"></i> تنزيل</div>
-                    <div class="fm-ctx-divider"></div>
                     <div class="fm-ctx-item fm-ctx-delete" onclick="ctxDelete()"><i class="fas fa-trash"></i> حذف</div>
                 </div>
             </div>
@@ -1072,7 +940,7 @@
             </div>
         </div>
 
-        <!-- صفحة إنشاء السيرفر الجديدة -->
+        <!-- صفحة إنشاء السيرفر -->
         <div id="createServerView" class="create-server-view">
             <div class="detail-header">
                 <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة</button>
@@ -1098,7 +966,7 @@
 <div id="editorModal" class="modal">
     <div class="modal-content">
         <textarea id="editorArea" rows="12" style="width:100%; background:#010409; border:1px solid var(--gold); border-radius:16px; padding:12px; color:white;"></textarea>
-        <button class="action-btn" style="width:100%; margin-top:16px; border-radius:60px;" onclick="saveFile()">حفظ</button>
+        <button class="action-btn" style="width:100%; margin-top:16px;" onclick="saveFile()">حفظ</button>
     </div>
 </div>
 <div id="confirmModal" class="modal">
@@ -1114,13 +982,13 @@
     <div class="modal-content">
         <input type="text" id="newFileName" placeholder="script.py" style="width:100%; margin-bottom:12px; padding:10px; border-radius:60px; border:1px solid var(--gold); background:#010409; color:white;">
         <textarea id="newFileContent" rows="4" placeholder="المحتوى" style="width:100%; border-radius:16px; border:1px solid var(--gold); background:#010409; color:white; padding:12px;"></textarea>
-        <button class="action-btn" style="width:100%; margin-top:16px; border-radius:60px;" onclick="createFile()">إنشاء</button>
+        <button class="action-btn" style="width:100%; margin-top:16px;" onclick="createFile()">إنشاء</button>
     </div>
 </div>
 <div id="createFolderModal" class="modal">
     <div class="modal-content">
         <input type="text" id="newFolderName" placeholder="اسم المجلد" style="width:100%; margin-bottom:12px; padding:10px; border-radius:60px; border:1px solid var(--gold); background:#010409; color:white;">
-        <button class="action-btn" style="width:100%; border-radius:60px;" onclick="createFolder()">إنشاء مجلد</button>
+        <button class="action-btn" style="width:100%;" onclick="createFolder()">إنشاء مجلد</button>
     </div>
 </div>
 
@@ -1128,6 +996,7 @@
 <div id="loadingOverlay" class="loading-overlay"><div class="spinner"></div><div id="loadingFact" class="fun-fact"></div></div>
 
 <script>
+    // ========== جميع الدوال الأصلية + الدوال الجديدة ==========
     let currentServer = null, polling = null, currentFile = null, confirmAction = null, selectedPlan = null, selectedLanguage = null;
     let currentPath = '';
     let ctxFileName = '', ctxFileIsDir = false;
@@ -1177,7 +1046,6 @@
     document.getElementById('confirmYesBtn').onclick = () => { if(confirmAction) confirmAction(); closeConfirm(); };
     function escapeHtml(s) { return String(s).replace(/[&<>]/g, m=>m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
 
-    // أيقونات الملفات الملونة
     function getFileIcon(name, isDir) {
         if (isDir) return '<i class="fas fa-folder fm-file-icon fi-folder"></i>';
         const ext = name.split('.').pop().toLowerCase();
@@ -1253,7 +1121,6 @@
         } catch(e) {}
     }
 
-    // إدارة السيرفرات
     async function loadServers() {
         try {
             const r = await fetch('/api/servers');
@@ -1389,7 +1256,7 @@
         loadServers();
     }
 
-    // مدير الملفات
+    // دوال مدير الملفات
     async function loadFiles(subPath) {
         if(!currentServer) return;
         const path = (subPath !== undefined) ? subPath : currentPath;
@@ -1517,11 +1384,6 @@
         });
     }
 
-    // السحب والإفلات
-    function showDropOverlay() { document.getElementById('fmDropOverlay').classList.add('show'); }
-    function hideDropOverlay() { document.getElementById('fmDropOverlay').classList.remove('show'); }
-    function handleDropOverlay(e) { e.preventDefault(); hideDropOverlay(); uploadFiles(e.dataTransfer.files); }
-
     async function uploadFiles(files) {
         if(!files.length) return;
         const fd = new FormData();
@@ -1621,13 +1483,34 @@
         showNotif('يمكنك حذف المفتاح من قاعدة البيانات يدوياً', 'warning');
     }
 
-    // تبويبات الصفحة
-    document.querySelectorAll('.tab-btn').forEach(btn => {
+    // دوال التبويبات الجديدة
+    function controlServer(action) {
+        if (currentServer) performAction(currentServer.folder, action);
+        else showNotif('لا يوجد سيرفر نشط', 'error');
+    }
+    function openConsole() {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelector('.tab-btn[data-tab="console"]').classList.add('active');
+        document.getElementById('consoleTab').classList.add('active');
+    }
+    function switchToTab(tabName) {
+        if (tabName === 'files') {
+            document.querySelector('.tab-btn[data-tab="files"]').click();
+        } else if (tabName === 'database') {
+            showNotif('قاعدة البيانات قيد التطوير', 'info');
+        } else if (tabName === 'security') {
+            showNotif('إعدادات الحماية قريباً', 'info');
+        }
+    }
+
+    // تبويبات الصفحة الأصلية
+    document.querySelectorAll('.tabs .tab-btn').forEach(btn => {
         btn.onclick = () => {
             const tab = btn.dataset.tab;
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(`${tab}Tab`).classList.add('active');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tabs .tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             if(tab === 'files') loadFiles(currentPath);
             if(tab === 'settings') loadStartupFiles();
