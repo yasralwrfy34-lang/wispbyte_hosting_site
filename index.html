@@ -474,17 +474,31 @@
             color: #b0b8d4;
         }
 
+        /* Make file manager buttons look like action buttons */
         .fm-action-btn {
-            background: rgba(14,20,38,0.7);
-            border: 1px solid rgba(255,255,255,0.08);
-            padding: 12px 20px;
-            font-size: 0.85rem;
-            color: #b0b8d4;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--gold);
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            color: #cbd5ff;
             position: relative;
         }
         .fm-action-btn:hover {
-            background: rgba(255,255,255,0.07);
             transform: translateY(-2px);
+            background: rgba(255,215,0,0.1);
+            border-color: var(--gold);
+            box-shadow: 0 0 12px rgba(255,215,0,0.2);
+        }
+        /* Special packages button keep its purple style but now also has gold border */
+        .fm-packages {
+            border-color: rgba(192,132,252,0.6) !important;
+            background: rgba(192,132,252,0.1) !important;
+            color: #d8b4fe !important;
+        }
+        .fm-packages:hover {
+            background: rgba(192,132,252,0.2) !important;
+            border-color: #c084fc !important;
+            box-shadow: 0 0 12px rgba(192,132,252,0.3);
         }
 
         /* Colored action buttons */
@@ -532,18 +546,6 @@
         .action-btn.detail:hover {
             background: rgba(255,215,0,0.22);
             box-shadow: 0 0 12px rgba(255,215,0,0.3);
-        }
-
-        /* Special package installer button */
-        .fm-packages {
-            border-color: rgba(192,132,252,0.4) !important;
-            background: rgba(192,132,252,0.1) !important;
-            color: #d8b4fe !important;
-        }
-        .fm-packages:hover {
-            background: rgba(192,132,252,0.2) !important;
-            border-color: #c084fc !important;
-            box-shadow: 0 0 12px rgba(192,132,252,0.3);
         }
 
         .server-actions {
@@ -627,7 +629,7 @@
             border: 1px solid rgba(255,215,0,0.15);
         }
 
-        /* ===== IMPORTANT FIX FOR TABS CONTENT ===== */
+        /* Tab content visibility fix */
         .tab-content {
             display: none;
         }
@@ -946,8 +948,10 @@
         }
         .fm-table tbody tr {
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            transition: background 0.12s; cursor: pointer;
+            transition: background 0.12s;
         }
+        /* Only rows with onclick should have cursor pointer; checkboxes area separate */
+        .fm-table tbody tr td:nth-child(2) { cursor: pointer; }
         .fm-table tbody tr:hover { background: rgba(255,255,255,0.03); }
         .fm-table tbody tr.fm-selected { background: rgba(255,215,0,0.06); }
         .fm-table tbody td { padding: 10px 14px; font-size: 0.83rem; color: #b0b8d4; }
@@ -1146,14 +1150,17 @@
                     <input type="text" class="fm-search" id="fileSearch" placeholder="ابحث عن الملفات...">
                 </div>
 
-                <!-- Drop zone overlay -->
+                <!-- Drop zone overlay (improved drag & drop) -->
                 <div class="fm-drop-overlay" id="fmDropOverlay" ondragover="event.preventDefault()" ondrop="handleDropOverlay(event)">
                     <i class="fas fa-cloud-upload-alt"></i>
                     <span>أفلت الملفات هنا</span>
                 </div>
 
-                <!-- Files table -->
-                <div class="fm-table-wrap" ondragover="showDropOverlay()" ondragleave="hideDropOverlay()">
+                <!-- Files table with drag & drop support -->
+                <div class="fm-table-wrap" id="fmTableWrap" 
+                     ondragover="showDropOverlay()" 
+                     ondragleave="hideDropOverlay()" 
+                     ondrop="handleDropOverlay(event)">
                     <table class="fm-table">
                         <thead>
                             <tr>
@@ -1573,7 +1580,7 @@
             }
             tbody.innerHTML = files.map(f => `
                 <tr class="fm-row" data-name="${escapeHtml(f.name)}" data-isdir="${f.is_dir}">
-                    <td><input type="checkbox" class="file-checkbox" value="${escapeHtml(f.name)}" onchange="updateDeleteBtn()"></td>
+                    <tr><input type="checkbox" class="file-checkbox" value="${escapeHtml(f.name)}" onchange="updateDeleteBtn()"></td>
                     <td onclick="${f.is_dir ? `navigateTo('${(path?path+'/':'')+f.name}')` : `editFile('${escapeHtml(f.name)}')`}">
                         <div class="fm-file-name">
                             ${getFileIcon(f.name, f.is_dir)}
