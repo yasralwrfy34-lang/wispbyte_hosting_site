@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* جميع الستايلات كما هي دون تغيير */
         * {
             margin: 0;
             padding: 0;
@@ -1258,6 +1259,9 @@
     let currentServer = null, polling = null, currentFile = null, confirmAction = null, selectedPlan = null, selectedLanguage = null;
     const funFacts = ["🚀 أكثر من 1000 مستخدم يثقون بنا", "⚡ استضافة فائقة السرعة", "🔒 حماية متقدمة لبياناتك", "💾 نسخ احتياطي يومي", "🤖 دعم بوتات التليجرام", "📁 مساحة تخزين غير محدودة", "🌐 دعم كامل لـ Python", "🛠️ دعم فني على مدار الساعة"];
 
+    // متغير لحالة VIP
+    let currentUserIsVip = false;
+
     function getLanguageIcon(lang) {
         const icons = {
             'python': '<i class="fab fa-python" style="color:#3776AB;"></i>',
@@ -1321,7 +1325,6 @@
         { id:'10gb',  name:'💎 10 جيجا', storage:10240, ram:2048, price:10, paid:true,  specs:'10GB تخزين | 2GB رام | 2 نواة' },
         { id:'40gb',  name:'💎 40 جيجا', storage:40960, ram:4096, price:25, paid:true,  specs:'40GB تخزين | 4GB رام | 4 نواة' }
     ];
-    let currentUserIsVip = false;
 
     const languages = [
         { id: 'python', name: 'Python', icon: '<i class="fab fa-python"></i>' },
@@ -1330,12 +1333,28 @@
         { id: 'go', name: 'Go', icon: '<i class="fab fa-golang"></i>' },
     ];
 
+    // دالة لجلب حالة VIP من الخادم وتحديثها
+    async function fetchUserVipStatus() {
+        try {
+            const res = await fetch('/api/current_user');
+            const data = await res.json();
+            if (data.success) {
+                currentUserIsVip = !!data.is_vip;
+                // إذا كانت صفحة الإنشاء مفتوحة حالياً، أعد بناء الخطط
+                if (document.getElementById('createServerView').classList.contains('active')) {
+                    setupPlanCards();
+                    checkEnableCreateBtn();
+                }
+            }
+        } catch(e) { console.error(e); }
+    }
+
     function showCreatePage() {
         document.getElementById('homeView').style.display = 'none';
         document.getElementById('detailView').classList.remove('active');
         document.getElementById('createServerView').classList.add('active');
         setupLanguageCards();
-        setupPlanCards();
+        setupPlanCards(); // ستُستخدم currentUserIsVip داخلها
         selectedLanguage = null;
         selectedPlan = null;
         const finalBtn = document.getElementById('createServerFinalBtn');
@@ -1364,22 +1383,34 @@
     function setupPlanCards() {
         const container = document.getElementById('createPlansGrid');
         container.innerHTML = plans.map(p => {
+            // إذا كانت الخطة مدفوعة والمستخدم ليس VIP، نظهر رسالة الدفع
             const isPaidAndNotVip = p.paid && !currentUserIsVip;
+            // إذا كان المستخدم VIP، نسمح باختيار الخطة المدفوعة مباشرة (بدون رسالة ضغط)
+            let priceHtml = '';
+            if (p.price === 0) {
+                priceHtml = '<span style="color:#00dc64;">مجاني</span>';
+            } else if (currentUserIsVip) {
+                priceHtml = '<span style="color:#00dc64;">مجاني لـ VIP ✓</span>';
+            } else {
+                priceHtml = `<span style="color:#FF6B35;">${p.price}$ — للدفع اضغط هنا</span>`;
+            }
             return `
             <div class="plan-card ${isPaidAndNotVip ? 'plan-paid' : ''}" data-plan='${JSON.stringify(p)}' data-paid="${isPaidAndNotVip}">
                 <div style="font-weight:700;">${p.name}${currentUserIsVip && p.paid ? ' <span style="color:#FFD700;font-size:0.6rem;">VIP ✓</span>' : ''}</div>
                 <div style="font-size:0.7rem; color:#8a94b8;">${p.specs}</div>
-                <div style="color:var(--gold); font-size:0.85rem; margin-top:6px;">${p.price===0?'مجاني':isPaidAndNotVip?'<span style="color:#FF6B35;">'+p.price+'$ — للدفع اضغط هنا</span>':'<span style="color:#00dc64;">مجاني لـ VIP</span>'}</div>
+                <div style="color:var(--gold); font-size:0.85rem; margin-top:6px;">${priceHtml}</div>
             </div>`;
         }).join('');
         document.querySelectorAll('#createPlansGrid .plan-card').forEach(card => {
             card.onclick = () => {
-                const isPaid = card.dataset.paid === 'true';
-                if (isPaid) {
+                const isPaidNotVip = card.dataset.paid === 'true';
+                // إذا كانت الخطة مدفوعة والمستخدم ليس VIP، نفتح رابط الدفع ولا نحدد الخطة
+                if (isPaidNotVip) {
                     window.open('https://t.me/a_u711', '_blank');
                     showNotif('سيتم فتح التيليجرام لإتمام الدفع 💳', 'info');
                     return;
                 }
+                // بخلاف ذلك، نسمح بتحديد الخطة (سواء كانت مجانية أو مدفوعة والمستخدم VIP)
                 document.querySelectorAll('#createPlansGrid .plan-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 selectedPlan = JSON.parse(card.dataset.plan);
@@ -1431,29 +1462,12 @@
         }
     }
 
-    async function createServerWithPlan(plan, language = 'python') {
-        closePlansModal();
-        const modal = document.getElementById('createProgressModal');
-        document.getElementById('createLoading').style.display = 'block';
-        document.getElementById('createSuccess').style.display = 'none';
-        modal.classList.add('active');
-        showLoading(true);
-        try {
-            const res = await fetch('/api/server/add', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: 'خادمي', plan: plan.id, storage: plan.storage, ram: plan.ram, cpu: 0.5, language })
-            });
-            const data = await res.json();
-            if(data.success) {
-                document.getElementById('createLoading').style.display = 'none';
-                document.getElementById('createSuccess').style.display = 'block';
-                document.getElementById('goToServerBtn').onclick = () => { modal.classList.remove('active'); showLoading(false); loadServers(); };
-            } else { modal.classList.remove('active'); showNotif(data.message || 'فشل الإنشاء', 'error'); showLoading(false); }
-        } catch(e) { modal.classList.remove('active'); showNotif('خطأ في الاتصال', 'error'); showLoading(false); }
-    }
-
+    // تحقق من المصادقة وقم بجلب حالة VIP
     async function checkAuth() {
-        try { const r = await fetch('/api/current_user'); const d = await r.json(); if(!d.success) window.location.href='/login'; else { document.getElementById('username').innerText = d.username; document.getElementById('usernameTop').innerText = d.username; if(d.is_admin) document.getElementById('adminPanelNav').style.display = 'flex'; loadServers(); fetchMetrics(); setInterval(fetchMetrics, 8000); } } catch(e) { window.location.href='/login'; }
+        try { const r = await fetch('/api/current_user'); const d = await r.json(); if(!d.success) window.location.href='/login'; else { document.getElementById('username').innerText = d.username; document.getElementById('usernameTop').innerText = d.username; if(d.is_admin) document.getElementById('adminPanelNav').style.display = 'flex'; 
+        // تحديث حالة VIP
+        currentUserIsVip = !!d.is_vip;
+        loadServers(); fetchMetrics(); setInterval(fetchMetrics, 8000); } } catch(e) { window.location.href='/login'; }
     }
     async function fetchMetrics() {
         try { const r = await fetch('/api/system/metrics'); const d = await r.json(); document.getElementById('ramUsage').innerText = d.memory+'%'; document.getElementById('ramProgress').style.width = d.memory+'%'; document.getElementById('cpuStat').innerText = d.cpu+'%'; document.getElementById('cpuProgress').style.width = d.cpu+'%'; } catch(e) {}
@@ -1567,7 +1581,7 @@
         if(!currentServer) return;
         const path = (subPath !== undefined) ? subPath : (currentPath || '');
         const tbody = document.getElementById('filesList');
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:#555;"><i class="fas fa-spinner fa-spin"></i>جار التحميل...</td></tr>';
+        tbody.innerHTML = '<td><td colspan="4" style="text-align:center;padding:20px;color:#555;"><i class="fas fa-spinner fa-spin"></i>جار التحميل...</td></tr>';
         const url = path ? `/api/files/list/${currentServer.folder}?path=${encodeURIComponent(path)}` : `/api/files/list/${currentServer.folder}`;
         try {
             const r = await fetch(url);
@@ -1580,13 +1594,13 @@
             }
             tbody.innerHTML = files.map(f => `
                 <tr class="fm-row" data-name="${escapeHtml(f.name)}" data-isdir="${f.is_dir}">
-                    <tr><input type="checkbox" class="file-checkbox" value="${escapeHtml(f.name)}" onchange="updateDeleteBtn()"></td>
+                    <td><input type="checkbox" class="file-checkbox" value="${escapeHtml(f.name)}" onchange="updateDeleteBtn()"></td>
                     <td onclick="${f.is_dir ? `navigateTo('${(path?path+'/':'')+f.name}')` : `editFile('${escapeHtml(f.name)}')`}">
                         <div class="fm-file-name">
                             ${getFileIcon(f.name, f.is_dir)}
                             <span>${escapeHtml(f.name)}</span>
                         </div>
-                    </td>
+                     </td>
                     <td style="color:#4b5563;font-size:0.78rem;">${f.is_dir ? '—' : (f.size || '—')}</td>
                     <td><button class="fm-three-dot" onclick="openCtxMenu(event,'${escapeHtml(f.name)}',${f.is_dir})">⋮</button></td>
                 </tr>
@@ -1742,6 +1756,8 @@
     document.getElementById('openCreatePageBtn').onclick = showCreatePage;
     document.getElementById('createServerFinalBtn').onclick = createServerFromPage;
     checkAuth();
+    // بعد التأكد من المصادقة، نجلب حالة VIP مرة أخرى (للتأكد أكثر)
+    fetchUserVipStatus();
 </script>
 </body>
 </html>
